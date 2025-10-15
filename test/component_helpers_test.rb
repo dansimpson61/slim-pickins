@@ -10,15 +10,16 @@ class ComponentHelpersTest < Minitest::Test
   def test_card_with_title
     html = @ctx.card("Test Title") { "Content" }
     
-    assert_includes html, 'class="card"'
+    assert_includes html, '<article class="card"'
     assert_includes html, '<h2 class="card-title">Test Title</h2>'
     assert_includes html, "Content"
+    assert_includes html, '</article>'
   end
   
   def test_card_without_title
     html = @ctx.card { "Content" }
     
-    assert_includes html, 'class="card"'
+    assert_includes html, '<article class="card"'
     refute_includes html, '<h2'
     assert_includes html, "Content"
   end

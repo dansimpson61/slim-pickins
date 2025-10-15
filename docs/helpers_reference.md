@@ -472,4 +472,4 @@ end
 
 ---
 
-**As good as bread.** 🍞
+**Be as good as bread.** 🍞

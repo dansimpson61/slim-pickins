@@ -1,0 +1,25 @@
+/ Ultra-clean calculator using DSL helpers
+/ This is what joy looks like
+
+== calculator_form title: "Compound Interest", model: @calc, target: "#results" do
+  .form-grid
+    == money_field :principal, value: 10000
+    == percent_field :rate, value: 7.0
+    == year_field :years, value: 10
+
+#results
+  - data = { \
+      "Final Amount": @calc.final_amount, \
+      "Interest Earned": @calc.interest, \
+      "Annual Growth": @calc.annual_growth \
+    }
+  == results_table(data)
+
+style
+  | .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-4); }
+  | .input-group { display: flex; align-items: center; border: 1px solid var(--border-default); border-radius: 4px; }
+  | .input-prefix, .input-suffix { padding: 0 var(--sp-3); color: var(--ink-500); }
+  | .input-group input { border: none; flex: 1; padding: var(--sp-2); }
+  | .results-table { width: 100%; margin-top: var(--sp-6); }
+  | .results-table td { padding: var(--sp-3); border-bottom: 1px solid var(--border-subtle); }
+  | .results-table .numeric { text-align: right; font-weight: var(--fw-medium); }

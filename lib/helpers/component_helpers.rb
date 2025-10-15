@@ -1,59 +1,60 @@
 # frozen_string_literal: true
 
 module ComponentHelpers
-  # Generate a card component
-  def card(title = nil, **opts, &block)
-    content = capture_html(&block)
-    css_class = "card #{opts[:class]}".strip
-    controller = opts[:controller]
+  # Card component - uses semantic <article> element
+  def card(title = nil, controller: nil, **opts, &block)
+    content = if block_given?
+                capture_html(&block) rescue yield
+              else
+                ""
+              end
     
-    html = "<article class=\"#{css_class}\""
-    html += " #{stimulus_attrs(controller)}" if controller
-    html += ">"
+    css_class = "card"
+    css_class += " #{opts[:class]}" if opts[:class]
+    
+    attrs = ""
+    attrs += " #{stimulus_attrs(controller)}" if controller
+    
+    html = "<article class=\"#{css_class}\"#{attrs}>"
     html += "<h2 class=\"card-title\">#{title}</h2>" if title
     html += content
     html += "</article>"
-    html
   end
   
-  # Generate action button with Stimulus
-  def action_button(label, action:, **opts)
-    css = opts[:class] || "btn"
-    html = "<button #{action_attr(action)} class=\"#{css}\">"
-    html += label
-    html += "</button>"
+  # Action button with Stimulus action
+  def action_button(text, action:, **opts)
+    css_class = opts[:class] || "btn"
+    "<button class=\"#{css_class}\" #{action_attr(action)}>#{text}</button>"
   end
   
   # Navigation link with active state
   def nav_link(text, path, **opts)
-    current = request.path == path
-    css = ["nav-link"]
-    css << "active" if current
-    css << opts[:class] if opts[:class]
+    css_class = "nav-link"
+    css_class += " active" if request.path == path
+    css_class += " #{opts[:class]}" if opts[:class]
     
-    "<a href=\"#{path}\" class=\"#{css.join(' ')}\">#{text}</a>"
+    "<a href=\"#{path}\" class=\"#{css_class}\">#{text}</a>"
   end
   
-  # Icon helper (returns inline SVG or icon markup)
+  # Icon helper
   def icon(name, **opts)
-    size = opts[:size] || 24
-    css = "icon icon-#{name} #{opts[:class]}".strip
+    css_class = "icon icon-#{name}"
+    css_class += " #{opts[:class]}" if opts[:class]
     
-    "<svg class=\"#{css}\" width=\"#{size}\" height=\"#{size}\">" \
-    "<use href=\"#icon-#{name}\"></use>" \
-    "</svg>"
+    <<~SVG
+      <svg class="#{css_class}">
+        <use href="#icon-#{name}"></use>
+      </svg>
+    SVG
   end
   
   private
   
   def capture_html(&block)
-    return "" unless block
-    
-    if block.arity > 0
-      yield
+    if respond_to?(:capture)
+      capture(&block)
     else
-      result = instance_eval(&block)
-      result.is_a?(String) ? result : ""
+      block.call
     end
   end
 end

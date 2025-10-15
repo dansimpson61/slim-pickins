@@ -62,7 +62,7 @@ Before adding any feature, ask: **Does this bring joy?**
 
 If it adds complexity without adding delight, reconsider.
 
-## As Good As Bread
+## Be as good as bread
 
 Simple ingredients:
 - Ruby (the flour)

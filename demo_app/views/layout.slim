@@ -1,0 +1,35 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    title Slim-Pickins Reactive Demo 🍞
+    
+    / Load slim-pickins CSS framework from gem
+    link rel="stylesheet" href="/slim-pickins/assets/stylesheets/slim-pickins.css"
+    
+    / Stimulus for reactive forms
+    script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/dist/stimulus.min.js"
+    script type="module" src="/js/app.js"
+    
+    / Minimal custom styles for demo-specific layout
+    style
+      | .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-6); }
+      | @media (max-width: 768px) { .demo-grid { grid-template-columns: 1fr; } }
+  
+  body.stack
+    / Header using framework styles
+    header style="border-bottom: var(--border-thin) solid var(--border-default); padding: var(--sp-5) 0;"
+      .cluster style="max-width: 960px; margin: 0 auto; padding: 0 var(--sp-4);"
+        h1 style="font-size: var(--fs-24); margin: 0;" 🍞 Slim-Pickins Reactive Demo
+        nav.cluster style="gap: var(--sp-3);"
+          a.muted href="/" Calculator
+          a.muted href="/examples" Examples
+    
+    / Main content with max-width
+    main.stack style="max-width: 960px; margin: 0 auto; padding: var(--sp-6) var(--sp-4);"
+      == yield
+    
+    / Footer
+    footer.muted style="text-align: center; padding: var(--sp-6) 0; border-top: var(--border-thin) solid var(--border-subtle);"
+      p Be as good as bread. 🍞

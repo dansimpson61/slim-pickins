@@ -1,0 +1,23 @@
+/ Results using framework table styling
+article.stack
+  h3 Results
+  
+  / Data table - framework provides beautiful defaults
+  table
+    caption.sr-only Investment calculation results
+    tbody
+      tr
+        td Final Amount
+        td.numeric style="font-weight: var(--fw-semibold); color: var(--accent-600);"
+          = "$%.2f" % @calc.final_amount
+      tr
+        td Interest Earned
+        td.numeric = "$%.2f" % @calc.interest
+      tr
+        td Avg Annual Growth
+        td.numeric = "$%.2f" % @calc.annual_growth
+  
+  / Small note using framework muted text
+  p.muted style="margin-top: var(--sp-4); font-size: var(--fs-14);"
+    | $#{"%.2f" % @calc.principal} invested at #{"%.1f" % @calc.rate}% 
+    | for #{@calc.years} years

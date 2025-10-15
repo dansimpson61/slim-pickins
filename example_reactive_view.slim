@@ -1,0 +1,40 @@
+/ Example: Compound Interest Calculator
+/ Usage: Place in views/calculator.slim
+
+h1 Compound Interest Calculator
+
+== reactive_form model: @calculation, target: "#results" do
+  .form-grid
+    .form-group
+      label for="principal" Principal Amount
+      input type="number" name="principal" id="principal" 
+            value=@calculation.principal
+            data-action="input->reactive-form#changed"
+            data-reactive-form-target="field"
+            step="0.01" min="0" required=true
+    
+    .form-group
+      label for="rate" Annual Rate (%)
+      input type="number" name="rate" id="rate"
+            value=@calculation.rate
+            data-action="input->reactive-form#changed"
+            data-reactive-form-target="field"
+            step="0.01" min="0" max="100" required=true
+    
+    .form-group
+      label for="years" Years
+      input type="number" name="years" id="years"
+            value=@calculation.years
+            data-action="input->reactive-form#changed"
+            data-reactive-form-target="field"
+            min="1" max="50" required=true
+
+.results-container
+  #results data-reactive-form-target="results"
+    / Initial results rendered here
+    == render 'calculation_results', result: @calculation.result
+
+style
+  | .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-4); }
+  | .results-container { margin-top: var(--sp-6); }
+  | .results-card { padding: var(--sp-5); border: 1px solid var(--border-default); border-radius: 4px; }

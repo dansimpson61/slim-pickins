@@ -1,0 +1,151 @@
+/ Examples page showcasing slim-pickins CSS framework
+
+article.stack
+  h2 Slim-Pickins CSS Framework
+  p.lead A Tufte-inspired design system for data-forward web applications
+
+/ Typography Example
+section.stack style="padding: var(--sp-6); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+  h3 Typography Hierarchy
+  
+  h1 Heading 1 (Fluid Scale)
+  h2 Heading 2 (Fluid Scale)
+  h3 Heading 3 (Fluid Scale)
+  h4 Heading 4
+  
+  p This is body text with proper line-height for readability. The framework provides semantic styling for all HTML elements with no classes required.
+  
+  p.lead This is lead text for emphasis.
+  p.muted This is muted text for de-emphasis.
+  
+  p
+    strong Bold text
+    |  and 
+    em italic text
+    |  work naturally.
+
+/ Data Table Example
+section.stack style="padding: var(--sp-6); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+  h3 Data Tables
+  p.muted Clean, readable tables following Tufte's principles
+  
+  table
+    caption Investment Growth Projection
+    thead
+      tr
+        th Year
+        th.numeric Principal
+        th.numeric Growth
+        th.numeric Total
+    tbody
+      - (1..5).each do |year|
+        - principal = @calc.principal
+        - growth = principal * (@calc.rate / 100) * year
+        - total = principal + growth
+        tr
+          td = year
+          td.numeric = "$%.0f" % principal
+          td.numeric = "$%.0f" % growth
+          td.numeric style="font-weight: var(--fw-semibold);" = "$%.0f" % total
+
+/ Layout Utilities Example
+section.stack style="padding: var(--sp-6); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+  h3 Layout Utilities
+  
+  h4 Stack (Vertical Spacing)
+  .stack
+    p First paragraph in stack
+    p Second paragraph in stack
+    p Third paragraph in stack
+  
+  h4 Cluster (Horizontal Spacing)
+  .cluster style="gap: var(--sp-3);"
+    button Button 1
+    button Button 2
+    button Button 3
+  
+  h4 Grid (Two Column)
+  .demo-grid
+    article style="padding: var(--sp-4); background: var(--paper-50); border-radius: 4px;"
+      h5 Column 1
+      p Content in first column
+    article style="padding: var(--sp-4); background: var(--paper-50); border-radius: 4px;"
+      h5 Column 2
+      p Content in second column
+
+/ Forms Example
+section.stack style="padding: var(--sp-6); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+  h3 Form Elements
+  p.muted Beautiful forms with zero custom CSS
+  
+  form.stack
+    fieldset.stack
+      legend Investment Parameters
+      
+      label.stack
+        span Principal Amount
+        input type="number" value="25000" step="100"
+      
+      label.stack
+        span Annual Return Rate
+        input type="number" value="8.5" step="0.1"
+      
+      label.stack
+        span Investment Period
+        select
+          option 5 years
+          option 10 years
+          option selected=true 15 years
+          option 20 years
+    
+    button type="submit" Calculate
+
+/ Color Tokens Example
+section.stack style="padding: var(--sp-6); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+  h3 Design Tokens
+  p.muted Semantic color system with dark mode support
+  
+  .cluster style="gap: var(--sp-4); flex-wrap: wrap;"
+    .stack style="flex: 0 0 auto;"
+      div style="width: 80px; height: 80px; background: var(--paper-0); border: var(--border-thin) solid var(--border-default); border-radius: 4px;"
+      p.muted style="font-size: var(--fs-12); margin-top: var(--sp-2);" paper-0
+    
+    .stack style="flex: 0 0 auto;"
+      div style="width: 80px; height: 80px; background: var(--ink-900); border-radius: 4px;"
+      p.muted style="font-size: var(--fs-12); margin-top: var(--sp-2);" ink-900
+    
+    .stack style="flex: 0 0 auto;"
+      div style="width: 80px; height: 80px; background: var(--accent-600); border-radius: 4px;"
+      p.muted style="font-size: var(--fs-12); margin-top: var(--sp-2);" accent-600
+    
+    .stack style="flex: 0 0 auto;"
+      div style="width: 80px; height: 80px; background: var(--border-default); border-radius: 4px;"
+      p.muted style="font-size: var(--fs-12); margin-top: var(--sp-2);" border
+
+/ Philosophy
+article.stack style="margin-top: var(--sp-7); padding: var(--sp-6); background: var(--paper-50); border-radius: 4px;"
+  h3 The Framework Philosophy
+  
+  ul
+    li
+      strong Expression over specification
+      |  — Classes describe intent, not implementation
+    li
+      strong Tufte's data-ink ratio
+      |  — Every pixel should serve the content
+    li
+      strong Semantic HTML first
+      |  — Beautiful defaults for native elements
+    li
+      strong Progressive enhancement
+      |  — Utilities for composition when needed
+    li
+      strong Print-friendly
+      |  — Documents print beautifully by default
+  
+  p.muted style="margin-top: var(--sp-5);"
+    | Be as good as bread. 🍞
+
+/ Back link
+nav style="margin-top: var(--sp-7);"
+  a href="/" ← Back to Calculator

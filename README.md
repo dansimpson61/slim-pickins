@@ -21,7 +21,7 @@ Slim-Pickins believes templates should express **what you want**, not **how to b
 - 📊 **Data Visualization Primitives** - Tables, sparklines, small multiples
 - 🖨️ **Print-First** - Reports and documents print beautifully by default
 - 📦 **Zero Build Step** - Edit, refresh, done
-- 🍞 **As Good As Bread** - Simple ingredients, thoughtfully mixed
+- 🍞 **Be as good as bread** - Simple ingredients, thoughtfully mixed
 
 ## Installation
 
@@ -237,4 +237,4 @@ Inspired by:
 - The classless CSS movement (Pico, Sakura, Water.css)
 - The principle of least astonishment (POLA)
 
-**Built with joy. Maintained with care. As good as bread.** 🍞
+**Built with joy. Maintained with care. Be as good as bread.** 🍞

@@ -1,0 +1,19 @@
+.results-card
+  h3 Results
+  
+  table.results-table
+    tbody
+      tr
+        td Final Amount
+        td.numeric = "$%.2f" % @calc.final_amount
+      tr
+        td Interest Earned
+        td.numeric = "$%.2f" % @calc.interest
+      tr
+        td Avg Annual Growth
+        td.numeric = "$%.2f" % @calc.annual_growth
+  
+  .calculation-details
+    p.muted
+      | $#{"%.2f" % @calc.principal} invested at #{"%.1f" % @calc.rate}% 
+      | for #{@calc.years} years
