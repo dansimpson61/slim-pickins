@@ -1,0 +1,18 @@
+.todo-list
+  - if @todos.empty?
+    .empty-state
+      p No todos found. Time to add some!
+  - else
+    - @todos.each do |todo|
+      == card todo.title, class: (todo.completed? ? "completed" : ""), controller: "todo" do
+        - if todo.description
+          p.description = todo.description
+        
+        .todo-actions
+          form action="/todos/#{todo.id}/toggle" method="post" style="display: inline"
+            button.btn.btn-sm type="submit"
+              = todo.completed? ? "Undo" : "Complete"
+          
+          form action="/todos/#{todo.id}" method="post" style="display: inline"
+            input type="hidden" name="_method" value="delete"
+            button.btn.btn-sm.btn-danger type="submit" data-confirm="Are you sure?" Delete

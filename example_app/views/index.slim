@@ -1,0 +1,15 @@
+.todo-app
+  .todo-header
+    h2 My Todos
+    p.count = "#{@active_count} active"
+    
+    == modal id: "new-todo", trigger: "New Todo" do
+      h2 Create Todo
+      == simple_form "/todos" do
+        == field :title, required: true, label: "What needs doing?"
+        == field :description, type: :textarea, label: "Details (optional)"
+        == submit "Create Todo"
+  
+  == searchable "/search", placeholder: "Search todos..."
+  
+  == slim :'partials/_todo_list'
