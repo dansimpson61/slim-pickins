@@ -1,0 +1,57 @@
+h1 Forms
+p.lead Clean, semantic form helpers
+
+section.demo-section
+  h2 Simple Form
+  p.description Form wrapper with automatic method handling
+  
+  .demo
+    == simple_form "/demo/submit" do
+      == field :name, required: true
+      == field :email, type: :email, required: true
+      == submit "Send"
+  
+  .code
+    pre
+      code
+        | == simple_form "/demo/submit" do
+        |   == field :name, required: true
+        |   == field :email, type: :email
+        |   == submit "Send"
+
+section.demo-section
+  h2 Field Types
+  p.description Text, textarea, select, and more
+  
+  .demo
+    == simple_form "/demo/submit" do
+      == field :username, label: "Username"
+      == field :bio, type: :textarea, label: "Bio"
+      == field :role, type: :select, options: ["Admin", "User", "Guest"]
+      == field :agreed, type: :checkbox, label: "I agree to terms"
+      == submit "Save"
+  
+  .code
+    pre
+      code
+        | == field :username, label: "Username"
+        | == field :bio, type: :textarea
+        | == field :role, type: :select, options: ["Admin", "User"]
+
+section.demo-section
+  h2 Method Override
+  p.description REST verbs with automatic hidden field
+  
+  .demo
+    == simple_form "/items/1", method: :patch do
+      == field :title
+      == submit "Update"
+  
+  .code
+    pre
+      code
+        | == simple_form "/items/1", method: :patch do
+        |   == field :title
+        |   == submit "Update"
+  
+  p.note Generates hidden _method field for PATCH, PUT, DELETE

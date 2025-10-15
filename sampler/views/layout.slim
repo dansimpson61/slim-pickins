@@ -1,0 +1,33 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta name="viewport" content="width=device-width, initial-scale=1"
+    title Slim-Pickins Sampler
+    link rel="stylesheet" href="/css/sampler.css"
+    script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/dist/stimulus.min.js"
+    script type="module" src="/js/app.js"
+  
+  body
+    header.header
+      .container
+        .header-content
+          .brand
+            h1 🍞 Slim-Pickins Sampler
+            p.tagline Expression over specification
+          nav.main-nav
+            == nav_link "Components", "/components"
+            == nav_link "Patterns", "/patterns"
+            == nav_link "Forms", "/forms"
+            == nav_link "Stimulus", "/stimulus"
+    
+    main.container
+      == yield
+    
+    footer.footer
+      .container
+        p 
+          | Built with 
+          strong Slim-Pickins v0.1
+          |  • As good as bread • 
+          a href="https://github.com/slim-pickins/slim-pickins" GitHub

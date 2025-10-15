@@ -1,0 +1,539 @@
+/**
+ * slim-pickins v0.1.0
+ * Ultra-lightweight token system for data-forward, joyful design
+ * 
+ * Philosophy:
+ * - Tufte's restraint: minimal colors, subtle shadows, content-first
+ * - Ruby's expressiveness: semantic names, discoverable, joyful
+ * - POLA: predictable behavior, no surprises
+ * - Print-first: reports print beautifully by default
+ * - Accessibility: WCAG AA, reduced motion, high contrast
+ * 
+ * License: MIT
+ */
+
+/* ==========================================================================
+   I. FOUNDATION TOKENS
+   Core primitives: colors, spacing, typography
+   ========================================================================== */
+
+:root {
+  /* === Color System === */
+  
+  /* Neutrals: Ink & Paper */
+  --ink-900: #111;              /* Primary text (near-black) */
+  --ink-700: #333;              /* Secondary text */
+  --ink-500: #555;              /* Tertiary text, labels */
+  --ink-300: #999;              /* Disabled text */
+  --ink-100: #e6e7ea;           /* Subtle borders, dividers */
+  --ink-50: #f3f4f6;            /* Lightest borders */
+  
+  --paper-0: #fff;              /* Primary background (pure white) */
+  --paper-50: #f8f9fa;          /* Subtle background (off-white) */
+  --paper-100: #f0f1f3;         /* Raised surfaces, cards */
+  --paper-200: #e8e9eb;         /* Pressed states */
+  
+  /* Accent: Single Primary Color */
+  --accent-700: #0b3ea3;        /* Darkest (pressed, high contrast) */
+  --accent-600: #1558d6;        /* Primary (links, buttons) */
+  --accent-500: #3b7ae8;        /* Hover states */
+  --accent-400: #6b9cf2;        /* Light interactive */
+  --accent-100: #e3f0ff;        /* Subtle tints, backgrounds */
+  
+  /* Semantic Colors: Minimal Palette */
+  --positive-600: #0f7b4f;      /* Success, growth */
+  --positive-100: #e6f7ef;      /* Subtle success background */
+  
+  --caution-600: #b16a00;       /* Warning, attention */
+  --caution-100: #fff4e6;       /* Subtle warning background */
+  
+  --danger-600: #a42323;        /* Error, destructive */
+  --danger-100: #ffe6e6;        /* Subtle error background */
+  
+  /* Data Visualization Palette */
+  --data-primary: var(--accent-600);    /* Main series */
+  --data-secondary: var(--ink-500);     /* Comparison series */
+  --data-tertiary: var(--ink-300);      /* Additional series */
+  --data-grid: var(--ink-100);          /* Gridlines, axes */
+  --data-label: var(--ink-700);         /* Direct labels */
+  
+  
+  /* === Typography === */
+  
+  /* Type Scale (1.25 ratio) */
+  --fs-12: 0.75rem;             /* 12px - Small print, captions */
+  --fs-14: 0.875rem;            /* 14px - Body small, helper text */
+  --fs-16: 1rem;                /* 16px - Base body text */
+  --fs-20: 1.25rem;             /* 20px - Large body, h4 */
+  --fs-24: 1.5rem;              /* 24px - h3 */
+  --fs-32: 2rem;                /* 32px - h2 */
+  --fs-40: 2.5rem;              /* 40px - h1 */
+  
+  /* Fluid Typography (responsive scaling) */
+  --fs-fluid-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-fluid-h1: clamp(2rem, 1.5rem + 2vw, 2.5rem);
+  --fs-fluid-h2: clamp(1.75rem, 1.5rem + 1vw, 2rem);
+  --fs-fluid-h3: clamp(1.5rem, 1.35rem + 0.5vw, 1.75rem);
+  
+  /* Line Heights */
+  --lh-tight: 1.2;              /* Headings */
+  --lh-base: 1.5;               /* Body text */
+  --lh-loose: 1.8;              /* Long-form prose */
+  
+  /* Font Stacks */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  
+  /* Font Weights */
+  --fw-normal: 400;             /* Body text */
+  --fw-medium: 500;             /* Emphasis, labels */
+  --fw-bold: 700;               /* Headings, strong */
+  
+  /* Typographic Measures */
+  --prose-width: 75ch;          /* Optimal line length */
+  --measure-wide: 85ch;         /* Data tables, wide content */
+  --measure-narrow: 55ch;       /* Sidebars, asides */
+  
+  
+  /* === Spacing System === */
+  
+  /* Base Scale (4px baseline grid) */
+  --sp-0: 0;
+  --sp-1: 0.125rem;             /* 2px - Hairline spacing */
+  --sp-2: 0.25rem;              /* 4px - Tight spacing */
+  --sp-3: 0.5rem;               /* 8px - Base rhythm */
+  --sp-4: 0.75rem;              /* 12px - Small gaps */
+  --sp-5: 1rem;                 /* 16px - Medium gaps */
+  --sp-6: 1.5rem;               /* 24px - Section spacing */
+  --sp-7: 2rem;                 /* 32px - Large spacing */
+  --sp-8: 3rem;                 /* 48px - Section dividers */
+  --sp-9: 4rem;                 /* 64px - Major sections */
+  --sp-10: 6rem;                /* 96px - Page-level spacing */
+  
+  /* Semantic Spacing (Intent-Based) */
+  --gap-cluster: var(--sp-3);   /* 8px - Inline elements */
+  --gap-stack: var(--sp-5);     /* 16px - Block elements */
+  --gap-section: var(--sp-8);   /* 48px - Major sections */
+  
+  --pad-xs: var(--sp-2);        /* 4px - Tight inline */
+  --pad-sm: var(--sp-3);        /* 8px - Buttons, badges */
+  --pad-md: var(--sp-4);        /* 12px - Form controls */
+  --pad-lg: var(--sp-5);        /* 16px - Cards, panels */
+  --pad-xl: var(--sp-6);        /* 24px - Page containers */
+  
+  /* Responsive Spacing */
+  --sp-fluid-section: clamp(2rem, 4vw, 4rem);
+  
+  
+  /* === Layout === */
+  
+  /* Grid System */
+  --grid-gap: var(--sp-5);      /* 16px - Default gutter */
+  --grid-gap-lg: var(--sp-6);   /* 24px - Spacious layouts */
+  
+  --sidebar-min: 18ch;          /* Min sidebar width */
+  --sidebar-max: 30ch;          /* Max sidebar width */
+  
+  /* Container Widths */
+  --container-sm: 40rem;        /* 640px - Narrow forms */
+  --container-md: 50rem;        /* 800px - Default prose */
+  --container-lg: 64rem;        /* 1024px - Dashboards */
+  --container-xl: 80rem;        /* 1280px - Full-width data */
+  
+  /* Breakpoints (for reference in JS) */
+  --bp-sm: 32em;                /* 512px */
+  --bp-md: 48em;                /* 768px */
+  --bp-lg: 64em;                /* 1024px */
+  --bp-xl: 80em;                /* 1280px */
+  
+  
+  /* === Borders & Radius === */
+  
+  /* Border Widths */
+  --border-thin: 1px;           /* Default */
+  --border-medium: 2px;         /* Focus, emphasis */
+  --border-thick: 3px;          /* Active states */
+  
+  /* Border Radius (Subtle, Not Bubbly) */
+  --radius-0: 0;                /* Sharp edges (tables) */
+  --radius-whisper: 0.125rem;   /* 2px - Subtle, most UI */
+  --radius-soft: 0.25rem;       /* 4px - Cards, modals */
+  --radius-round: 50%;          /* Avatars, badges */
+  
+  /* Border Colors */
+  --border-default: var(--ink-100);     /* Default borders */
+  --border-muted: var(--ink-50);        /* Subtle dividers */
+  --border-emphasis: var(--ink-300);    /* Focus states */
+  
+  
+  /* === Shadows & Elevation === */
+  
+  /* Shadow Scale (Minimal by Default) */
+  --shadow-none: none;                              /* Default, Tufte-preferred */
+  --shadow-whisper: 0 1px 2px rgba(0, 0, 0, 0.04);  /* Subtle lift */
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.06);     /* Cards, dropdowns */
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.08);   /* Modals */
+  --shadow-emphasis: 0 8px 16px rgba(0, 0, 0, 0.10); /* Popovers */
+  
+  
+  /* === Interaction States === */
+  
+  /* Focus (Keyboard-First) */
+  --focus-ring: var(--accent-700);
+  --focus-offset: 2px;
+  --focus-width: 2px;
+  
+  /* Hover (Subtle Feedback) */
+  --hover-opacity: 0.8;
+  --hover-bg: var(--paper-50);
+  
+  /* Active/Pressed */
+  --active-scale: 0.98;         /* Subtle press effect */
+  --active-bg: var(--paper-100);
+  
+  /* Disabled */
+  --disabled-opacity: 0.5;
+  --disabled-cursor: not-allowed;
+  --disabled-text: var(--ink-300);
+  
+  
+  /* === Motion & Animation === */
+  
+  --motion-duration: 150ms;
+  --motion-easing: ease-out;
+  --motion-duration-slow: 300ms;
+  
+  
+  /* === Z-Index Scale === */
+  
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal-backdrop: 900;
+  --z-modal: 1000;
+  --z-toast: 1100;
+}
+
+
+/* ==========================================================================
+   II. COMPONENT TOKENS
+   Context-specific values for UI components
+   ========================================================================== */
+
+:root {
+  /* === Buttons === */
+  
+  --btn-pad-x: var(--sp-5);             /* 16px horizontal */
+  --btn-pad-y: var(--sp-3);             /* 8px vertical */
+  --btn-radius: var(--radius-whisper);
+  --btn-font-weight: var(--fw-medium);
+  --btn-font-size: var(--fs-14);
+  --btn-min-height: 44px;               /* Touch target */
+  
+  /* Primary Button */
+  --btn-primary-bg: var(--accent-600);
+  --btn-primary-text: #fff;
+  --btn-primary-hover: var(--accent-700);
+  --btn-primary-active: var(--accent-700);
+  
+  /* Secondary Button */
+  --btn-secondary-bg: transparent;
+  --btn-secondary-text: var(--accent-600);
+  --btn-secondary-border: var(--accent-600);
+  --btn-secondary-hover-bg: var(--accent-100);
+  
+  /* Subtle/Ghost Button */
+  --btn-subtle-bg: transparent;
+  --btn-subtle-text: var(--ink-700);
+  --btn-subtle-hover-bg: var(--paper-50);
+  
+  /* Danger Button */
+  --btn-danger-bg: var(--danger-600);
+  --btn-danger-text: #fff;
+  --btn-danger-hover: #8b1e1e;
+  
+  
+  /* === Form Controls === */
+  
+  --input-pad-x: var(--sp-4);           /* 12px */
+  --input-pad-y: var(--sp-3);           /* 8px */
+  --input-radius: var(--radius-whisper);
+  --input-border: var(--border-default);
+  --input-border-width: var(--border-thin);
+  --input-focus: var(--accent-600);
+  --input-error: var(--danger-600);
+  --input-height: 44px;                 /* Min touch target */
+  --input-bg: var(--paper-0);
+  --input-text: var(--ink-900);
+  
+  /* Labels */
+  --label-font-size: var(--fs-14);
+  --label-font-weight: var(--fw-medium);
+  --label-color: var(--ink-700);
+  --label-margin-bottom: var(--sp-1);
+  
+  /* Helper Text */
+  --helper-font-size: var(--fs-12);
+  --helper-color: var(--ink-500);
+  --helper-margin-top: var(--sp-1);
+  
+  
+  /* === Tables (Data-Dense Styling) === */
+  
+  --table-border: var(--ink-100);       /* Subtle column dividers */
+  --table-stripe: var(--paper-50);      /* Subtle row alternation */
+  --table-header-bg: var(--paper-100);
+  --table-header-text: var(--ink-700);
+  --table-header-font-weight: var(--fw-medium);
+  --table-cell-pad-x: var(--sp-4);      /* 12px */
+  --table-cell-pad-y: var(--sp-3);      /* 8px */
+  --table-font-size: var(--fs-14);
+  
+  
+  /* === Cards === */
+  
+  --card-bg: var(--paper-0);
+  --card-border: var(--border-default);
+  --card-radius: var(--radius-soft);
+  --card-padding: var(--pad-lg);
+  --card-shadow: var(--shadow-soft);
+  
+  
+  /* === Modals === */
+  
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.5);
+  --modal-bg: var(--paper-0);
+  --modal-radius: var(--radius-soft);
+  --modal-padding: var(--pad-xl);
+  --modal-shadow: var(--shadow-emphasis);
+  --modal-max-width: 32rem;             /* 512px */
+  
+  
+  /* === Data Visualization === */
+  
+  --chart-axis: var(--ink-300);         /* Subtle axes */
+  --chart-grid: var(--ink-100);         /* Minimal gridlines */
+  --chart-label: var(--ink-700);        /* Direct labels */
+  --chart-line-width: 2px;              /* Default line thickness */
+  
+  --sparkline-height: 16px;             /* Inline sparkline */
+  --sparkline-width: 80px;
+  
+  
+  /* === Badges & Tags === */
+  
+  --badge-pad-x: var(--sp-2);
+  --badge-pad-y: var(--sp-1);
+  --badge-radius: var(--radius-whisper);
+  --badge-font-size: var(--fs-12);
+  --badge-font-weight: var(--fw-medium);
+}
+
+
+/* ==========================================================================
+   III. DARK MODE
+   Inverted palette for prefers-color-scheme: dark
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Invert Ink & Paper */
+    --ink-900: #f9f9f9;
+    --ink-700: #e0e0e0;
+    --ink-500: #a0a0a0;
+    --ink-300: #707070;
+    --ink-100: #333;
+    --ink-50: #252525;
+    
+    --paper-0: #111;
+    --paper-50: #1a1a1a;
+    --paper-100: #222;
+    --paper-200: #2a2a2a;
+    
+    /* Adjust Accent (desaturate slightly) */
+    --accent-700: #6b9cf2;
+    --accent-600: #4a9eff;
+    --accent-500: #6baeff;
+    --accent-400: #8dbfff;
+    --accent-100: #1a2f4d;
+    
+    /* Adjust Semantic Colors */
+    --positive-600: #2ea673;
+    --positive-100: #0f2e20;
+    
+    --caution-600: #d98d1a;
+    --caution-100: #2d2314;
+    
+    --danger-600: #e35555;
+    --danger-100: #2d1414;
+    
+    /* Shadows (increase opacity for visibility) */
+    --shadow-whisper: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.4);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --shadow-emphasis: 0 8px 16px rgba(0, 0, 0, 0.6);
+    
+    /* Modal backdrop (lighter in dark mode) */
+    --modal-backdrop-bg: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Manual theme override */
+[data-theme="dark"] {
+  --ink-900: #f9f9f9;
+  --ink-700: #e0e0e0;
+  --ink-500: #a0a0a0;
+  --ink-300: #707070;
+  --ink-100: #333;
+  --ink-50: #252525;
+  
+  --paper-0: #111;
+  --paper-50: #1a1a1a;
+  --paper-100: #222;
+  --paper-200: #2a2a2a;
+  
+  --accent-700: #6b9cf2;
+  --accent-600: #4a9eff;
+  --accent-500: #6baeff;
+  --accent-400: #8dbfff;
+  --accent-100: #1a2f4d;
+  
+  --positive-600: #2ea673;
+  --positive-100: #0f2e20;
+  
+  --caution-600: #d98d1a;
+  --caution-100: #2d2314;
+  
+  --danger-600: #e35555;
+  --danger-100: #2d1414;
+  
+  --shadow-whisper: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-soft: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-emphasis: 0 8px 16px rgba(0, 0, 0, 0.6);
+  
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="light"] {
+  /* Explicitly set light mode (overrides system preference) */
+  --ink-900: #111;
+  --ink-700: #333;
+  --ink-500: #555;
+  --ink-300: #999;
+  --ink-100: #e6e7ea;
+  --ink-50: #f3f4f6;
+  
+  --paper-0: #fff;
+  --paper-50: #f8f9fa;
+  --paper-100: #f0f1f3;
+  --paper-200: #e8e9eb;
+  
+  --accent-700: #0b3ea3;
+  --accent-600: #1558d6;
+  --accent-500: #3b7ae8;
+  --accent-400: #6b9cf2;
+  --accent-100: #e3f0ff;
+}
+
+
+/* ==========================================================================
+   IV. PRINT TOKENS
+   First-class print styling for reports & documents
+   ========================================================================== */
+
+@media print {
+  :root {
+    /* Pure B&W for print */
+    --print-ink: #000;
+    --print-paper: #fff;
+    --print-border: 1px solid #000;
+    --print-font-size: 11pt;
+    --print-margin: 1in;
+    --print-gutter: 0.25in;
+    
+    /* Override tokens for print */
+    --ink-900: var(--print-ink);
+    --ink-700: var(--print-ink);
+    --ink-500: #333;
+    --paper-0: var(--print-paper);
+    --shadow-none: none;
+    --shadow-whisper: none;
+    --shadow-soft: none;
+    --shadow-medium: none;
+    --shadow-emphasis: none;
+  }
+}
+
+
+/* ==========================================================================
+   V. ACCESSIBILITY
+   Motion reduction & high contrast support
+   ========================================================================== */
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration: 0.001ms;
+    --motion-duration-slow: 0.001ms;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: more) {
+  :root {
+    --border-default: var(--ink-900);
+    --focus-width: 3px;
+    --border-medium: 3px;
+  }
+}
+
+
+/* ==========================================================================
+   VI. COLOR SCHEME DECLARATION
+   Signal dark mode support to browser
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+
+/* ==========================================================================
+   END OF TOKEN FILE
+   
+   Next steps:
+   1. Import this file first in your stylesheet
+   2. Build utilities and components using these tokens
+   3. Never hardcode colors/spacing—always use tokens
+   4. Customize by overriding tokens in :root
+   
+   Example usage:
+   
+   .my-component {
+     color: var(--ink-700);
+     background: var(--paper-50);
+     padding: var(--pad-lg);
+     border-radius: var(--radius-whisper);
+   }
+   
+   As good as bread. 🍞
+   ========================================================================== */

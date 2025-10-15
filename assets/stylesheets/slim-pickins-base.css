@@ -1,0 +1,550 @@
+/**
+ * slim-pickins-base.css v0.1.0
+ * Semantic HTML styling using token system
+ * 
+ * Philosophy: Style native HTML elements beautifully by default.
+ * No classes required for basic content.
+ * 
+ * Usage: Import after slim-pickins-tokens.css
+ */
+
+/* ==========================================================================
+   BASE STYLES
+   Semantic HTML elements styled with tokens
+   ========================================================================== */
+
+/* === Document & Box Model === */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-16);
+  line-height: var(--lh-base);
+  color: var(--ink-900);
+  background: var(--paper-0);
+}
+
+
+/* === Typography === */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-tight);
+  color: var(--ink-900);
+}
+
+h1 {
+  font-size: var(--fs-fluid-h1);
+  margin-bottom: var(--sp-6);
+}
+
+h2 {
+  font-size: var(--fs-fluid-h2);
+  margin-top: var(--sp-7);
+  margin-bottom: var(--sp-4);
+}
+
+h3 {
+  font-size: var(--fs-fluid-h3);
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-3);
+}
+
+h4 {
+  font-size: var(--fs-20);
+  margin-top: var(--sp-5);
+  margin-bottom: var(--sp-2);
+}
+
+h5, h6 {
+  font-size: var(--fs-16);
+  font-weight: var(--fw-medium);
+  margin-top: var(--sp-4);
+  margin-bottom: var(--sp-2);
+}
+
+p {
+  margin-bottom: var(--sp-5);
+}
+
+/* Long-form content */
+article p,
+.prose p {
+  line-height: var(--lh-loose);
+}
+
+/* Inline text semantics */
+a {
+  color: var(--accent-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  color: var(--accent-700);
+  text-decoration-thickness: 2px;
+}
+
+a:visited {
+  color: var(--accent-700);
+}
+
+strong, b {
+  font-weight: var(--fw-bold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--fs-12);
+  color: var(--ink-500);
+}
+
+mark {
+  background: var(--caution-100);
+  color: var(--ink-900);
+  padding: 0 var(--sp-1);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--paper-100);
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-whisper);
+  color: var(--ink-700);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--fs-14);
+  line-height: var(--lh-base);
+  background: var(--paper-100);
+  padding: var(--pad-md);
+  border-radius: var(--radius-whisper);
+  overflow-x: auto;
+  margin-bottom: var(--sp-5);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+kbd {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--paper-100);
+  border: var(--border-thin) solid var(--border-default);
+  border-radius: var(--radius-whisper);
+  padding: var(--sp-1) var(--sp-2);
+  box-shadow: 0 1px 0 var(--border-emphasis);
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+sub, sup {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+
+/* === Lists === */
+
+ul, ol {
+  margin-bottom: var(--sp-5);
+  padding-left: var(--sp-6);
+}
+
+ul ul, ul ol, ol ul, ol ol {
+  margin-bottom: 0;
+  margin-top: var(--sp-2);
+}
+
+li {
+  margin-bottom: var(--sp-2);
+}
+
+dt {
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+  margin-bottom: var(--sp-1);
+}
+
+dd {
+  margin-left: var(--sp-6);
+  margin-bottom: var(--sp-3);
+}
+
+
+/* === Quotes === */
+
+blockquote {
+  border-left: var(--border-medium) solid var(--accent-600);
+  padding-left: var(--sp-5);
+  margin: var(--sp-6) 0;
+  color: var(--ink-700);
+  font-style: italic;
+}
+
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+q {
+  quotes: """ """ "'" "'";
+}
+
+cite {
+  font-style: italic;
+  color: var(--ink-500);
+}
+
+
+/* === Tables === */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: var(--sp-6);
+  font-size: var(--table-font-size);
+}
+
+thead {
+  background: var(--table-header-bg);
+}
+
+th {
+  font-weight: var(--table-header-font-weight);
+  color: var(--table-header-text);
+  text-align: left;
+  padding: var(--table-cell-pad-y) var(--table-cell-pad-x);
+  border-bottom: var(--border-medium) solid var(--table-border);
+}
+
+th[align="right"],
+td[align="right"] {
+  text-align: right;
+}
+
+td {
+  padding: var(--table-cell-pad-y) var(--table-cell-pad-x);
+  border-bottom: var(--border-thin) solid var(--table-border);
+  color: var(--ink-900);
+}
+
+tbody tr:nth-child(even) td {
+  background: var(--table-stripe);
+}
+
+tbody tr:hover td {
+  background: var(--paper-100);
+}
+
+/* Right-align numeric columns */
+td:has(> time),
+td[data-type="number"],
+td.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* === Forms === */
+
+label {
+  display: block;
+  font-size: var(--label-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--label-color);
+  margin-bottom: var(--label-margin-bottom);
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: var(--fs-16);
+  line-height: inherit;
+  color: var(--input-text);
+  background: var(--input-bg);
+  border: var(--input-border-width) solid var(--input-border);
+  border-radius: var(--input-radius);
+  padding: var(--input-pad-y) var(--input-pad-x);
+  width: 100%;
+  min-height: var(--input-height);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-color: var(--input-focus);
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: var(--disabled-cursor);
+  background: var(--paper-50);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  min-height: auto;
+  margin-right: var(--sp-2);
+}
+
+textarea {
+  resize: vertical;
+  min-height: calc(var(--input-height) * 2.5);
+}
+
+/* Form groups */
+fieldset {
+  border: var(--border-thin) solid var(--border-default);
+  border-radius: var(--radius-whisper);
+  padding: var(--pad-lg);
+  margin-bottom: var(--sp-6);
+}
+
+legend {
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+  padding: 0 var(--sp-2);
+}
+
+
+/* === Buttons === */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  font-family: inherit;
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  line-height: 1;
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  min-height: var(--btn-min-height);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  transition: background var(--motion-duration) var(--motion-easing);
+}
+
+button:hover,
+[type="button"]:hover,
+[type="reset"]:hover,
+[type="submit"]:hover {
+  background: var(--btn-primary-hover);
+}
+
+button:active,
+[type="button"]:active,
+[type="reset"]:active,
+[type="submit"]:active {
+  transform: scale(var(--active-scale));
+}
+
+button:focus-visible,
+[type="button"]:focus-visible,
+[type="reset"]:focus-visible,
+[type="submit"]:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+button:disabled,
+[type="button"]:disabled,
+[type="reset"]:disabled,
+[type="submit"]:disabled {
+  opacity: var(--disabled-opacity);
+  cursor: var(--disabled-cursor);
+}
+
+
+/* === Images & Media === */
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+figure {
+  margin: var(--sp-6) 0;
+}
+
+figcaption {
+  font-size: var(--fs-14);
+  color: var(--ink-500);
+  margin-top: var(--sp-2);
+  text-align: center;
+}
+
+picture {
+  display: block;
+}
+
+
+/* === Horizontal Rule === */
+
+hr {
+  border: none;
+  border-top: var(--border-thin) solid var(--border-default);
+  margin: var(--sp-7) 0;
+}
+
+
+/* === Details & Summary === */
+
+details {
+  border: var(--border-thin) solid var(--border-default);
+  border-radius: var(--radius-whisper);
+  padding: var(--pad-md);
+  margin-bottom: var(--sp-5);
+}
+
+summary {
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  user-select: none;
+  padding: var(--sp-2);
+  margin: calc(var(--pad-md) * -1);
+  margin-bottom: var(--sp-3);
+}
+
+summary:hover {
+  background: var(--paper-50);
+}
+
+details[open] summary {
+  margin-bottom: var(--sp-4);
+}
+
+
+/* === Dialog === */
+
+dialog {
+  background: var(--modal-bg);
+  border: none;
+  border-radius: var(--modal-radius);
+  padding: var(--modal-padding);
+  box-shadow: var(--modal-shadow);
+  max-width: var(--modal-max-width);
+  width: 90%;
+}
+
+dialog::backdrop {
+  background: var(--modal-backdrop-bg);
+}
+
+
+/* ==========================================================================
+   PRINT STYLES
+   Ensure content prints beautifully
+   ========================================================================== */
+
+@media print {
+  body {
+    font-size: var(--print-font-size);
+    color: var(--print-ink);
+    background: var(--print-paper);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    page-break-inside: avoid;
+  }
+  
+  p, blockquote, pre, figure, table {
+    page-break-inside: avoid;
+  }
+  
+  a {
+    color: var(--print-ink);
+    text-decoration: underline;
+  }
+  
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.9em;
+  }
+  
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+  
+  tr, img {
+    page-break-inside: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+  
+  @page {
+    margin: var(--print-margin);
+  }
+}
+
+
+/* ==========================================================================
+   END OF BASE STYLES
+   
+   Next: Import slim-pickins-utils.css for layout utilities
+   ========================================================================== */

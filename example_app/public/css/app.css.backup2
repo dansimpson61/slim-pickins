@@ -1,9 +1,11 @@
 /**
  * Example App Styles
  * 
- * Strategy: slim-pickins.css is loaded via <link> in layout.slim
- * This file contains only app-specific customizations
+ * Strategy: Import slim-pickins base, then add app-specific customizations
  */
+
+/* Import slim-pickins from gem assets */
+@import url('../../../assets/stylesheets/slim-pickins.css');
 
 /* ==========================================================================
    APP-SPECIFIC CUSTOMIZATIONS
@@ -35,16 +37,19 @@
   font-size: var(--fs-14);
 }
 
+/* Todo list */
 .todo-list {
   margin-top: var(--sp-5);
 }
 
+/* Todo actions */
 .todo-actions {
   display: flex;
   gap: var(--sp-2);
   margin-top: var(--sp-4);
 }
 
+/* Completed state */
 .completed {
   opacity: 0.6;
 }
@@ -53,18 +58,21 @@
   text-decoration: line-through;
 }
 
+/* Description text */
 .description {
   color: var(--ink-500);
   font-size: var(--fs-14);
   margin-bottom: var(--sp-3);
 }
 
+/* Empty state */
 .empty-state {
   text-align: center;
   padding: var(--sp-8);
   color: var(--ink-500);
 }
 
+/* Header and Footer (app chrome) */
 .header {
   background: var(--paper-0);
   border-bottom: var(--border-thin) solid var(--border-default);
@@ -91,12 +99,14 @@
   border-top: var(--border-thin) solid var(--border-default);
 }
 
+/* Container (shared by header, main, footer) */
 .container {
   max-width: var(--container-md);
   margin: 0 auto;
   padding: 0 var(--pad-lg);
 }
 
+/* Modal backdrop enhancements (slim-pickins provides base) */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -148,12 +158,14 @@
   border-radius: var(--radius-whisper);
 }
 
+/* Search input (slim-pickins provides base input styling) */
 .search-input {
   width: 100%;
   padding: var(--input-pad-y) var(--input-pad-x);
   margin-bottom: var(--sp-6);
 }
 
+/* Dropdown menu */
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -183,6 +195,7 @@
   background: var(--paper-50);
 }
 
+/* Form inline display for action buttons */
 form {
   display: inline-block;
 }

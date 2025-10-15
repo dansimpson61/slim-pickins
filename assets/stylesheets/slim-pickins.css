@@ -1,0 +1,27 @@
+/**
+ * slim-pickins.css v0.1.0
+ * Complete bundle: tokens + base + utilities
+ * 
+ * Ultra-lightweight UI framework for data-forward, joyful design
+ * 
+ * Philosophy:
+ * - Expression over specification
+ * - Minimalism over complexity
+ * - Joy over ceremony
+ * - Tufte's restraint + Ruby's expressiveness
+ * 
+ * Usage:
+ * <link rel="stylesheet" href="path/to/slim-pickins.css">
+ * 
+ * Or import components individually:
+ * @import "slim-pickins-tokens.css";
+ * @import "slim-pickins-base.css";
+ * @import "slim-pickins-utils.css";
+ * 
+ * License: MIT
+ * Be as good as bread. 🍞
+ */
+
+@import url('slim-pickins-tokens.css');
+@import url('slim-pickins-base.css');
+@import url('slim-pickins-utils.css');

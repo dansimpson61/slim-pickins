@@ -1,0 +1,21 @@
+Run options: --seed 9234
+
+# Running:
+
+......................................F....F........F................................
+
+Finished in 0.413729s, 205.4484 runs/s, 937.8115 assertions/s.
+
+  1) Failure:
+SamplerAppTest#test_demo_search_case_insensitive [test/sampler_app_test.rb:192]:
+Expected false to be truthy.
+
+  2) Failure:
+SamplerAppTest#test_demo_search_returns_results [test/sampler_app_test.rb:176]:
+Expected false to be truthy.
+
+  3) Failure:
+SamplerAppTest#test_demo_search_returns_empty [test/sampler_app_test.rb:185]:
+Expected false to be truthy.
+
+85 runs, 388 assertions, 3 failures, 0 errors, 0 skips

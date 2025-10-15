@@ -1,0 +1,66 @@
+h1 Stimulus Integration
+p.lead How helpers generate Stimulus-friendly markup
+
+section.demo-section
+  h2 Stimulus Attributes Helper
+  p.description Generate data attributes for controllers
+  
+  .code
+    pre
+      code
+        | # In Ruby
+        | stimulus_attrs("modal", open: false, auto_close: 5000)
+        | 
+        | # Generates:
+        | # data-controller="modal"
+        | # data-modal-open-value="false"
+        | # data-modal-auto-close-value="5000"
+
+section.demo-section
+  h2 Action Attributes
+  p.description Connect events to controller methods
+  
+  .code
+    pre
+      code
+        | # In Ruby
+        | action_attr("click->modal#open")
+        | 
+        | # Generates:
+        | # data-action="click->modal#open"
+
+section.demo-section
+  h2 Target Attributes
+  p.description Mark elements as controller targets
+  
+  .code
+    pre
+      code
+        | # In Ruby
+        | target_attr("modal", "backdrop")
+        | 
+        | # Generates:
+        | # data-modal-target="backdrop"
+
+section.demo-section
+  h2 Full Example
+  p.description How it all works together
+  
+  .code
+    pre
+      code
+        | # Slim template
+        | == modal id: "example" do
+        |   p Content
+        | 
+        | # Generated HTML
+        | &lt;div data-controller="modal"&gt;
+        |   &lt;button data-action="click-&gt;modal#open"&gt;Open&lt;/button&gt;
+        |   &lt;div data-modal-target="backdrop"&gt;
+        |     &lt;div data-modal-target="panel"&gt;
+        |       &lt;p&gt;Content&lt;/p&gt;
+        |     &lt;/div&gt;
+        |   &lt;/div&gt;
+        | &lt;/div&gt;
+  
+  p.emphasis The helpers hide all this complexity. You just write the intent.

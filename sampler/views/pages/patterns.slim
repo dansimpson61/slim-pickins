@@ -1,0 +1,76 @@
+h1 Patterns
+p.lead Complex interactive components
+
+section.demo-section
+  h2 Modal Dialog
+  p.description Show content in an overlay
+  
+  .demo
+    == modal id: "demo-modal", trigger: "Open Modal" do
+      h2 Hello Modal!
+      p This modal opens and closes smoothly.
+      p Press ESC or click outside to close.
+  
+  .code
+    pre
+      code
+        | == modal id: "demo-modal", trigger: "Open Modal" do
+        |   h2 Hello Modal!
+        |   p This modal opens and closes smoothly.
+
+section.demo-section
+  h2 Dropdown Menu
+  p.description Toggle a menu of options
+  
+  .demo
+    == dropdown "Menu" do
+      == menu_item "Profile", "/profile"
+      == menu_item "Settings", "/settings"
+      == menu_item "Logout", "/logout", method: :delete
+  
+  .code
+    pre
+      code
+        | == dropdown "Menu" do
+        |   == menu_item "Profile", "/profile"
+        |   == menu_item "Settings", "/settings"
+        |   == menu_item "Logout", "/logout", method: :delete
+
+section.demo-section
+  h2 Searchable List
+  p.description Live search with async results
+  
+  .demo
+    == searchable "/demo/search", placeholder: "Search fruits..."
+  
+  .code
+    pre
+      code
+        | == searchable "/demo/search", placeholder: "Search fruits..."
+  
+  p.note Server endpoint should return HTML fragment
+
+section.demo-section
+  h2 Tabs
+  p.description Organize content in switchable panels
+  
+  .demo
+    == tabs home: "Home", about: "About", contact: "Contact" do
+      .tab-panels
+        .panel data-tab="home"
+          h3 Home Panel
+          p Welcome to the home section
+        .panel data-tab="about"
+          h3 About Panel
+          p Learn more about us
+        .panel data-tab="contact"
+          h3 Contact Panel
+          p Get in touch
+  
+  .code
+    pre
+      code
+        | == tabs home: "Home", about: "About", contact: "Contact" do
+        |   .tab-panels
+        |     .panel data-tab="home"
+        |       h3 Home Panel

@@ -1,0 +1,92 @@
+h1 Components
+p.lead Basic building blocks for your UI
+
+section.demo-section
+  h2 Cards
+  p.description Display content in contained, styled boxes
+  
+  .demo
+    == card "Simple Card" do
+      p This is a basic card with a title and content.
+  
+  .code
+    pre
+      code
+        | == card "Simple Card" do
+        |   p This is a basic card with a title and content.
+  
+  .demo
+    == card "Card with Controller", controller: "animate" do
+      p This card has a Stimulus controller attached.
+  
+  .code
+    pre
+      code
+        | == card "Card with Controller", controller: "animate" do
+        |   p This card has a Stimulus controller attached.
+  
+  .demo
+    == card class: "special-card" do
+      h3 No Title Card
+      p Cards don't need titles. Perfect for flexible layouts.
+  
+  .code
+    pre
+      code
+        | == card class: "special-card" do
+        |   h3 No Title Card
+        |   p Cards don't need titles.
+
+section.demo-section
+  h2 Buttons
+  p.description Action buttons with Stimulus integration
+  
+  .demo
+    == action_button "Click Me", action: "click->demo#handleClick"
+    == action_button "Primary", action: "click->demo#action", class: "btn-primary"
+    == action_button "Danger", action: "click->demo#action", class: "btn-danger"
+  
+  .code
+    pre
+      code
+        | == action_button "Click Me", action: "click->demo#handleClick"
+        | == action_button "Primary", action: "click->demo#action", class: "btn-primary"
+
+section.demo-section
+  h2 Navigation Links
+  p.description Links that automatically highlight when active
+  
+  .demo
+    nav.demo-nav
+      == nav_link "Components", "/components"
+      == nav_link "Patterns", "/patterns"
+      == nav_link "Forms", "/forms"
+  
+  .code
+    pre
+      code
+        | == nav_link "Components", "/components"
+        | == nav_link "Patterns", "/patterns"
+        | == nav_link "Forms", "/forms"
+  
+  p.note
+    strong Note: 
+    | The current page is automatically highlighted!
+
+section.demo-section
+  h2 Icons
+  p.description SVG icons with consistent sizing
+  
+  .demo
+    == icon :edit
+    == icon :trash, size: 32
+    == icon :check, class: "text-success"
+  
+  .code
+    pre
+      code
+        | == icon :edit
+        | == icon :trash, size: 32
+        | == icon :check, class: "text-success"
+  
+  p.note Icons use SVG sprite pattern. Define sprites in your layout.

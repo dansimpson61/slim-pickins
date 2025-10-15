@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['hello@slim-pickins.dev']
   
   spec.summary       = 'Ultra-lightweight UI framework for Ruby, Sinatra, Slim, and StimulusJS'
-  spec.description   = 'Expression over specification. Build web UIs with clean templates that hide HTML/JS complexity behind elegant Ruby helpers. As good as bread.'
+  spec.description   = 'Expression over specification. Build web UIs with clean templates that hide HTML/JS complexity behind elegant Ruby helpers. Includes Tufte-inspired CSS framework for data-forward design. As good as bread.'
   spec.homepage      = 'https://github.com/slim-pickins/slim-pickins'
   spec.license       = 'MIT'
   spec.required_ruby_version = '>= 2.7.0'
@@ -21,8 +21,10 @@ Gem::Specification.new do |spec|
     'homepage_uri'      => spec.homepage,
   }
   
+  # Include Ruby files, assets, and documentation
   spec.files = Dir[
     'lib/**/*.rb',
+    'assets/**/*.{css,js}',  # Include stylesheets and JS
     'LICENSE',
     'README.md',
     'PHILOSOPHY.md'

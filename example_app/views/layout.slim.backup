@@ -4,9 +4,6 @@ html lang="en"
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
     title Slim-Pickins Todo Example
-    / Load slim-pickins CSS from gem assets
-    link rel="stylesheet" href="/slim-pickins/assets/stylesheets/slim-pickins.css"
-    / Load app-specific CSS
     link rel="stylesheet" href="/css/app.css"
     script type="module" src="https://cdn.jsdelivr.net/npm/@hotwired/stimulus@3.2.2/dist/stimulus.min.js"
     script type="module" src="/js/app.js"

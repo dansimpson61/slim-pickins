@@ -1,0 +1,62 @@
+.hero
+  h1 Welcome to the Slim-Pickins Sampler
+  p.lead Explore every helper, see live examples, copy clean code
+  
+  .hero-cards
+    == card "Components" do
+      p Basic building blocks: cards, buttons, navigation, icons
+      == action_button "Explore Components", action: "click->navigate#go", class: "btn-primary"
+    
+    == card "Patterns" do
+      p Complex interactions: modals, dropdowns, tabs, search
+      == action_button "Explore Patterns", action: "click->navigate#go", class: "btn-primary"
+    
+    == card "Forms" do
+      p Clean form helpers: fields, validation, submission
+      == action_button "Explore Forms", action: "click->navigate#go", class: "btn-primary"
+
+.philosophy
+  h2 The Philosophy
+  .philosophy-grid
+    .philosophy-item
+      h3 Expression Over Specification
+      p Write what you want, not how to build it
+    
+    .philosophy-item
+      h3 Hide the Ugly Parts
+      p HTML and JS are implementation details
+    
+    .philosophy-item
+      h3 Maximize Tool Leverage
+      p Use what exists: Slim, Ruby, Stimulus
+    
+    .philosophy-item
+      h3 Progressive Enhancement
+      p Start with HTML, add behavior where it brings joy
+
+.getting-started
+  h2 Quick Start
+  
+  pre
+    code
+      | # In your Gemfile
+      | gem 'slim-pickins', '~> 0.1'
+      | 
+      | # In your Sinatra app
+      | require 'sinatra/base'
+      | require 'slim-pickins'
+      | 
+      | class App < Sinatra::Base
+      |   register SlimPickins
+      | end
+  
+  p 
+    | Then in your templates, use 
+    code ==
+    |  for helpers:
+  
+  pre
+    code
+      | == modal id: "example" do
+      |   h2 It's this simple
+      |   p No data attributes. No ceremony. Just joy.

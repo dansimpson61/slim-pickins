@@ -1,0 +1,584 @@
+/**
+ * slim-pickins-utils.css v0.1.0
+ * Minimal utility classes for layout composition
+ * 
+ * Philosophy: Utilities for common patterns, not one-off styles.
+ * Compose layouts without writing custom CSS.
+ * 
+ * Usage: Import after slim-pickins-base.css
+ */
+
+/* ==========================================================================
+   LAYOUT UTILITIES
+   Composition primitives for common patterns
+   ========================================================================== */
+
+/* === Stack (Vertical Rhythm) === */
+
+.stack > * + * {
+  margin-top: var(--gap-stack);
+}
+
+.stack-sm > * + * {
+  margin-top: calc(var(--gap-stack) * 0.5);
+}
+
+.stack-lg > * + * {
+  margin-top: calc(var(--gap-stack) * 1.5);
+}
+
+.stack-xl > * + * {
+  margin-top: var(--gap-section);
+}
+
+
+/* === Cluster (Horizontal with Wrap) === */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-cluster);
+  align-items: center;
+}
+
+.cluster-sm {
+  gap: calc(var(--gap-cluster) * 0.5);
+}
+
+.cluster-lg {
+  gap: calc(var(--gap-cluster) * 1.5);
+}
+
+.cluster-start {
+  align-items: flex-start;
+}
+
+.cluster-end {
+  align-items: flex-end;
+}
+
+.cluster-stretch {
+  align-items: stretch;
+}
+
+.cluster-between {
+  justify-content: space-between;
+}
+
+.cluster-around {
+  justify-content: space-around;
+}
+
+.cluster-center {
+  justify-content: center;
+}
+
+
+/* === Sidebar (Two-Column Layout) === */
+
+.sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--grid-gap);
+}
+
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-min);
+  flex-grow: 1;
+}
+
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 50%;
+}
+
+
+/* === Center (Horizontal Centering) === */
+
+.center {
+  max-width: var(--container-md);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-sm {
+  max-width: var(--container-sm);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-lg {
+  max-width: var(--container-lg);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-xl {
+  max-width: var(--container-xl);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* === Grid (Simple Responsive Grid) === */
+
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+}
+
+
+/* === Prose (Optimal Reading Width) === */
+
+.prose {
+  max-width: var(--prose-width);
+}
+
+.prose-wide {
+  max-width: var(--measure-wide);
+}
+
+.prose-narrow {
+  max-width: var(--measure-narrow);
+}
+
+
+/* ==========================================================================
+   TYPOGRAPHY UTILITIES
+   Text styling and alignment
+   ========================================================================== */
+
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.muted {
+  color: var(--ink-500);
+}
+
+.subtle {
+  color: var(--ink-700);
+}
+
+.small {
+  font-size: var(--fs-12);
+}
+
+.large {
+  font-size: var(--fs-20);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.serif {
+  font-family: var(--font-serif);
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ==========================================================================
+   SPACING UTILITIES
+   Direct spacing control (use sparingly)
+   ========================================================================== */
+
+.pad {
+  padding: var(--pad-md);
+}
+
+.pad-sm {
+  padding: var(--pad-sm);
+}
+
+.pad-lg {
+  padding: var(--pad-lg);
+}
+
+.pad-xl {
+  padding: var(--pad-xl);
+}
+
+.gap {
+  gap: var(--grid-gap);
+}
+
+.gap-sm {
+  gap: calc(var(--grid-gap) * 0.5);
+}
+
+.gap-lg {
+  gap: var(--grid-gap-lg);
+}
+
+
+/* ==========================================================================
+   VISUAL UTILITIES
+   Borders, backgrounds, shadows
+   ========================================================================== */
+
+.border {
+  border: var(--border-thin) solid var(--border-default);
+}
+
+.border-top {
+  border-top: var(--border-thin) solid var(--border-default);
+}
+
+.border-bottom {
+  border-bottom: var(--border-thin) solid var(--border-default);
+}
+
+.border-left {
+  border-left: var(--border-thin) solid var(--border-default);
+}
+
+.border-right {
+  border-right: var(--border-thin) solid var(--border-default);
+}
+
+.rounded {
+  border-radius: var(--radius-soft);
+}
+
+.rounded-sm {
+  border-radius: var(--radius-whisper);
+}
+
+.fill-paper {
+  background: var(--paper-50);
+}
+
+.fill-accent {
+  background: var(--accent-100);
+}
+
+.shadow {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-medium);
+}
+
+
+/* ==========================================================================
+   VISIBILITY UTILITIES
+   Show/hide content
+   ========================================================================== */
+
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+/* Screen reader only (accessible but invisible) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus,
+.sr-only:active {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Print utilities */
+.no-print {
+  display: block;
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}
+
+
+/* ==========================================================================
+   COMPONENT UTILITIES
+   Common component patterns
+   ========================================================================== */
+
+/* === Card === */
+
+.card {
+  background: var(--card-bg);
+  border: var(--border-thin) solid var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
+  box-shadow: var(--card-shadow);
+}
+
+.card-title {
+  font-size: var(--fs-20);
+  font-weight: var(--fw-medium);
+  margin-bottom: var(--sp-3);
+  color: var(--ink-900);
+}
+
+
+/* === Button Variants === */
+
+.btn {
+  font-size: var(--btn-font-size);
+  font-weight: var(--btn-font-weight);
+  color: var(--btn-primary-text);
+  background: var(--btn-primary-bg);
+  border: none;
+  border-radius: var(--btn-radius);
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  min-height: var(--btn-min-height);
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  transition: background var(--motion-duration) var(--motion-easing);
+}
+
+.btn:hover {
+  background: var(--btn-primary-hover);
+}
+
+.btn-secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-text);
+  border: var(--border-thin) solid var(--btn-secondary-border);
+}
+
+.btn-secondary:hover {
+  background: var(--btn-secondary-hover-bg);
+}
+
+.btn-subtle {
+  background: var(--btn-subtle-bg);
+  color: var(--btn-subtle-text);
+}
+
+.btn-subtle:hover {
+  background: var(--btn-subtle-hover-bg);
+}
+
+.btn-danger {
+  background: var(--btn-danger-bg);
+  color: var(--btn-danger-text);
+}
+
+.btn-danger:hover {
+  background: var(--btn-danger-hover);
+}
+
+.btn-sm {
+  font-size: var(--fs-12);
+  padding: calc(var(--btn-pad-y) * 0.75) calc(var(--btn-pad-x) * 0.75);
+  min-height: 36px;
+}
+
+
+/* === Form Group === */
+
+.form-group {
+  margin-bottom: var(--sp-5);
+}
+
+.form-group label {
+  display: block;
+  font-size: var(--label-font-size);
+  font-weight: var(--label-font-weight);
+  color: var(--label-color);
+  margin-bottom: var(--label-margin-bottom);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+}
+
+.form-group .helper-text {
+  font-size: var(--helper-font-size);
+  color: var(--helper-color);
+  margin-top: var(--helper-margin-top);
+}
+
+.form-group .error {
+  font-size: var(--helper-font-size);
+  color: var(--danger-600);
+  margin-top: var(--helper-margin-top);
+}
+
+
+/* === Badge === */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--badge-pad-y) var(--badge-pad-x);
+  font-size: var(--badge-font-size);
+  font-weight: var(--badge-font-weight);
+  border-radius: var(--badge-radius);
+  background: var(--paper-100);
+  color: var(--ink-700);
+}
+
+.badge-primary {
+  background: var(--accent-100);
+  color: var(--accent-700);
+}
+
+.badge-success {
+  background: var(--positive-100);
+  color: var(--positive-600);
+}
+
+.badge-warning {
+  background: var(--caution-100);
+  color: var(--caution-600);
+}
+
+.badge-danger {
+  background: var(--danger-100);
+  color: var(--danger-600);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE UTILITIES
+   Mobile-first breakpoints
+   ========================================================================== */
+
+/* Hide on mobile */
+@media (max-width: 47.99em) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Hide on tablet and up */
+@media (min-width: 48em) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 64em) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+
+/* ==========================================================================
+   DATA VISUALIZATION UTILITIES
+   Tufte-inspired primitives
+   ========================================================================== */
+
+/* Inline sparkline container */
+.sparkline {
+  display: inline-block;
+  width: var(--sparkline-width);
+  height: var(--sparkline-height);
+  vertical-align: middle;
+}
+
+/* Data table styling */
+.data-table {
+  font-size: var(--table-font-size);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th,
+.data-table td {
+  padding: var(--table-cell-pad-y) var(--table-cell-pad-x);
+}
+
+.data-table thead {
+  border-bottom: var(--border-medium) solid var(--table-border);
+}
+
+.data-table tbody tr:not(:last-child) {
+  border-bottom: var(--border-thin) solid var(--table-border);
+}
+
+/* Right-align numeric columns */
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ==========================================================================
+   END OF UTILITIES
+   
+   Usage examples in comments:
+   
+   Layout:
+   <div class="stack"> ... </div>
+   <div class="cluster cluster-between"> ... </div>
+   <main class="center prose"> ... </main>
+   
+   Components:
+   <article class="card"> ... </article>
+   <button class="btn btn-secondary"> ... </button>
+   <span class
