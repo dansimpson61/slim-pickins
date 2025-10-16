@@ -213,6 +213,14 @@
   --z-modal-backdrop: 900;
   --z-modal: 1000;
   --z-toast: 1100;
+  
+  
+  /* === Toggle Panels === */
+  
+  --panel-width: 280px;           /* Expanded width for left/right */
+  --panel-height: 200px;          /* Expanded height for top/bottom */
+  --panel-collapsed: 2.5rem;      /* 40px - collapsed size (all directions) */
+  --panel-z: 100;                 /* Base z-index for layering */
 }
 
 

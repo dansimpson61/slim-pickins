@@ -13,6 +13,7 @@ require_relative '../lib/helpers/form_helpers'
 require_relative '../lib/helpers/stimulus_helpers'
 require_relative '../lib/helpers/reactive_form_helpers'
 require_relative '../lib/helpers/calculator_dsl_helpers'
+require_relative '../lib/helpers/toggle_panel_helpers'
 
 # Mock request object for testing
 class MockRequest
@@ -32,6 +33,7 @@ class TestContext
   include StimulusHelpers
   include ReactiveFormHelpers
   include CalculatorDSLHelpers
+  include TogglePanelHelpers
   
   attr_reader :request
   

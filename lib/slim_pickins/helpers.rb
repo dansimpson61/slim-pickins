@@ -4,6 +4,7 @@ require_relative '../helpers/component_helpers'
 require_relative '../helpers/pattern_helpers'
 require_relative '../helpers/form_helpers'
 require_relative '../helpers/stimulus_helpers'
+require_relative '../helpers/toggle_panel_helpers'
 
 module SlimPickins
   module Helpers
@@ -11,5 +12,6 @@ module SlimPickins
     include PatternHelpers
     include FormHelpers
     include StimulusHelpers
+    include TogglePanelHelpers
   end
 end

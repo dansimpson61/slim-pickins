@@ -491,11 +491,245 @@ dialog::backdrop {
 
 
 /* ==========================================================================
+   TOGGLE PANEL SYSTEM
+   Collapsible edge-aligned panels
+   ========================================================================== */
+
+/* Base toggle panel - leverages existing tokens */
+.toggle-panel {
+  position: absolute;
+  transition: all var(--transition-smooth);
+  border: var(--border-thin) solid var(--border-default);
+  box-shadow: var(--shadow-soft);
+  background: var(--paper-0);
+  z-index: var(--panel-z);
+  border-radius: var(--radius-whisper);
+}
+
+/* Position-specific layouts */
+.toggle-panel-left {
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: var(--panel-width);
+  border-left: none;
+  border-radius: 0 var(--radius-whisper) var(--radius-whisper) 0;
+}
+
+.toggle-panel-left.collapsed {
+  width: var(--panel-collapsed);
+}
+
+.toggle-panel-right {
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: var(--panel-width);
+  border-right: none;
+  border-radius: var(--radius-whisper) 0 0 var(--radius-whisper);
+}
+
+.toggle-panel-right.collapsed {
+  width: var(--panel-collapsed);
+}
+
+.toggle-panel-top {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--panel-height);
+  border-top: none;
+  border-radius: 0 0 var(--radius-whisper) var(--radius-whisper);
+}
+
+.toggle-panel-top.collapsed {
+  height: var(--panel-collapsed);
+}
+
+.toggle-panel-bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--panel-height);
+  border-bottom: none;
+  border-radius: var(--radius-whisper) var(--radius-whisper) 0 0;
+}
+
+.toggle-panel-bottom.collapsed {
+  height: var(--panel-collapsed);
+}
+
+/* Fixed positioning in layout.slim */
+body > .toggle-panel {
+  position: fixed;
+}
+
+/* Content flow - main content adjusts for panels */
+body > .toggle-panel-left ~ main,
+body > .toggle-panel-left ~ .content {
+  margin-left: var(--panel-width);
+  transition: margin-left var(--transition-smooth);
+}
+
+body > .toggle-panel-left.collapsed ~ main,
+body > .toggle-panel-left.collapsed ~ .content {
+  margin-left: var(--panel-collapsed);
+}
+
+body > .toggle-panel-right ~ main,
+body > .toggle-panel-right ~ .content {
+  margin-right: var(--panel-width);
+  transition: margin-right var(--transition-smooth);
+}
+
+body > .toggle-panel-right.collapsed ~ main,
+body > .toggle-panel-right.collapsed ~ .content {
+  margin-right: var(--panel-collapsed);
+}
+
+body > .toggle-panel-top ~ main,
+body > .toggle-panel-top ~ .content {
+  margin-top: var(--panel-height);
+  transition: margin-top var(--transition-smooth);
+}
+
+body > .toggle-panel-top.collapsed ~ main,
+body > .toggle-panel-top.collapsed ~ .content {
+  margin-top: var(--panel-collapsed);
+}
+
+body > .toggle-panel-bottom ~ main,
+body > .toggle-panel-bottom ~ .content {
+  margin-bottom: var(--panel-height);
+  transition: margin-bottom var(--transition-smooth);
+}
+
+body > .toggle-panel-bottom.collapsed ~ main,
+body > .toggle-panel-bottom.collapsed ~ .content {
+  margin-bottom: var(--panel-collapsed);
+}
+
+/* Content visibility */
+.toggle-panel.collapsed .panel-content {
+  display: none;
+}
+
+.toggle-panel-left.collapsed .panel-label,
+.toggle-panel-right.collapsed .panel-label {
+  display: none;
+}
+
+/* Header - uses existing spacing and color tokens */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--pad-md);
+  border-bottom: var(--border-thin) solid var(--border-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.panel-header:hover {
+  background: var(--hover-bg);
+}
+
+.panel-header:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* Collapsed header has less padding */
+.toggle-panel.collapsed .panel-header {
+  padding: var(--pad-sm);
+  border-bottom: none;
+}
+
+/* Icon and label layout */
+.panel-header-start {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-cluster);
+}
+
+.panel-icon {
+  font-size: var(--fs-20);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.panel-label {
+  font-weight: var(--fw-medium);
+  color: var(--ink-700);
+  font-size: var(--fs-14);
+}
+
+.toggle-indicator {
+  background: none;
+  border: none;
+  padding: var(--pad-xs);
+  color: var(--ink-500);
+  cursor: pointer;
+  font-size: var(--fs-16);
+  line-height: 1;
+  transition: color 150ms ease;
+}
+
+.toggle-indicator:hover {
+  color: var(--accent-600);
+}
+
+/* Panel content */
+.panel-content {
+  padding: var(--pad-lg);
+  overflow-y: auto;
+  height: calc(100% - 3rem);
+}
+
+/* Horizontal panels */
+.toggle-panel-top .panel-header,
+.toggle-panel-bottom .panel-header {
+  flex-direction: row;
+}
+
+/* Vertical panels */
+.toggle-panel-left .panel-header,
+.toggle-panel-right .panel-header {
+  flex-direction: column;
+  text-align: center;
+  gap: var(--gap-cluster);
+}
+
+.toggle-panel-left.collapsed .panel-header,
+.toggle-panel-right.collapsed .panel-header {
+  gap: var(--sp-4);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .toggle-panel {
+    transition: none;
+  }
+}
+
+
+/* ==========================================================================
    PRINT STYLES
    Ensure content prints beautifully
    ========================================================================== */
 
 @media print {
+  /* Hide toggle panels when printing */
+  .toggle-panel {
+    display: none;
+  }
+  
+  /* Restore content margins */
+  body > .toggle-panel ~ main,
+  body > .toggle-panel ~ .content {
+    margin: 0 !important;
+  }
+  
   body {
     font-size: var(--print-font-size);
     color: var(--print-ink);
