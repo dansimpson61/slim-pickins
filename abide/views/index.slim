@@ -1,0 +1,104 @@
+div.container data-controller="withdrawal-form"
+  / Header Section
+  div.dashboard-header
+    div
+      span.label Today's Portfolio Value
+      div.portfolio-value 
+        | $
+        = @portfolio['balance'].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+    
+    / Sustainability Monitor (Visual Placeholder)
+    div style="text-align: right;"
+      span.label Sustainability Outlook
+      div style="display: flex; align-items: center; gap: 8px;"
+        div style="height: 8px; width: 150px; background: #E2E8F0; border-radius: 4px; overflow: hidden;"
+          div style="height: 100%; width: 85%; background: var(--color-accent-dark);"
+        span.text-sm.text-slate On Track
+  
+  / River of Wealth Chart
+  div.card
+    h2 River of Wealth
+    div style="position: relative; height: 300px; width: 100%;" data-controller="river-chart"
+      canvas data-river-chart-target="canvas"
+
+  / Recent Movements & Action
+  div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;"
+    h3 Recent & Upcoming Movements
+    button.btn.btn-primary data-controller="modal-trigger" data-action="click->modal-trigger#open click->withdrawal-form#reset" + Add Event
+
+  div.card
+    - if @movements.empty?
+      p.text-slate.italic No movements recorded yet.
+    - else
+      table style="width: 100%; border-collapse: collapse;"
+        tbody
+          - @movements.each do |m|
+            tr.group style="border-bottom: 1px solid #edf2f7;"
+              td style="padding: 16px 0;"
+                div style="font-weight: 500;" = m['description']
+                div.text-sm.text-slate = m['date']
+              td style="text-align: right; padding: 16px 0;"
+                div class=(m['amount'].to_f < 0 ? 'text-text' : 'text-accent-dark') style="font-weight: 600;"
+                  = m['amount'].to_f < 0 ? "- $#{m['amount'].to_f.abs}" : "+ $#{m['amount'].to_f}"
+              td style="text-align: right; padding: 16px 0; width: 80px;"
+                div.opacity-0.group-hover:opacity-100.transition-opacity.duration-200.flex.justify-end.gap-2
+                  button.btn-icon.text-slate.hover:text-blue-600 data-action="click->withdrawal-form#edit" data-id="#{m['id']}" data-description="#{m['description']}" data-amount="#{m['amount']}" data-date="#{m['date']}" data-taxable="#{m['tax_info']['is_taxable']}" title="Edit"
+                    svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;"
+                      path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  button.btn-icon.text-slate.hover:text-red-600 data-action="click->withdrawal-form#delete" data-id="#{m['id']}" title="Delete"
+                    svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;"
+                      path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+
+  / Add Withdrawal Modal
+  div.modal-backdrop id="add-withdrawal-modal" role="dialog" aria-hidden="true"
+    div.modal-content
+      div style="display: flex; justify-content: space-between; margin-bottom: 24px;"
+        h3 Add Portfolio Event
+        button.btn-ghost type="button" data-action="withdrawal-form#close" &times;
+
+      form data-action="submit->withdrawal-form#submit"
+        input type="hidden" name="id" data-withdrawal-form-target="id"
+        div.form-group
+          label.form-label Description
+          input.form-input type="text" name="description" placeholder="e.g., Living Expenses" required=""
+        
+        div.form-group
+          label.form-label Amount (Gross)
+          input.form-input type="number" name="amount" placeholder="0.00" step="0.01" data-withdrawal-form-target="amount" data-action="input->withdrawal-form#calculate" required=""
+        
+        div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"
+          div.form-group
+            label.form-label Date
+            input.form-input type="date" name="date" required=""
+          
+          div.form-group
+            label.form-label Frequency
+            select.form-select name="frequency"
+              option value="one_time" One-time
+              option value="monthly" Monthly
+              option value="yearly" Yearly
+
+        div style="background: #F7FAFC; padding: 16px; border-radius: 8px; margin-bottom: 24px;"
+          div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;"
+            label.form-label style="margin:0;" Taxable Event?
+            input type="checkbox" name="is_taxable" data-withdrawal-form-target="isTaxable" data-action="change->withdrawal-form#toggleTax" checked=""
+
+          div data-withdrawal-form-target="taxFields"
+            div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;"
+              div.form-group
+                label.form-label Federal Tax %
+                input.form-input type="number" name="federal_tax_rate" value="20" data-withdrawal-form-target="fedRate" data-action="input->withdrawal-form#calculate"
+                div.tax-calc-feedback data-withdrawal-form-target="fedFeedback" Est. Fed Tax: $0.00
+              
+              div.form-group
+                label.form-label State Tax %
+                input.form-input type="number" name="state_tax_rate" value="5" data-withdrawal-form-target="stateRate" data-action="input->withdrawal-form#calculate"
+                div.tax-calc-feedback data-withdrawal-form-target="stateFeedback" Est. State Tax: $0.00
+
+        div style="text-align: center; margin-bottom: 24px;"
+          div.text-sm.text-slate Estimated Net Withdrawal
+          div.text-gold style="font-size: 1.5rem; font-weight: 600;" data-withdrawal-form-target="netResult" $0.00
+
+        div style="display: flex; justify-content: flex-end; gap: 12px;"
+          button.btn.btn-ghost type="button" data-action="withdrawal-form#close" Cancel
+          button.btn.btn-primary type="submit" Save Event
