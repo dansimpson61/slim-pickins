@@ -1,6 +1,6 @@
 require 'sqlite3'
 require 'date'
-require_relative 'movement'
+require_relative 'flow'
 
 class Ledger
   def initialize(db_path = "abide.db")
@@ -8,24 +8,30 @@ class Ledger
     @db.results_as_hash = true
   end
 
-  def balance
-    # Sum of all movements
-    result = @db.get_first_value("SELECT SUM(amount) FROM movements")
-    result || 0.0
+  # Calculate balance for a specific account
+  def balance(account_id = 1) # Default to Main Portfolio (1)
+    # Sum inflows (where dest = id)
+    inflows = @db.get_first_value("SELECT SUM(amount) FROM movements WHERE destination_account_id = ?", [account_id]) || 0.0
+    
+    # Sum outflows (where source = id)
+    outflows = @db.get_first_value("SELECT SUM(amount) FROM movements WHERE source_account_id = ?", [account_id]) || 0.0
+    
+    inflows - outflows
   end
 
-  def add(movement)
-    tax = movement.tax_info || {}
+  def add(flow)
+    tax = flow.tax_info || {}
     @db.execute(
-      "INSERT INTO movements (description, amount, date, frequency, is_taxable, federal_tax_rate, state_tax_rate) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO movements (description, amount, date, is_taxable, federal_tax_rate, state_tax_rate, source_account_id, destination_account_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [
-        movement.description,
-        movement.amount,
-        movement.date.to_s,
-        'one_time', # Historical facts are effectively one-time events
+        flow.description,
+        flow.amount,
+        flow.date.to_s,
         tax[:is_taxable] ? 1 : 0,
         tax[:federal_tax_rate] || 0.0,
-        tax[:state_tax_rate] || 0.0
+        tax[:state_tax_rate] || 0.0,
+        flow.source_id,
+        flow.destination_id
       ]
     )
   end
@@ -34,30 +40,46 @@ class Ledger
     @db.execute("DELETE FROM movements WHERE id = ?", [id])
   end
 
-  def update(id, movement)
-    tax = movement.tax_info || {}
+  def update(id, flow)
+    tax = flow.tax_info || {}
     @db.execute(
-      "UPDATE movements SET description = ?, amount = ?, date = ?, is_taxable = ?, federal_tax_rate = ?, state_tax_rate = ? WHERE id = ?",
+      "UPDATE movements SET description = ?, amount = ?, date = ?, is_taxable = ?, federal_tax_rate = ?, state_tax_rate = ?, source_account_id = ?, destination_account_id = ? WHERE id = ?",
       [
-        movement.description,
-        movement.amount,
-        movement.date.to_s,
+        flow.description,
+        flow.amount,
+        flow.date.to_s,
         tax[:is_taxable] ? 1 : 0,
         tax[:federal_tax_rate] || 0.0,
         tax[:state_tax_rate] || 0.0,
+        flow.source_id,
+        flow.destination_id,
         id
       ]
     )
   end
 
-  def recent(limit = 10)
-    rows = @db.execute("SELECT * FROM movements ORDER BY date DESC LIMIT ?", [limit])
+  # Get recent flows, optionally filtered by account
+  def recent(limit = 10, account_id = nil)
+    query = "SELECT * FROM movements"
+    params = []
+    
+    if account_id
+      query += " WHERE source_account_id = ? OR destination_account_id = ?"
+      params << account_id << account_id
+    end
+    
+    query += " ORDER BY date DESC LIMIT ?"
+    params << limit
+
+    rows = @db.execute(query, params)
     rows.map do |row|
-      Movement.new(
+      Flow.new(
         id: row['id'],
         amount: row['amount'].to_f,
         date: Date.parse(row['date']),
         description: row['description'],
+        source_id: row['source_account_id'],
+        destination_id: row['destination_account_id'],
         tax_info: {
           is_taxable: row['is_taxable'] == 1,
           federal_tax_rate: row['federal_tax_rate'],
@@ -66,7 +88,4 @@ class Ledger
       )
     end
   end
-  
-  # For projection purposes, we might want 'balance_at(date)' but 
-  # usually we just take current balance and project forward.
 end

@@ -7,10 +7,15 @@ require 'date'
 
 # Require Domain Model
 require_relative 'lib/frequency'
-require_relative 'lib/movement'
-require_relative 'lib/recurring_movement'
+require_relative 'lib/flow'
+require_relative 'lib/recurring_flow'
 require_relative 'lib/ledger'
 require_relative 'lib/projection'
+
+# Account IDs
+MAIN_PORTFOLIO_ID = 1
+EXTERNAL_ID = 2
+MARKET_ID = 3
 
 set :public_folder, 'public'
 
@@ -19,71 +24,94 @@ def ledger
 end
 
 # Hardcoded rules for MVP demonstration
-# In a real app, these would be stored in a 'recurring_movements' table
-def sample_recurring_movements
+def sample_recurring_flows
   [
-    RecurringMovement.new(
+    RecurringFlow.new(
       frequency: Frequency.monthly(on: 1),
       base_amount: 5000.0,
       description: "Salary",
+      source_id: EXTERNAL_ID,
+      destination_id: MAIN_PORTFOLIO_ID,
       start_date: Date.today - 365
     ),
-    RecurringMovement.new(
+    RecurringFlow.new(
       frequency: Frequency.monthly(on: 1),
-      base_amount: -2200.0,
+      base_amount: 2200.0,
       description: "Mortgage",
+      source_id: MAIN_PORTFOLIO_ID,
+      destination_id: EXTERNAL_ID,
       start_date: Date.today - 365,
-      end_date: Date.today + (365 * 25) # 25 years left
+      end_date: Date.today + (365 * 25)
     ),
-    RecurringMovement.new(
+    RecurringFlow.new(
       frequency: Frequency.weekly(on: :friday),
-      base_amount: -150.0,
+      base_amount: 150.0,
       description: "Groceries",
+      source_id: MAIN_PORTFOLIO_ID, 
+      destination_id: EXTERNAL_ID,
       start_date: Date.today - 30
     ),
-    RecurringMovement.new(
+    RecurringFlow.new(
       frequency: Frequency.monthly(on: 15),
-      base_amount: -100.0,
+      base_amount: 100.0,
       description: "Utilities",
+      source_id: MAIN_PORTFOLIO_ID,
+      destination_id: EXTERNAL_ID,
       start_date: Date.today - 30
     ),
-    # A one-off vacation in 3 months
-    RecurringMovement.new(
+    RecurringFlow.new(
       frequency: Frequency.once(on: Date.today + 90),
-      base_amount: -3000.0,
+      base_amount: 3000.0,
       description: "Island Vacation",
+      source_id: MAIN_PORTFOLIO_ID,
+      destination_id: EXTERNAL_ID,
       start_date: Date.today
     )
   ]
 end
 
 get '/' do
-  # Fetch Portfolio Balance (from Ledger)
-  # Note: The original 'portfolio' table had a separate balance. 
-  # Ideally, 'balance' is the sum of the ledger. 
-  # For now, we'll align the view variable @portfolio to look like the old struct 
-  # or simply pass @balance.
-  
-  @balance = ledger.balance
-  # Retrieve portfolio name or config if needed, for now just hardcode or use simple struct
+  # Fetch Balance for Main Portfolio
+  @balance = ledger.balance(MAIN_PORTFOLIO_ID)
   @portfolio = { 'name' => "Main Portfolio", 'balance' => @balance }
 
-  # Fetch Recent Movements
-  @movements = ledger.recent(5).map(&:to_h)
+  # Fetch Recent Flows (filtered for Main Portfolio)
+  @movements = ledger.recent(10, MAIN_PORTFOLIO_ID).map do |flow|
+    # Map back to a UI-friendly hash with signed amount relative to Main
+    {
+      'id' => flow.id,
+      'amount' => flow.value_for(MAIN_PORTFOLIO_ID),
+      'date' => flow.date,
+      'description' => flow.description,
+      'type' => flow.type_for(MAIN_PORTFOLIO_ID),
+      'tax_info' => flow.tax_info
+    }
+  end
   
   slim :index
 end
 
-# API Endpoint to create a movement
+# API Endpoint to create a movement (Flow)
 post '/movements' do
   data = JSON.parse(request.body.read)
   
-  # Map JSON to Movement object
-  movement = Movement.new(
-    amount: data['amount'].to_f,
+  amount = data['amount'].to_f
+  
+  # Infer Source/Dest from Signed Amount (Legacy UI support)
+  if amount >= 0
+    source = EXTERNAL_ID
+    dest = MAIN_PORTFOLIO_ID
+  else
+    source = MAIN_PORTFOLIO_ID
+    dest = EXTERNAL_ID
+  end
+
+  flow = Flow.new(
+    amount: amount,
     date: Date.parse(data['date']),
     description: data['description'],
-    type: nil, # inferred
+    source_id: source,
+    destination_id: dest,
     tax_info: {
       is_taxable: data['is_taxable'],
       federal_tax_rate: data['federal_tax_rate'],
@@ -91,7 +119,7 @@ post '/movements' do
     }
   )
   
-  ledger.add(movement)
+  ledger.add(flow)
   
   json status: 'success'
 end
@@ -104,12 +132,24 @@ end
 put '/movements/:id' do
   data = JSON.parse(request.body.read)
   
-  movement = Movement.new(
+  amount = data['amount'].to_f
+  
+  # Infer Source/Dest (Legacy UI support)
+  if amount >= 0
+    source = EXTERNAL_ID
+    dest = MAIN_PORTFOLIO_ID
+  else
+    source = MAIN_PORTFOLIO_ID
+    dest = EXTERNAL_ID
+  end
+  
+  flow = Flow.new(
     id: params[:id],
-    amount: data['amount'].to_f,
+    amount: amount,
     date: Date.parse(data['date']),
     description: data['description'],
-    type: nil, # inferred
+    source_id: source,
+    destination_id: dest,
     tax_info: {
       is_taxable: data['is_taxable'],
       federal_tax_rate: data['federal_tax_rate'],
@@ -117,34 +157,75 @@ put '/movements/:id' do
     }
   )
   
-  ledger.update(params[:id], movement)
+  ledger.update(params[:id], flow)
   json status: 'success'
+end
+
+# API Endpoint to update Market Value (Valuation)
+# User says: "Account X is worth $Y on Date Z"
+# We calculate: Delta = Y - Current_Balance
+# We create: Flow from/to Market
+post '/accounts/:id/valuation' do
+  account_id = params[:id].to_i
+  data = JSON.parse(request.body.read)
+  
+  target_value = data['value'].to_f
+  date = Date.parse(data['date'])
+  
+  # 1. Get current balance
+  # Note: Ideally we want balance *at that date*, but for simplicity we'll use current balance 
+  # OR we assume this is a "Mark to Market" event for "Now".
+  # If the user is backdating, we should probably check balance at that date, 
+  # but `ledger.balance` is currently "all time". 
+  # Let's assume the user is updating the *current* state.
+  current_balance = ledger.balance(account_id)
+  
+  delta = target_value - current_balance
+  
+  if delta.abs < 0.01
+    return json status: 'skipped', message: 'Value unchanged'
+  end
+  
+  if delta > 0
+    # Appreciation: Market -> Account
+    source = MARKET_ID
+    dest = account_id
+    desc = "Market Adjustment (Appreciation)"
+  else
+    # Depreciation: Account -> Market
+    source = account_id
+    dest = MARKET_ID
+    desc = "Market Adjustment (Depreciation)"
+  end
+  
+  flow = Flow.new(
+    amount: delta.abs,
+    date: date,
+    description: desc,
+    source_id: source,
+    destination_id: dest
+  )
+  
+  ledger.add(flow)
+  
+  json status: 'success', delta: delta, new_balance: target_value
 end
 
 # API Endpoint for Chart Data (Projected)
 get '/api/projection' do
-  # Build projection
   projection = Projection.new(
     ledger: ledger, 
-    recurring_movements: sample_recurring_movements,
+    recurring_flows: sample_recurring_flows,
     start_date: Date.today
   )
   
-  # Get 1 year of data
   timeline = projection.build(period_in_months: 12)
-  
-  # Transform for frontend chart (labels: date, data: balance)
-  # We might want to sample this if it's too daily? 
-  # For now, let's just return key points (daily balance).
-  
-  # Group by month for a cleaner chart? Or just return daily?
-  # Let's return daily points where events happen.
   
   data = timeline.map do |entry|
     {
-      year: entry[:date].to_s, # Frontend expects 'year' or 'date'? Old code used 'year' (int). Let's stick to date string.
+      year: entry[:date].to_s,
       balance: entry[:balance],
-      label: entry[:date].strftime("%b %d") # For tooltip
+      label: entry[:date].strftime("%b %d")
     }
   end
   
