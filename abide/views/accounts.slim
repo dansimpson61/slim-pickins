@@ -1,0 +1,92 @@
+div.container data-controller="valuation"
+  div.dashboard-header
+    h1 Accounts Management
+    / Toggle Archived
+    div style="margin-top: 8px;"
+      form action="/accounts" method="get"
+        label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #64748b;"
+          input type="checkbox" name="show_archived" value="true" checked=(params[:show_archived]=='true') onchange="this.form.submit()"
+          | Show Archived Accounts
+
+  / Create Account
+  div.card style="margin-bottom: 24px;"
+    h3 Create New Account
+    form style="display: flex; gap: 12px; align-items: flex-end; margin-top: 16px;" data-controller="account-create" data-action="submit->account-create#submit"
+      div.form-group style="flex-grow: 1; margin-bottom: 0;"
+        label.form-label Name
+        input.form-input type="text" placeholder="e.g. Robinhood, Wells Fargo" data-account-create-target="name" required=""
+      div.form-group style="width: 150px; margin-bottom: 0;"
+        label.form-label Type
+        select.form-input data-account-create-target="type"
+          option value="asset" Asset
+          option value="liability" Liability
+          option value="income" Income
+          option value="expense" Expense
+          option value="external" External
+      button.btn.btn-primary type="submit" Create
+
+  div.card
+    table style="width: 100%; border-collapse: collapse;"
+      thead
+        tr style="border-bottom: 2px solid #e2e8f0; text-align: left;"
+          th style="padding: 12px;" Name
+          th style="padding: 12px;" Type
+          th style="padding: 12px; text-align: right;" Balance
+          th style="padding: 12px; text-align: right;" Actions
+      tbody
+        - @accounts.each do |account|
+          - balance = @ledger.balance(account['id'])
+          tr style="border-bottom: 1px solid #edf2f7;" data-controller="crud-actions" data-crud-actions-url-value="/accounts/#{account['id']}"
+            td style="padding: 16px 12px; font-weight: 500;"
+              / Inline Edit Name
+              div data-controller="inline-edit" data-inline-edit-url-value="/accounts/#{account['id']}" data-inline-edit-param-value="name"
+                span data-inline-edit-target="display" data-action="click->inline-edit#edit" style="cursor: pointer; border-bottom: 1px dashed #cbd5e1;" = account['name']
+                input.inline-edit-input.hidden type="text" value="#{account['name']}" data-inline-edit-target="input" data-action="blur->inline-edit#save keydown->inline-edit#cancel"
+            
+            td style="padding: 16px 12px;" 
+              span.badge = account['type']
+            
+            td style="padding: 16px 12px; text-align: right; font-family: monospace; font-size: 1rem;" 
+              | $
+              = balance.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+            
+            td style="padding: 16px 12px; text-align: right; display: flex; justify-content: flex-end; gap: 8px;"
+              - if account['is_active'] == 1
+                - if account['type'] != 'market'
+                  button.btn.btn-ghost data-action="click->valuation#open" data-id="#{account['id']}" data-name="#{account['name']}" data-balance="#{balance}" Update Value
+                  button.btn-icon.text-slate.hover:text-amber-600 title="Archive" data-action="click->crud-actions#archive"
+                    svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;"
+                      path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0l-3-3m3 3l3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                  button.btn-icon.text-slate.hover:text-red-600 title="Delete" data-action="click->crud-actions#delete"
+                     svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width: 20px; height: 20px;"
+                       path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+              - else
+                 button.btn.btn-ghost style="color: green;" data-action="click->crud-actions#restore" Restore
+
+  / Valuation Modal
+  div.modal-backdrop data-valuation-target="modal" style="display: none;"
+    div.modal-content
+      div style="display: flex; justify-content: space-between; margin-bottom: 24px;"
+        h3 Update Market Value
+        button.btn-ghost type="button" data-action="valuation#close" &times;
+
+      form data-action="submit->valuation#submit"
+        input type="hidden" data-valuation-target="id"
+        
+        div style="margin-bottom: 24px;"
+          p.text-slate Updating value for:
+          h2 data-valuation-target="name" Main Portfolio
+          p.text-sm.text-slate Current Balance: <span data-valuation-target="currentBalance">$0.00</span>
+
+        div.form-group
+          label.form-label Date of Valuation
+          input.form-input type="date" data-valuation-target="date" required=""
+        
+        div.form-group
+          label.form-label New Market Value
+          input.form-input type="number" step="0.01" data-valuation-target="value" required=""
+          p.text-sm.text-slate style="margin-top: 8px;" The system will automatically generate an adjustment flow.
+
+        div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;"
+          button.btn.btn-ghost type="button" data-action="valuation#close" Cancel
+          button.btn.btn-primary type="submit" Update Value

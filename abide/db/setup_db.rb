@@ -8,7 +8,8 @@ db.execute <<-SQL
   CREATE TABLE IF NOT EXISTS accounts (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    type TEXT NOT NULL -- 'asset', 'liability', 'income', 'expense', 'external'
+    type TEXT NOT NULL, -- 'asset', 'liability', 'income', 'expense', 'external'
+    is_active INTEGER DEFAULT 1
   );
 SQL
 
@@ -25,6 +26,24 @@ db.execute <<-SQL
     source_account_id INTEGER,
     destination_account_id INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+SQL
+
+# 3. Portfolios Tables
+db.execute <<-SQL
+  CREATE TABLE IF NOT EXISTS portfolios (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL
+  );
+SQL
+
+db.execute <<-SQL
+  CREATE TABLE IF NOT EXISTS portfolio_accounts (
+    portfolio_id INTEGER,
+    account_id INTEGER,
+    PRIMARY KEY (portfolio_id, account_id),
+    FOREIGN KEY(portfolio_id) REFERENCES portfolios(id),
+    FOREIGN KEY(account_id) REFERENCES accounts(id)
   );
 SQL
 

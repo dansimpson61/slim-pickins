@@ -2,7 +2,13 @@ div.container data-controller="withdrawal-form"
   / Header Section
   div.dashboard-header
     div
-      span.label Today's Portfolio Value
+      div style="display: flex; align-items: center; gap: 12px; margin-bottom: 4px;"
+        span.label Today's Portfolio Value
+        form action="/" method="get" data-controller="auto-submit"
+          select.form-select style="padding: 4px 8px; font-size: 0.85rem; width: auto;" name="portfolio_id" data-action="change->auto-submit#submit"
+            - @portfolios.each do |p|
+              option value="#{p['id']}" selected=(p['id'] == @portfolio['id']) = p['name']
+      
       div.portfolio-value 
         | $
         = @portfolio['balance'].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse

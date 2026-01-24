@@ -12,6 +12,8 @@ html
     
     / Styles
     link rel="stylesheet" href="/css/style.css"
+    link rel="stylesheet" href="/css/nav.css"
+    link rel="stylesheet" href="/css/utilities.css"
     
     / Stimulus & Chart.js
     script type="module" src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
@@ -21,4 +23,13 @@ html
     script type="module" src="/js/application.js"
       
   body
+    nav.main-nav
+      div.container
+        div style="display: flex; justify-content: space-between; align-items: center; height: 60px;"
+          a.brand href="/" Abide
+          div.nav-links
+            a href="/" class=(request.path == '/' ? 'active' : '') Dashboard
+            a href="/accounts" class=(request.path == '/accounts' ? 'active' : '') Accounts
+            a href="/portfolios/manage" class=(request.path == '/portfolios/manage' ? 'active' : '') Portfolios
+
     == yield
