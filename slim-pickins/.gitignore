@@ -1,0 +1,6 @@
+*.log
+*.gem
+.bundle/
+tmp/
+coverage/
+.DS_Store

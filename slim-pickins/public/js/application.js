@@ -97,7 +97,32 @@ Stimulus.register("sp-toast-manager", class extends Controller {
         setTimeout(() => {
             toast.style.opacity = '0'
             toast.style.transform = 'translateY(20px)'
-            setTimeout(() => toast.remove(), 300)
         }, 3000)
+    }
+})
+
+// 5. Details/Summary Animation Controller
+Stimulus.register("sp-details", class extends Controller {
+    toggle(event) {
+        event.preventDefault()
+        this.element.open ? this.close() : this.open()
+    }
+
+    open() {
+        this.element.open = true
+        // Wait for next frame to trigger CSS transition
+        requestAnimationFrame(() => {
+            this.element.classList.add("is-open")
+        })
+    }
+
+    close() {
+        this.element.classList.remove("is-open")
+        // Wait for CSS transition to finish before removing attribute
+        setTimeout(() => {
+            if (!this.element.classList.contains("is-open")) {
+                this.element.open = false
+            }
+        }, 300) // Match CSS transition duration
     }
 })
