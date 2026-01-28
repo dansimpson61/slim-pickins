@@ -1,0 +1,10 @@
+== ui_card "Flash Helper"
+  p The <code>ui_flash</code> helper displays temporary notification messages.
+  
+  h4 Usage
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code == ui_flash :notice, "Success Message"
+    
+  h4 Demo
+  p Refresh the page or click below to trigger a toast (which uses the same system).
+  == ui_button "Trigger Toast", :neutral, onclick: "showToast('Hello from Docs!', 'primary')"

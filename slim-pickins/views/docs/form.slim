@@ -1,0 +1,10 @@
+== ui_card "Form Helpers"
+  p The <code>ui_text_field</code> helper creates an inline-editable text field.
+  
+  h4 Usage
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code == ui_text_field "field_name", "Current Value", url: "/update/endpoint"
+    
+  h4 Example
+  p Click the text below to edit:
+  == ui_text_field "demo", "Click me to edit...", url: "#"

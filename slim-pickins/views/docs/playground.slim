@@ -1,0 +1,14 @@
+== ui_card "Interactive Playground"
+  .sp-playground data-controller="sp-playground" data-sp-playground-url-value="/docs/render"
+    .sp-cluster style="align-items: flex-start; gap: 2rem;"
+      div style="flex: 1;"
+        h4 Source (Slim/Ruby)
+        textarea.sp-input data-sp-playground-target="input" data-action="input->sp-playground#render" rows="15" style="font-family: monospace; width: 100%; white-space: pre;"
+          | / Try editing this!
+            == ui_card "Playground Card"
+              p This is rendered live.
+              == ui_button "Click Me", :primary, onclick: "alert('It works!')"
+
+      div style="flex: 1;"
+        h4 Live Preview
+        .sp-card data-sp-playground-target="output" style="min-height: 300px; border: 2px dashed var(--sp-color-border); padding: 1rem;"

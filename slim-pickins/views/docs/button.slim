@@ -1,0 +1,23 @@
+== ui_card "Button Helper"
+  p The <code>ui_button</code> helper renders a standardized, accessible button element.
+  
+  h4 Usage
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code == ui_button "Label", :variance, options
+    
+  h4 Variants
+  p The <code>:variance</code> argument controls the visual style.
+  
+  .sp-cluster
+    == ui_button ":primary", :primary
+    == ui_button ":neutral", :neutral
+    == ui_button ":danger", :danger
+    
+  h4 With Icons
+  p You can pass HTML/SVG content as the label.
+  
+  == ui_button :neutral, class: "sp-btn--icon" do
+    span ☰ Menu
+
+  h4 Playground
+  p Try it out in the <a href="/docs/playground">Playground</a>.

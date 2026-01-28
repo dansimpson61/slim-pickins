@@ -1,0 +1,19 @@
+== ui_card "Sortable List Helper"
+  p The <code>ui_sortable_list</code> helper creates a drag-and-drop sortable list connected to a backend endpoint.
+  
+  h4 Usage
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code
+      | == ui_sortable_list url: "/sort/endpoint" do
+          - items.each do |item|
+            == ui_sortable_item item.id do
+              = item.title
+
+  h4 Example
+  == ui_sortable_list url: "#"
+    == ui_sortable_item 1
+      span Item 1
+    == ui_sortable_item 2
+      span Item 2
+    == ui_sortable_item 3
+      span Item 3

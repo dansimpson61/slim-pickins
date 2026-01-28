@@ -1,0 +1,13 @@
+== ui_card "Card Helper"
+  p The <code>ui_card</code> helper creates a contained box for content.
+  
+  h4 Usage
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code
+      | == ui_card "Title" do
+          p Content goes here...
+    
+  h4 Example
+  == ui_card "Example Card"
+    p This is a card body.
+    == ui_button "Action", :primary

@@ -38,5 +38,27 @@ class App < Sinatra::Base
     { status: "success" }.to_json
   end
 
+  # Documentation Routes
+  get "/docs" do
+    slim :"docs/index"
+  end
+
+  get "/docs/playground" do
+    slim :"docs/playground"
+  end
+
+  post "/docs/render" do
+    # Render arbitrary Slim source from the playground
+    slim params[:source], layout: false
+  end
+
+  get "/docs/:component" do
+    begin
+      slim :"docs/#{params[:component]}"
+    rescue Errno::ENOENT
+      halt 404, "Component documentation not found"
+    end
+  end
+
   run! if app_file == $0
 end

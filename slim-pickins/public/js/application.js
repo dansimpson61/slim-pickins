@@ -127,3 +127,28 @@ Stimulus.register("sp-remove", class extends Controller {
         }
     }
 })
+
+// 6. Playground Controller
+Stimulus.register("sp-playground", class extends Controller {
+    static targets = ["input", "output"]
+    static values = { url: String }
+
+    connect() {
+        this.render()
+    }
+
+    render() {
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+            fetch(this.urlValue, {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `source=${encodeURIComponent(this.inputTarget.value)}`
+            })
+                .then(res => res.text())
+                .then(html => {
+                    this.outputTarget.innerHTML = html
+                })
+        }, 500)
+    }
+})

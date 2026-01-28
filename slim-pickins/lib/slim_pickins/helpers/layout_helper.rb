@@ -22,15 +22,13 @@ module SlimPickins
         sp_tag(:div, message, class: css_class, role: "alert", "data-controller": "sp-flash")
       end
       
-      # Renders a toggleable panel (native <details> enhanced with Stimulus)
+      # Renders a toggleable panel (native <details>)
       def ui_toggle_panel(title, position: :left, &block)
         css_class = ["sp-toggle-panel", "sp-toggle-panel--#{position}"].compact.join(" ")
         
-        sp_tag(:details, class: css_class, "data-controller": "sp-details") do
-          summary = sp_tag(:summary, title, class: "sp-toggle-panel__summary", "data-action": "click->sp-details#toggle")
-          content = sp_tag(:div, class: "sp-toggle-panel__content") do
-            sp_tag(:div, class: "sp-toggle-panel__inner") { block.call }
-          end
+        sp_tag(:details, class: css_class) do
+          summary = sp_tag(:summary, title, class: "sp-toggle-panel__summary")
+          content = sp_tag(:div, class: "sp-toggle-panel__content") { block.call }
           summary + content
         end
       end
