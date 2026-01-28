@@ -87,6 +87,21 @@ body {
   border-bottom: 1px solid var(--sp-border);
   transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
   cursor: grab;
+  position: relative;
+  padding-left: var(--sp-gap-6);
+  /* Make room for the grip handle */
+}
+
+/* Grip Handle Texture */
+.sp-sortable-item::before {
+  content: "⋮⋮";
+  position: absolute;
+  left: var(--sp-gap-2);
+  color: var(--sp-ink-lighter);
+  font-weight: bold;
+  font-size: 0.875rem;
+  letter-spacing: -2px;
+  cursor: grab;
 }
 
 .sp-sortable-item:active {
@@ -117,7 +132,8 @@ body {
   display: inline-block;
   padding: var(--sp-gap-1) 0;
   cursor: text;
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px dashed var(--sp-border);
+  /* Dashed border for "fill in the blank" feel */
   width: 100%;
   transition: border-color 0.2s;
 }
@@ -249,4 +265,44 @@ body {
 
 .sp-sortable-item:hover .sp-actions {
   opacity: 1;
+}
+
+/* Component: Toast Notifications */
+.sp-toast-container {
+  position: fixed;
+  bottom: var(--sp-gap-4);
+  right: var(--sp-gap-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-gap-2);
+  z-index: 100;
+  pointer-events: none;
+  /* Let clicks pass through container area */
+}
+
+.sp-toast {
+  background: var(--sp-ink);
+  color: white;
+  padding: var(--sp-gap-2) var(--sp-gap-4);
+  border-radius: var(--sp-radius-sm);
+  box-shadow: var(--sp-shadow-card);
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+  /* Toast itself is clickable/blocking */
+}
+
+.sp-toast--primary {
+  background: var(--sp-primary);
+}
+
+.sp-toast--danger {
+  background: var(--sp-danger);
+}
+
+.sp-toast--neutral {
+  background: var(--sp-ink);
 }

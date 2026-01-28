@@ -1,0 +1,27 @@
+doctype html
+html
+  head
+    title Slim-Pickins MVP
+    / Use our local CSS + a CDN link for Stimulus/Sortable for the demo
+    link rel="stylesheet" href="/assets/stylesheets/slim-pickins.css"
+    style
+      | body { font-family: system-ui, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
+    
+    / Import map for easy JS module loading
+    script type="importmap"
+      | {
+      |   "imports": {
+      |     "@hotwired/stimulus": "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js",
+      |     "sortablejs": "https://unpkg.com/sortablejs@1.15.0/modular/sortable.esm.js"
+      |   }
+      | }
+      
+    script type="module" src="/js/application.js"
+
+  body data-controller="sp-toast-manager"
+    h1 Slim-Pickins MVP Demo
+    
+    == yield
+    
+    / Toast Container
+    .sp-toast-container data-sp-toast-manager-target="container"
