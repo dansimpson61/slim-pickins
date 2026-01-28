@@ -306,3 +306,78 @@ body {
 .sp-toast--neutral {
   background: var(--sp-ink);
 }
+
+/* Component: Toggle Panel (Animated <details>) */
+.sp-toggle-panel {
+  margin-bottom: var(--sp-gap-4);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  background: var(--sp-surface);
+  overflow: hidden;
+  /* Key for animation clipping */
+}
+
+.sp-toggle-panel__summary {
+  padding: var(--sp-gap-3) var(--sp-gap-4);
+  background: var(--sp-surface);
+  font-weight: 500;
+  cursor: pointer;
+  list-style: none;
+  /* Hide default triangle */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.2s;
+}
+
+.sp-toggle-panel__summary::-webkit-details-marker {
+  display: none;
+}
+
+.sp-toggle-panel__summary:hover {
+  background-color: var(--sp-surface-hover);
+}
+
+/* Custom Chevron */
+.sp-toggle-panel__summary::after {
+  content: "›";
+  /* Minimal chevron */
+  font-size: 1.25rem;
+  line-height: 1;
+  font-weight: 300;
+  transform: rotate(90deg);
+  transition: transform 0.3s;
+}
+
+.sp-toggle-panel[open] .sp-toggle-panel__summary::after {
+  transform: rotate(-90deg);
+}
+
+/* 
+ * The Grid Animation Trick 
+ * Animating from 0fr to 1fr requires an inner wrapper to measure content height.
+ * The helper outputs: details > summary + .sp-toggle-panel__content
+ */
+.sp-toggle-panel__content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-out;
+  padding: 0 var(--sp-gap-4);
+  /* Horizontal padding stays */
+  border-top: 1px solid transparent;
+  /* Hide border when closed */
+}
+
+.sp-toggle-panel[open] .sp-toggle-panel__content {
+  grid-template-rows: 1fr;
+  border-top-color: var(--sp-border);
+  padding-bottom: var(--sp-gap-4);
+  /* Restore vertical padding on open */
+  padding-top: var(--sp-gap-4);
+}
+
+/* Inner wrapper to support the grid track (needs min-height: 0) */
+.sp-toggle-panel__content>* {
+  min-height: 0;
+  overflow: hidden;
+}
