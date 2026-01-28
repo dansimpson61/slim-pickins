@@ -5,7 +5,10 @@ require "sinatra"
 require "slim"
 require_relative "lib/slim_pickins"
 
+require "sinatra/capture"
+
 class App < Sinatra::Base
+  helpers Sinatra::Capture
   register SlimPickins
 
   set :public_folder, File.join(__dir__, "public")
