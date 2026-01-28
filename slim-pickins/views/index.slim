@@ -1,0 +1,33 @@
+/ 1. Flash Messages
+== ui_flash :notice, "Welcome to the Modest MVP!"
+
+/ 2. Cards & Structure
+== ui_card "My Todo List"
+  p.text-muted This is a card component.
+  
+  / 3. Toggle Panel (Details/Summary)
+  == ui_toggle_panel "Show Instructions"
+    p Drag items to reorder. Click text to edit.
+
+  / 4. Sortable List
+  == ui_sortable_list url: "/todos/sort"
+    - @todos.each do |todo|
+      li.sp-sortable-item data-id=todo[:id]
+        
+        / Grip Handle (Implicit or explicit)
+        / span.sp-handle ☰
+        
+        / 5. Edit-in-Place Field (Grows to fill space)
+        == ui_text_field "title", todo[:title], url: "/todos/#{todo[:id]}"
+        
+        / 6. Actions (Reveal on hover)
+        .sp-actions.sp-cluster
+          == ui_button "Delete", :danger, class: "sp-btn--sm"
+
+/ 7. Buttons
+.sp-stack
+  h3 Buttons
+  .sp-cluster
+    == ui_button "Primary Action", :primary, onclick: "alert('Primary action clicked!')"
+    == ui_button "Secondary", :neutral, onclick: "alert('Secondary action clicked!')"
+    == ui_button "Danger Zone", :danger, onclick: "alert('Danger zone triggered!')"

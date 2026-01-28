@@ -1,0 +1,252 @@
+/* Slim-Pickins: Premium CSS Framework */
+
+:root {
+  /* Tokens: Colors (HSL for nuances) */
+  --sp-ink: #1f2937;
+  --sp-ink-light: #6b7280;
+  --sp-ink-lighter: #9ca3af;
+
+  --sp-canvas: #f9fafb;
+  --sp-surface: #ffffff;
+  --sp-surface-hover: #f3f4f6;
+
+  --sp-border: #e5e7eb;
+  --sp-border-focus: #3b82f6;
+
+  --sp-primary: #3b82f6;
+  --sp-danger: #ef4444;
+  --sp-success: #10b981;
+
+  /* Tokens: Spacing */
+  --sp-gap-1: 0.25rem;
+  --sp-gap-2: 0.5rem;
+  --sp-gap-3: 0.75rem;
+  --sp-gap-4: 1rem;
+  --sp-gap-6: 1.5rem;
+
+  /* Tokens: Radius */
+  --sp-radius: 0.5rem;
+  --sp-radius-sm: 0.375rem;
+
+  /* Tokens: Shadows */
+  --sp-shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --sp-shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.02), 0 2px 4px -1px rgb(0 0 0 / 0.02);
+}
+
+/* Reset / Base */
+.sp-reset {
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--sp-ink);
+  line-height: 1.5;
+}
+
+/* Component: Card - High-End Minimalist */
+.sp-card {
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  box-shadow: var(--sp-shadow-card);
+  margin-bottom: var(--sp-gap-6);
+  overflow: hidden;
+}
+
+.sp-card__header {
+  padding: var(--sp-gap-4) var(--sp-gap-6);
+  border-bottom: 1px solid var(--sp-border);
+  background: var(--sp-surface);
+  /* Clean white header */
+}
+
+.sp-card__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--sp-ink);
+  letter-spacing: -0.01em;
+}
+
+.sp-card__body {
+  padding: var(--sp-gap-6);
+}
+
+/* Component: Sortable List - The "Clean Stack" */
+.sp-sortable-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sp-sortable-item {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-gap-3) 0;
+  border-bottom: 1px solid var(--sp-border);
+  border-bottom: 1px solid var(--sp-border);
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  cursor: grab;
+}
+
+.sp-sortable-item:active {
+  cursor: grabbing;
+}
+
+.sp-sortable-item:hover {
+  background-color: var(--sp-surface-hover);
+  /* Subtle lift effect */
+  transform: translateY(-1px);
+  box-shadow: var(--sp-shadow-subtle);
+  z-index: 1;
+}
+
+.sp-sortable-item:last-child {
+  border-bottom: none;
+}
+
+/* Component: Inline Edit - "Seamless" */
+.sp-field {
+  flex-grow: 1;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.sp-field__display {
+  display: inline-block;
+  padding: var(--sp-gap-1) 0;
+  cursor: text;
+  border-bottom: 1px solid transparent;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.sp-field__display:hover {
+  border-bottom-color: var(--sp-primary);
+  /* Use primary color for clear intent */
+  background-color: var(--sp-surface-hover);
+  /* Subtle background highlight */
+  border-radius: var(--sp-radius-sm);
+  padding-left: var(--sp-gap-2);
+  /* Indent slightly to show "container" feel */
+}
+
+.sp-field__input {
+  display: none;
+  width: 100%;
+  padding: var(--sp-gap-1) 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--sp-primary);
+  /* Focus state */
+  outline: none;
+  margin: 0;
+}
+
+/* Component: Buttons - Refined */
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-gap-2) var(--sp-gap-4);
+  border-radius: 2rem;
+  /* Elegant Pill Shape */
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  text-decoration: none;
+  gap: var(--sp-gap-2);
+  box-shadow: var(--sp-shadow-subtle);
+}
+
+.sp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sp-shadow-card);
+}
+
+.sp-btn:active {
+  transform: translateY(0);
+}
+
+.sp-btn--sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sp-btn--primary {
+  background-color: var(--sp-primary);
+  color: white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+}
+
+.sp-btn--primary:hover {
+  filter: brightness(95%);
+}
+
+.sp-btn--danger {
+  background-color: #fef2f2;
+  color: var(--sp-danger);
+  border-color: #fecaca;
+}
+
+.sp-btn--danger:hover {
+  background-color: #fee2e2;
+}
+
+.sp-btn--neutral {
+  background-color: white;
+  border-color: var(--sp-border);
+  color: var(--sp-ink);
+}
+
+.sp-btn--neutral:hover {
+  border-color: var(--sp-ink-lighter);
+  background-color: var(--sp-canvas);
+}
+
+.sp-btn--icon {
+  padding: var(--sp-gap-2);
+  color: var(--sp-ink-light);
+  background: transparent;
+}
+
+.sp-btn--icon:hover {
+  color: var(--sp-ink);
+  background: var(--sp-surface-hover);
+}
+
+/* Utilities */
+.sp-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-gap-4);
+}
+
+.sp-cluster {
+  display: flex;
+  flex-direction: row;
+  gap: var(--sp-gap-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.sp-text-muted {
+  color: var(--sp-ink-light);
+  font-size: 0.875rem;
+}
+
+/* Interaction: Hover Actions */
+.sp-sortable-item .sp-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sp-sortable-item:hover .sp-actions {
+  opacity: 1;
+}
