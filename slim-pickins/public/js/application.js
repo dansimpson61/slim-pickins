@@ -97,34 +97,33 @@ Stimulus.register("sp-toast-manager", class extends Controller {
         setTimeout(() => {
             toast.style.opacity = '0'
             toast.style.transform = 'translateY(20px)'
+            setTimeout(() => toast.remove(), 300)
         }, 3000)
     }
 })
 
-// 5. Details/Summary Animation Controller
-Stimulus.register("sp-details", class extends Controller {
-    toggle(event) {
+// 5. Remove Controller (Delete Item)
+Stimulus.register("sp-remove", class extends Controller {
+    delete(event) {
+        // Prevent default link behavior if any
         event.preventDefault()
-        this.element.open ? this.close() : this.open()
-    }
 
-    open() {
-        this.element.open = true
-        // Wait for two frames to ensure the element is visible and layout is calculated
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                this.element.classList.add("is-open")
-            })
-        })
-    }
+        // Find the item container (closest sortable item)
+        const item = this.element.closest(".sp-sortable-item")
 
-    close() {
-        this.element.classList.remove("is-open")
-        // Wait for CSS transition to finish before removing attribute
-        setTimeout(() => {
-            if (!this.element.classList.contains("is-open")) {
-                this.element.open = false
-            }
-        }, 300) // Match CSS transition duration
+        if (item) {
+            // Animate out
+            item.style.transition = "transform 0.2s, opacity 0.2s"
+            item.style.transform = "translateX(20px)"
+            item.style.opacity = "0"
+
+            setTimeout(() => {
+                item.remove()
+                // Show toast via global helper
+                if (window.showToast) {
+                    window.showToast("Item deleted", "danger")
+                }
+            }, 200)
+        }
     }
 })
