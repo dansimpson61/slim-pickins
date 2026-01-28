@@ -12,7 +12,7 @@
   / 4. Sortable List
   == ui_sortable_list url: "/todos/sort"
     - @todos.each do |todo|
-      li.sp-sortable-item data-id=todo[:id]
+      == ui_sortable_item todo[:id] do
         
         / Grip Handle (Implicit or explicit)
         / span.sp-handle ☰
