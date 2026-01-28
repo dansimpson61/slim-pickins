@@ -349,7 +349,7 @@ body {
   transition: transform 0.3s;
 }
 
-.sp-toggle-panel[open] .sp-toggle-panel__summary::after {
+.sp-toggle-panel.is-open .sp-toggle-panel__summary::after {
   transform: rotate(-90deg);
 }
 
@@ -368,7 +368,8 @@ body {
   /* Hide border when closed */
 }
 
-.sp-toggle-panel[open] .sp-toggle-panel__content {
+/* Open State (Driven by JS Class) */
+.sp-toggle-panel.is-open .sp-toggle-panel__content {
   grid-template-rows: 1fr;
   border-top-color: var(--sp-border);
   padding-bottom: var(--sp-gap-4);
