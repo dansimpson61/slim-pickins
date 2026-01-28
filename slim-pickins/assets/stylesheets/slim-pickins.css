@@ -378,7 +378,7 @@ body {
 }
 
 /* Inner wrapper to support the grid track (needs min-height: 0) */
-.sp-toggle-panel__content>* {
+.sp-toggle-panel__inner {
   min-height: 0;
   overflow: hidden;
 }

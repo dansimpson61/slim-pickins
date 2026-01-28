@@ -28,7 +28,9 @@ module SlimPickins
         
         sp_tag(:details, class: css_class, "data-controller": "sp-details") do
           summary = sp_tag(:summary, title, class: "sp-toggle-panel__summary", "data-action": "click->sp-details#toggle")
-          content = sp_tag(:div, class: "sp-toggle-panel__content") { block.call }
+          content = sp_tag(:div, class: "sp-toggle-panel__content") do
+            sp_tag(:div, class: "sp-toggle-panel__inner") { block.call }
+          end
           summary + content
         end
       end

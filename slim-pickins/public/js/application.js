@@ -110,9 +110,11 @@ Stimulus.register("sp-details", class extends Controller {
 
     open() {
         this.element.open = true
-        // Wait for next frame to trigger CSS transition
+        // Wait for two frames to ensure the element is visible and layout is calculated
         requestAnimationFrame(() => {
-            this.element.classList.add("is-open")
+            requestAnimationFrame(() => {
+                this.element.classList.add("is-open")
+            })
         })
     }
 
