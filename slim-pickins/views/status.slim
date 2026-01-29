@@ -1,0 +1,96 @@
+== ui_card "System Status"
+  
+  h3 Core Routes
+  ul.sp-sortable-list
+    ruby:
+      routes = [
+        "/", 
+        "/docs", 
+        "/docs/playground",
+        "/docs/button",
+        "/docs/card",
+        "/docs/flash",
+        "/docs/form",
+        "/docs/list",
+        "/docs/toggle",
+        "/status"
+      ]
+    
+    - routes.each do |route|
+      li.sp-sortable-item
+        ruby:
+          # Initial state: Pending
+          title_html = "<span class='sp-status-icon sp-btn sp-btn--sm sp-btn--neutral' data-route='#{route}' style='width: 24px; height: 24px; padding: 0; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; background: #e2e8f0; color: #64748b; margin-right: 1rem;'><span class='sp-icon'>?</span></span><span>Route: #{route}</span>"
+        
+        == ui_toggle_panel title_html do
+          .sp-cluster style="padding: 1rem 0;"
+            a.sp-btn.sp-btn--primary href=route target="_blank" Open Link
+            code.sp-text-muted = route
+
+  javascript:
+    document.addEventListener("DOMContentLoaded", () => {
+      const routes = document.querySelectorAll(".sp-status-icon");
+      
+      routes.forEach(icon => {
+        const route = icon.dataset.route;
+        const iconSpan = icon.querySelector(".sp-icon");
+        
+        fetch(route)
+          .then(response => {
+             if (response.ok) {
+               icon.style.background = "var(--sp-primary)";
+               icon.style.color = "white";
+               iconSpan.textContent = "✓";
+             } else {
+               icon.style.background = "var(--sp-danger)";
+               icon.style.color = "white";
+               iconSpan.textContent = "✗";
+             }
+          })
+          .catch(err => {
+             icon.style.background = "var(--sp-danger)";
+             icon.style.color = "white";
+             iconSpan.textContent = "!";
+          });
+      });
+    });
+
+  h3 Helper Functionality Checks
+  ul.sp-sortable-list
+    ruby:
+      checks = {
+        "ui_button" => -> { ui_button("Test Button", :primary) },
+        "ui_card" => -> { ui_card("Test Card") { "Card Content" } },
+        "ui_flash" => -> { ui_flash(:info, "Flash Message") },
+        "ui_sortable_list" => -> { ui_sortable_list(url: "#") { ui_sortable_item(1) { "List Item" } } },
+        "ui_text_field" => -> { ui_text_field("test_field", "Editable Value", url: "#") },
+        "ui_toggle_panel" => -> { ui_toggle_panel("Test Toggle") { "Hidden Content" } }
+      }
+    
+    - checks.each do |name, check|
+      ruby:
+        status = :passed
+        error_message = nil
+        rendered_html = ""
+        begin
+          rendered_html = check.call
+        rescue => e
+          status = :failed
+          error_message = e.message
+        end
+        
+        icon_char = status == :passed ? "✓" : "✗"
+        color_class = status == :passed ? "sp-btn--primary" : "sp-btn--danger"
+        text_status = status == :failed ? "Error: #{error_message}" : "OK"
+        
+        title_html = "<span class='sp-btn #{color_class}' style='width: 24px; height: 24px; padding: 0; margin-right: 1rem; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%;'>#{icon_char}</span><div><strong>#{name}</strong><span class='sp-text-muted' style='margin-left: 0.5rem'>#{text_status}</span></div>"
+      
+      li.sp-sortable-item
+        == ui_toggle_panel title_html do
+          h4 Live Preview
+          div style="padding: 1rem; border: 1px dashed var(--sp-border); margin-bottom: 1rem; border-radius: 6px;"
+            == rendered_html
+            
+          h4 Source HTML
+          pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto;"
+            code = rendered_html

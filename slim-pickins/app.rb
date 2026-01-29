@@ -47,6 +47,10 @@ class App < Sinatra::Base
     slim :"docs/playground"
   end
 
+  get "/docs/quickstart" do
+    slim :"docs/quickstart"
+  end
+
   post "/docs/render" do
     # Render arbitrary Slim source from the playground
     slim params[:source], layout: false
@@ -58,6 +62,10 @@ class App < Sinatra::Base
     rescue Errno::ENOENT
       halt 404, "Component documentation not found"
     end
+  end
+
+  get "/status" do
+    slim :status
   end
 
   run! if app_file == $0

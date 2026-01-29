@@ -1,13 +1,60 @@
 == ui_card "Card Helper"
-  p The <code>ui_card</code> helper creates a contained box for content.
+  p.sp-text-muted <code>ui_card(title = nil, **options, &block)</code>
+
+  h3 Philosophy
+  p Cards are the fundamental containers in Slim-Pickins. They group related information and actions, providing a "paper-like" surface hierarchy.
+  ul
+    li <strong>Encapsulation:</strong> Keeps content visually distinct from the background.
+    li <strong>Structure:</strong> Enforces a standard header/body layout (optional header).
+    li <strong>Modularity:</strong> Easily nestable and composable.
+
+  h3 Arguments
+  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
+    thead style="border-bottom: 2px solid var(--sp-border);"
+      tr
+        th style="text-align: left; padding: 0.5rem;" Name
+        th style="text-align: left; padding: 0.5rem;" Type
+        th style="text-align: left; padding: 0.5rem;" Description
+    tbody
+      tr style="border-bottom: 1px solid var(--sp-border);"
+        td style="padding: 0.5rem;" title
+        td style="padding: 0.5rem;" String (Optional)
+        td style="padding: 0.5rem;" If provided, renders a header section with this title.
+      tr style="border-bottom: 1px solid var(--sp-border);"
+        td style="padding: 0.5rem;" options
+        td style="padding: 0.5rem;" Hash
+        td style="padding: 0.5rem;" Standard HTML attributes (e.g., <code>class</code>, <code>id</code>).
+      tr
+        td style="padding: 0.5rem;" block
+        td style="padding: 0.5rem;" Block
+        td style="padding: 0.5rem;" The content to render inside the card body.
+
+  h3 Real World Scenarios
   
-  h4 Usage
-  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
-    code
-      | == ui_card "Title" do
-          p Content goes here...
-    
-  h4 Example
-  == ui_card "Example Card"
-    p This is a card body.
-    == ui_button "Action", :primary
+  h4 1. Standard Content Container
+  p The most common use case: wrapping a section of content.
+  
+  .sp-card
+    .sp-card__body
+      == ui_card "Project Alpha" do
+        p Status: Active
+        p Due: Tomorrow
+      
+      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
+        code
+          | == ui_card "Project Alpha" do
+              p Status: Active
+              p Due: Tomorrow
+
+  h4 2. Headless Card
+  p Use a card without a title for simple grouping.
+  
+  .sp-card
+    .sp-card__body
+      == ui_card do
+        p Just some grouped text without a header.
+      
+      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
+        code
+          | == ui_card do
+              p Just some grouped text without a header.

@@ -1,19 +1,47 @@
 == ui_card "Sortable List Helper"
-  p The <code>ui_sortable_list</code> helper creates a drag-and-drop sortable list connected to a backend endpoint.
-  
-  h4 Usage
-  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
-    code
-      | == ui_sortable_list url: "/sort/endpoint" do
-          - items.each do |item|
-            == ui_sortable_item item.id do
-              = item.title
+  p.sp-text-muted <code>ui_sortable_list(url:, **options, &block)</code>
+  p.sp-text-muted <code>ui_sortable_item(id, **options, &block)</code>
 
-  h4 Example
-  == ui_sortable_list url: "#"
-    == ui_sortable_item 1
-      span Item 1
-    == ui_sortable_item 2
-      span Item 2
-    == ui_sortable_item 3
-      span Item 3
+  h3 Philosophy
+  p Managing lists is a core task. This helper abstracts the complexity of <strong>SortableJS</strong> integration.
+  ul
+    li <strong>Drag & Drop:</strong> Native feel with grip handles.
+    li <strong>Persistence:</strong> Automatically POSTs the new order to the backend.
+    li <strong>Clean DOM:</strong> Generates semantic <code>ul/li</code> structures.
+
+  h3 Arguments (List)
+  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
+    thead style="border-bottom: 2px solid var(--sp-border);"
+      tr
+        th style="text-align: left; padding: 0.5rem;" Name
+        th style="text-align: left; padding: 0.5rem;" Type
+        th style="text-align: left; padding: 0.5rem;" Description
+    tbody
+      tr style="border-bottom: 1px solid var(--sp-border);"
+        td style="padding: 0.5rem;" url
+        td style="padding: 0.5rem;" String
+        td style="padding: 0.5rem;" The endpoint that receives the reordered IDs.
+      tr
+        td style="padding: 0.5rem;" block
+        td style="padding: 0.5rem;" Block
+        td style="padding: 0.5rem;" Content containing <code>ui_sortable_item</code> calls.
+
+  h3 Real World Scenarios
+  
+  h4 1. Todo List
+  p A list of items that can be reordered.
+  
+  .sp-card
+    .sp-card__body
+      == ui_sortable_list url: "#"
+        == ui_sortable_item 1
+          span Buy Milk
+        == ui_sortable_item 2
+          span Walk Dog
+      
+      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
+        code
+          | == ui_sortable_list url: "/todos/sort" do
+              - todos.each do |todo|
+                == ui_sortable_item todo.id do
+                  span = todo.title

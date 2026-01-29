@@ -1,0 +1,56 @@
+== ui_card "Quick Start Guide"
+  p Welcome to Slim-Pickins! This guide will get you up and running with the framework in less than 5 minutes.
+
+  h3 1. Installation
+  p Add the gem to your <code>Gemfile</code>:
+  
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code gem "slim-pickins"
+    
+  p And run:
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code bundle install
+    
+  h3 2. Asset Setup
+  p Slim-Pickins relies on <strong>Stimulus</strong> for interactivity and <strong>SortableJS</strong> for drag-and-drop lists.
+  p Ensure your application loads these libraries. For a standard import-map setup:
+  
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code
+      | // application.js
+        import "@hotwired/stimulus"
+        import "sortablejs"
+        // The gem automatically registers its controllers if using the engine
+        
+  h3 3. Configuration
+  p In your main application file (e.g., <code>app.rb</code> for Sinatra), register the extension:
+  
+  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
+    code
+      | class App < Sinatra::Base
+          register SlimPickins
+          # ...
+        end
+
+  h3 4. Your First Component
+  p Now you can use the helpers in your Slim templates!
+  
+  .sp-card style="border-left: 4px solid var(--sp-primary);"
+    .sp-card__body
+      h4 Example: User Profile Card
+      p Copy and paste this into any view:
+      
+      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
+        code
+          | == ui_card "User Profile" do
+              .sp-cluster
+                span Name: Jane Doe
+                == ui_button "Edit", :neutral
+  
+  h3 Next Steps
+  p Ready to build? Explore the core components:
+  
+  .sp-cluster
+    a.sp-btn.sp-btn--primary href="/docs/button" Buttons
+    a.sp-btn.sp-btn--primary href="/docs/card" Cards
+    a.sp-btn.sp-btn--primary href="/docs/form" Forms

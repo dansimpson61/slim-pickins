@@ -19,6 +19,11 @@ html
     script type="module" src="/js/application.js"
 
   body data-controller="sp-toast-manager"
+    nav style="display: flex; gap: 1rem; padding-bottom: 2rem; border-bottom: 1px solid var(--sp-border); margin-bottom: 2rem;"
+      a.sp-btn.sp-btn--neutral.sp-btn--sm href="/" Demo Home
+      a.sp-btn.sp-btn--neutral.sp-btn--sm href="/docs" Docs
+      a.sp-btn.sp-btn--neutral.sp-btn--sm href="/status" Status
+      
     h1 Slim-Pickins MVP Demo
     
     == yield

@@ -1,12 +1,41 @@
-== ui_card "Toggle Helper"
-  p The <code>ui_toggle_panel</code> helper creates a collapsible details panel.
+== ui_card "Toggle Panel Helper"
+  p.sp-text-muted <code>ui_toggle_panel(title, position: :left, &block)</code>
+
+  h3 Philosophy
+  p Progressive disclosure is key to simple interfaces. The <code>ui_toggle_panel</code> helper uses native web standards to hide complexity until needed.
+  ul
+    li <strong>Native:</strong> Uses <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> for free accessibility.
+    li <strong>Clean:</strong> Removes the need for complex JavaScript accordions.
+
+  h3 Arguments
+  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
+    thead style="border-bottom: 2px solid var(--sp-border);"
+      tr
+        th style="text-align: left; padding: 0.5rem;" Name
+        th style="text-align: left; padding: 0.5rem;" Type
+        th style="text-align: left; padding: 0.5rem;" Description
+    tbody
+      tr style="border-bottom: 1px solid var(--sp-border);"
+        td style="padding: 0.5rem;" title
+        td style="padding: 0.5rem;" String/HTML
+        td style="padding: 0.5rem;" The text or HTML to display in the summary line.
+      tr
+        td style="padding: 0.5rem;" block
+        td style="padding: 0.5rem;" Block
+        td style="padding: 0.5rem;" The hidden content.
+
+  h3 Real World Scenarios
   
-  h4 Usage
-  pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px;"
-    code
-      | == ui_toggle_panel "Show Details" do
-          p Hidden content...
-    
-  h4 Example
-  == ui_toggle_panel "Click to Reveal"
-    p.sp-text-muted Here is the hidden content!
+  h4 1. Advanced Settings
+  p Hide advanced options to keep the UI clean.
+  
+  .sp-card
+    .sp-card__body
+      == ui_toggle_panel "Advanced Settings" do
+        p API Key: *****
+        p Region: US-East-1
+      
+      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
+        code
+          | == ui_toggle_panel "Advanced Settings" do
+              ...content...
