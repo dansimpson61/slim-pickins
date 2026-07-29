@@ -7,12 +7,13 @@ html
     style
       | body { font-family: system-ui, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
     
-    / Import map for easy JS module loading
+    / Import map for easy JS module loading.
+    / Vendored locally: a CDN outage must not take the whole demo down.
     script type="importmap"
       | {
       |   "imports": {
-      |     "@hotwired/stimulus": "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js",
-      |     "sortablejs": "https://unpkg.com/sortablejs@1.15.0/modular/sortable.esm.js"
+      |     "@hotwired/stimulus": "/js/vendor/stimulus.js",
+      |     "sortablejs": "/js/vendor/sortable.esm.js"
       |   }
       | }
       
