@@ -98,6 +98,21 @@ Assets, served from the gem by `AssetMiddleware` at `/assets`:
 Public distribution. A component library. Client-side state. An SPA.
 Anything abide has not asked for.
 
+## Running it
+
+```
+cd slim-pickins
+bundle install
+bin/puma -p 9292
+```
+
+Then <http://localhost:9292> for the demo, `/docs` for the component sampler,
+`/docs/playground` to edit Slim and see it render, and `/status` for the
+per-helper self-test.
+
+`bin/puma` is a committed binstub, so it does not depend on gem executables
+being on your PATH.
+
 ## Stack
 
 Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consumer)

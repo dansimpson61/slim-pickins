@@ -72,6 +72,20 @@ worth, and abide records the difference as a movement.
 - `/accounts/:id/valuation` — mark to market
 - `/api/projection` — timeline as JSON
 
+## Running it
+
+```
+cd abide
+bundle install
+bin/puma -p 9393
+```
+
+Then <http://localhost:9393>. slim-pickins is a path dependency (`../slim-pickins`),
+so both directories must be present; edits to the DSL take effect on restart.
+
+`abide.db` is committed and already seeded. To start clean, delete it and run
+`ruby db/setup_db.rb`.
+
 ## Storage
 
 SQLite (`abide.db`). `db/setup_db.rb` creates and seeds the schema; it is

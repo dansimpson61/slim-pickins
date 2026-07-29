@@ -16,6 +16,13 @@ module SlimPickins
     end
 
     module BaseHelper
+      # Elements that may close themselves. Everything else needs a closing
+      # tag even when empty: browsers parse <div /> as an unclosed <div> and
+      # nest the rest of the page inside it.
+      VOID_ELEMENTS = %i[
+        area base br col embed hr img input link meta param source track wbr
+      ].freeze
+
       # Renders a tag with the given name, content, and options.
       # If a block is given, the content of the block is captured and rendered inside the tag.
       #
@@ -33,8 +40,10 @@ module SlimPickins
 
         if content
           sp_safe("<#{name}#{attrs}>#{sp_escape(content)}</#{name}>")
-        else
+        elsif VOID_ELEMENTS.include?(name.to_sym)
           sp_safe("<#{name}#{attrs} />")
+        else
+          sp_safe("<#{name}#{attrs}></#{name}>")
         end
       end
 
