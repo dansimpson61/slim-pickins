@@ -12,12 +12,13 @@ Gem::Specification.new do |spec|
   spec.description = "Expression over specification. Joy over ceremony. A collection of UI helpers."
   spec.homepage = "https://github.com/example/slim-pickins"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
+  spec.required_ruby_version = ">= 2.7.8"
 
   spec.files = Dir.chdir(__dir__) do
     Dir["{assets,lib}/**/*", "LICENSE", "README.md"]
   end
 
-  spec.add_dependency "sinatra", "~> 3.0"
+  # Tracks abide, the application this DSL is extracted from.
+  spec.add_dependency "sinatra", "~> 4.0"
   spec.add_dependency "slim", "~> 5.0"
 end

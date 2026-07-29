@@ -1,77 +1,19 @@
+// The demo app is a consumer of Slim-Pickins, on the same terms as any other.
+// It pulls the library's controllers from /assets (served by AssetMiddleware),
+// exactly as abide will, so that a packaging gap breaks the demo too.
 import { Application, Controller } from "@hotwired/stimulus"
-import Sortable from "sortablejs"
+import { registerSlimPickins } from "/assets/js/slim_pickins.js"
 
 window.Stimulus = Application.start()
 
-// Register controllers inline for the demo for simplicity
-// In a real gem, these would be in separate files
+// Behaviour that backs a ui_* helper: sp-flash, sp-inline-edit, sp-sortable.
+registerSlimPickins(Stimulus)
 
-// 1. Flash Controller (Auto-dismiss)
-Stimulus.register("sp-flash", class extends Controller {
-    connect() {
-        setTimeout(() => {
-            this.element.style.opacity = '0';
-            setTimeout(() => this.element.remove(), 500);
-        }, 3000);
-    }
-})
+// --- Demo-only controllers -------------------------------------------------
+// No helper emits these; the demo views wire them by hand. They stay here
+// until a helper needs them, or until abide needs them a second time.
 
-// 2. Inline Edit Controller
-Stimulus.register("sp-inline-edit", class extends Controller {
-    static targets = ["display", "input"]
-    static values = { url: String, name: String }
-
-    edit() {
-        this.displayTarget.style.display = 'none'
-        this.inputTarget.style.display = 'inline-block'
-        this.inputTarget.focus()
-    }
-
-    save() {
-        const value = this.inputTarget.value
-        this.displayTarget.textContent = value
-        this.displayTarget.style.display = 'inline-block'
-        this.inputTarget.style.display = 'none'
-
-        // Post to server
-        fetch(this.urlValue, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `value=${encodeURIComponent(value)}`
-        })
-    }
-
-    cancel() {
-        this.inputTarget.value = this.displayTarget.textContent
-        this.displayTarget.style.display = 'inline-block'
-        this.inputTarget.style.display = 'none'
-    }
-})
-
-// 3. Sortable Controller
-Stimulus.register("sp-sortable", class extends Controller {
-    static values = { url: String, animation: Number }
-
-    connect() {
-        this.sortable = new Sortable(this.element, {
-            animation: this.animationValue || 150,
-            onEnd: this.onEnd.bind(this)
-        })
-    }
-
-    onEnd(event) {
-        const ids = Array.from(this.element.children).map(el => el.dataset.id)
-        console.log("New order:", ids)
-
-        fetch(this.urlValue, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ids: ids })
-        })
-    }
-})
-
-// 4. Toast Notification Manager
+// Toast notifications. Exposes window.showToast for the demo's onclick buttons.
 Stimulus.register("sp-toast-manager", class extends Controller {
     static targets = ["container"]
 
@@ -84,16 +26,13 @@ Stimulus.register("sp-toast-manager", class extends Controller {
         toast.className = `sp-toast sp-toast--${type}`
         toast.textContent = message
 
-        // Add to container
         this.containerTarget.appendChild(toast)
 
-        // Trigger animation
         requestAnimationFrame(() => {
             toast.style.opacity = '1'
             toast.style.transform = 'translateY(0)'
         })
 
-        // Dismiss after 3s
         setTimeout(() => {
             toast.style.opacity = '0'
             toast.style.transform = 'translateY(20px)'
@@ -102,33 +41,28 @@ Stimulus.register("sp-toast-manager", class extends Controller {
     }
 })
 
-// 5. Remove Controller (Delete Item)
+// Removes the closest sortable item, then announces it.
 Stimulus.register("sp-remove", class extends Controller {
     delete(event) {
-        // Prevent default link behavior if any
         event.preventDefault()
 
-        // Find the item container (closest sortable item)
         const item = this.element.closest(".sp-sortable-item")
+        if (!item) return
 
-        if (item) {
-            // Animate out
-            item.style.transition = "transform 0.2s, opacity 0.2s"
-            item.style.transform = "translateX(20px)"
-            item.style.opacity = "0"
+        item.style.transition = "transform 0.2s, opacity 0.2s"
+        item.style.transform = "translateX(20px)"
+        item.style.opacity = "0"
 
-            setTimeout(() => {
-                item.remove()
-                // Show toast via global helper
-                if (window.showToast) {
-                    window.showToast("Item deleted", "danger")
-                }
-            }, 200)
-        }
+        setTimeout(() => {
+            item.remove()
+            if (window.showToast) {
+                window.showToast("Item deleted", "danger")
+            }
+        }, 200)
     }
 })
 
-// 6. Playground Controller
+// Renders the docs playground's Slim source on the server as you type.
 Stimulus.register("sp-playground", class extends Controller {
     static targets = ["input", "output"]
     static values = { url: String }

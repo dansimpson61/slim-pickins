@@ -20,8 +20,9 @@ module SlimPickins
         req_path = path.sub(@prefix, "")
         
         # Security check: ensure no directory traversal
+        # Header names must be lowercase under Rack 3.
         if req_path.include?("..")
-          return [403, { "Content-Type" => "text/plain" }, ["Forbidden"]]
+          return [403, { "content-type" => "text/plain" }, ["Forbidden"]]
         end
         
         # Pass to Rack::File
