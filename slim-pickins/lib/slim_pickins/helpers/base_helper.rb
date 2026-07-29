@@ -50,6 +50,11 @@ module SlimPickins
       def escape_attr(value)
         value.to_s.gsub('"', '&quot;')
       end
+
+      # For content that must render literally, such as source code.
+      def escape_html(value)
+        value.to_s.gsub("&", "&amp;").gsub("<", "&lt;").gsub(">", "&gt;")
+      end
     end
   end
 end

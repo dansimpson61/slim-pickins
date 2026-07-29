@@ -10,27 +10,15 @@
     li <strong>Clean DOM:</strong> Generates semantic <code>ul/li</code> structures.
 
   h3 Arguments (List)
-  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
-    thead style="border-bottom: 2px solid var(--sp-border);"
-      tr
-        th style="text-align: left; padding: 0.5rem;" Name
-        th style="text-align: left; padding: 0.5rem;" Type
-        th style="text-align: left; padding: 0.5rem;" Description
-    tbody
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" url
-        td style="padding: 0.5rem;" String
-        td style="padding: 0.5rem;" The endpoint that receives the reordered IDs.
-      tr
-        td style="padding: 0.5rem;" block
-        td style="padding: 0.5rem;" Block
-        td style="padding: 0.5rem;" Content containing <code>ui_sortable_item</code> calls.
+  == ui_table ["Name", "Type", "Description"],
+    [["url", "String", "The endpoint that receives the reordered IDs."],
+     ["block", "Block", "Content containing <code>ui_sortable_item</code> calls."]]
 
   h3 Real World Scenarios
-  
+
   h4 1. Todo List
   p A list of items that can be reordered.
-  
+
   .sp-card
     .sp-card__body
       == ui_sortable_list url: "#"
@@ -38,10 +26,9 @@
           span Buy Milk
         == ui_sortable_item 2
           span Walk Dog
-      
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code
-          | == ui_sortable_list url: "/todos/sort" do
-              - todos.each do |todo|
-                == ui_sortable_item todo.id do
-                  span = todo.title
+
+      == ui_code do
+        | == ui_sortable_list url: "/todos/sort" do
+            - todos.each do |todo|
+              == ui_sortable_item todo.id do
+                span = todo.title

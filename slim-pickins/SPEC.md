@@ -37,8 +37,11 @@ imagined ones.
 1. Dependencies point one way: views → helpers → domain. Never the reverse.
    The domain does not know that presentation exists.
 2. Controllers pass data, not markup.
-3. Views carry no inline `style=`, no hand-written `data-*`, and no raw HTML
-   structure. Framework classes such as `.sp-stack` are vocabulary, and fine.
+3. Views carry no inline `style=` and no raw HTML structure. Framework classes
+   such as `.sp-stack` are vocabulary, and fine.
+4. Views never hand-write `data-*` for **framework** behaviour — that is the
+   emitting helper's job. An app wiring a controller of its own is legitimate;
+   the demo does so for `sp-toast-manager`, `sp-remove`, and `sp-playground`.
 
 ## Surface
 
@@ -53,6 +56,14 @@ Helpers, via `register SlimPickins`:
 | `ui_button` | `<button>`, or `<a>` when given `href:` | — |
 | `ui_text_field` | edit-in-place field | `sp-inline-edit` |
 | `ui_sortable_list` / `ui_sortable_item` | drag-orderable list | `sp-sortable` |
+| `ui_table` | data table from headers and rows | — |
+| `ui_code` | source shown literally; escaped | — |
+| `ui_well` | inset region for previews | — |
+| `ui_badge` | round status indicator | — |
+
+Layout is expressed in classes rather than helpers, since views write them
+directly: `.sp-stack` and `.sp-cluster` with `--tight` / `--loose` / `--start`
+/ `--between`, plus `.sp-grow`, `.sp-inset`, `.sp-nav`, and `.sp-page`.
 
 Assets, served from the gem by `AssetMiddleware` at `/assets`:
 
@@ -80,21 +91,23 @@ Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consu
 
 ## Known gaps
 
-Measured across both apps' views:
-
-- **No layout vocabulary.** `.sp-stack` and `.sp-cluster` are the only
-  primitives, so views fall back to inline styles — 113 in the demo, 64 in
-  abide. Spacing and surfaces account for 104 of the demo's 113.
-- **No table vocabulary at all**, though both apps render tables.
-- The demo's `status.slim` builds raw HTML in `ruby:` blocks — a view doing a
-  helper's job, in the one file meant to demonstrate the opposite.
-- Helper content is not HTML-escaped; `escape_attr` handles `"` only. Any
-  value containing `&`, `<`, or `>` renders wrong.
+- **No icon vocabulary.** `index.slim` passes a raw inline SVG as button text.
+  Needs a `ui_icon` before abide ports, which uses icons throughout.
+- **`ui_toggle_panel` takes its title as a string**, so a rich title must be
+  composed by concatenating helper calls in the view. It should accept a
+  block. `status.slim` is the evidence.
+- Helper content is not HTML-escaped; `escape_attr` handles `"` only, and only
+  `ui_code` escapes its content. Any other value containing `&`, `<`, or `>`
+  renders wrong.
 - `sp_tag` emits `<div />` for nil content — invalid for non-void elements.
 - The docs playground (`POST /docs/render`) executes arbitrary Ruby. Local
   tool only; never deploy it.
 
 ## Done looks like
 
-Zero inline `style=` and zero hand-written `data-controller` in any consuming
-view, checkable mechanically.
+Zero inline `style=` in any consuming view, and no hand-written `data-*` for
+framework behaviour. Checkable mechanically, in the rendered DOM as well as
+the templates.
+
+The demo reached this on 2026-07-29: 113 inline styles to 0, verified as
+0 elements carrying a `style` attribute across every page. abide is next.

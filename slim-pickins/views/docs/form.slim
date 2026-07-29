@@ -9,38 +9,19 @@
     li <strong>AJAX-Ready:</strong> Built-in Stimulus controllers handle the save-on-blur lifecycle.
 
   h3 Arguments
-  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
-    thead style="border-bottom: 2px solid var(--sp-border);"
-      tr
-        th style="text-align: left; padding: 0.5rem;" Name
-        th style="text-align: left; padding: 0.5rem;" Type
-        th style="text-align: left; padding: 0.5rem;" Description
-    tbody
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" name
-        td style="padding: 0.5rem;" String
-        td style="padding: 0.5rem;" The form field name (used in the POST request).
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" value
-        td style="padding: 0.5rem;" String
-        td style="padding: 0.5rem;" The current value to display.
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" url
-        td style="padding: 0.5rem;" String
-        td style="padding: 0.5rem;" The endpoint to POST changes to.
-      tr
-        td style="padding: 0.5rem;" options
-        td style="padding: 0.5rem;" Hash
-        td style="padding: 0.5rem;" Additional attributes.
+  == ui_table ["Name", "Type", "Description"],
+    [["name", "String", "The form field name (used in the POST request)."],
+     ["value", "String", "The current value to display."],
+     ["url", "String", "The endpoint to POST changes to."],
+     ["options", "Hash", "Additional attributes."]]
 
   h3 Real World Scenarios
-  
+
   h4 1. Inline Rename
   p Allow a user to rename a resource instantly.
-  
+
   .sp-card
     .sp-card__body
       == ui_text_field "project_name", "My Awesome Project", url: "#"
-      
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code == ui_text_field "project_name", "My Awesome Project", url: "/projects/1"
+
+      == ui_code '== ui_text_field "project_name", "My Awesome Project", url: "/projects/1"'

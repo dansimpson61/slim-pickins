@@ -383,3 +383,137 @@ pre code {
 .sp-toast--neutral {
   background: var(--sp-ink);
 }
+/* --- Layout vocabulary ------------------------------------------------- */
+/* Gap and alignment modifiers, so views never reach for inline flexbox. */
+
+.sp-stack--tight { gap: var(--sp-gap-2); }
+.sp-stack--loose { gap: var(--sp-gap-6); }
+
+.sp-cluster--tight { gap: var(--sp-gap-1); }
+.sp-cluster--loose { gap: var(--sp-gap-6); }
+.sp-cluster--start { align-items: flex-start; }
+.sp-cluster--between { justify-content: space-between; }
+
+/* A child that should absorb the remaining space. */
+.sp-grow { flex: 1; }
+
+/* Vertical breathing room inside a row. */
+.sp-inset { padding: var(--sp-gap-4) 0; }
+
+/* --- Navigation -------------------------------------------------------- */
+
+.sp-nav {
+  display: flex;
+  gap: var(--sp-gap-4);
+  padding-bottom: var(--sp-gap-6);
+  border-bottom: 1px solid var(--sp-border);
+  margin-bottom: var(--sp-gap-6);
+}
+
+/* --- Surfaces ---------------------------------------------------------- */
+
+/* An inset region for previews and sample output. */
+.sp-well {
+  padding: var(--sp-gap-4);
+  border: 1px dashed var(--sp-border);
+  border-radius: var(--sp-radius-sm);
+  margin-bottom: var(--sp-gap-4);
+}
+
+.sp-well--tall { min-height: 300px; }
+.sp-well--strong { border-width: 2px; }
+
+.sp-card--accent { border-left: 4px solid var(--sp-primary); }
+
+/* --- Code -------------------------------------------------------------- */
+
+.sp-code {
+  background: var(--sp-surface-hover);
+  padding: var(--sp-gap-4);
+  border-radius: var(--sp-radius-sm);
+  margin-top: var(--sp-gap-4);
+  overflow-x: auto;
+}
+
+.sp-code code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* --- Form controls ----------------------------------------------------- */
+
+.sp-input {
+  width: 100%;
+  padding: var(--sp-gap-2);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-sm);
+  background: var(--sp-surface);
+  color: inherit;
+  font: inherit;
+}
+
+.sp-input:focus {
+  outline: 2px solid var(--sp-border-focus);
+  outline-offset: 1px;
+}
+
+.sp-input--code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre;
+}
+
+/* --- Tables ------------------------------------------------------------ */
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--sp-gap-6);
+}
+
+.sp-table th,
+.sp-table td {
+  padding: var(--sp-gap-2);
+  text-align: left;
+  vertical-align: top;
+}
+
+.sp-table thead {
+  border-bottom: 2px solid var(--sp-border);
+}
+
+.sp-table tbody tr {
+  border-bottom: 1px solid var(--sp-border);
+}
+
+.sp-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+/* --- Page shell -------------------------------------------------------- */
+
+.sp-page {
+  font-family: system-ui, sans-serif;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* --- Status badge ------------------------------------------------------ */
+
+.sp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: var(--sp-gap-4);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  line-height: 1;
+  background: var(--sp-border);
+  color: var(--sp-ink-light);
+}
+
+.sp-badge--ok { background: var(--sp-primary); color: #fff; }
+.sp-badge--danger { background: var(--sp-danger); color: #fff; }
+.sp-badge--pending { background: var(--sp-border); color: var(--sp-ink-light); }

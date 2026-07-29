@@ -9,52 +9,35 @@
     li <strong>Modularity:</strong> Easily nestable and composable.
 
   h3 Arguments
-  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
-    thead style="border-bottom: 2px solid var(--sp-border);"
-      tr
-        th style="text-align: left; padding: 0.5rem;" Name
-        th style="text-align: left; padding: 0.5rem;" Type
-        th style="text-align: left; padding: 0.5rem;" Description
-    tbody
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" title
-        td style="padding: 0.5rem;" String (Optional)
-        td style="padding: 0.5rem;" If provided, renders a header section with this title.
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" options
-        td style="padding: 0.5rem;" Hash
-        td style="padding: 0.5rem;" Standard HTML attributes (e.g., <code>class</code>, <code>id</code>).
-      tr
-        td style="padding: 0.5rem;" block
-        td style="padding: 0.5rem;" Block
-        td style="padding: 0.5rem;" The content to render inside the card body.
+  == ui_table ["Name", "Type", "Description"],
+    [["title", "String (Optional)", "If provided, renders a header section with this title."],
+     ["options", "Hash", "Standard HTML attributes (e.g., <code>class</code>, <code>id</code>)."],
+     ["block", "Block", "The content to render inside the card body."]]
 
   h3 Real World Scenarios
-  
+
   h4 1. Standard Content Container
   p The most common use case: wrapping a section of content.
-  
+
   .sp-card
     .sp-card__body
       == ui_card "Project Alpha" do
         p Status: Active
         p Due: Tomorrow
-      
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code
-          | == ui_card "Project Alpha" do
-              p Status: Active
-              p Due: Tomorrow
+
+      == ui_code do
+        | == ui_card "Project Alpha" do
+            p Status: Active
+            p Due: Tomorrow
 
   h4 2. Headless Card
   p Use a card without a title for simple grouping.
-  
+
   .sp-card
     .sp-card__body
       == ui_card do
         p Just some grouped text without a header.
-      
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code
-          | == ui_card do
-              p Just some grouped text without a header.
+
+      == ui_code do
+        | == ui_card do
+            p Just some grouped text without a header.
