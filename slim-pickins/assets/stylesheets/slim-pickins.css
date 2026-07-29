@@ -148,29 +148,43 @@ pre code {
   padding: var(--sp-gap-6);
 }
 
-/* Component: Sortable List - The "Clean Stack" */
+/* Component: List - The "Clean Stack"
+   The plain look. Use .sp-list for any list of rows; it promises nothing
+   about dragging. */
+.sp-list,
 .sp-sortable-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+.sp-list__item,
 .sp-sortable-item {
   display: flex;
   align-items: center;
   padding: var(--sp-gap-3) 0;
   border-bottom: 1px solid var(--sp-border);
-  border-bottom: 1px solid var(--sp-border);
-  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
-  cursor: grab;
   position: relative;
-  padding-left: 3rem;
-  /* Increased from 1.5rem to prevent overlap with grip */
-  /* Make room for the grip handle */
+}
+
+.sp-list__item:last-child,
+.sp-sortable-item:last-child {
+  border-bottom: none;
+}
+
+/* Component: Sortable List
+   Every drag affordance below is scoped to the presence of the controller.
+   ui_sortable_list always emits it, so the grip and the grab cursor cannot
+   appear on a list that has no behaviour behind them. A hand-written
+   .sp-sortable-list degrades to the plain look instead of lying. */
+[data-controller~="sp-sortable"] .sp-sortable-item {
+  padding-left: 3rem; /* room for the grip */
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
 /* Grip Handle Texture */
-.sp-sortable-item::before {
+[data-controller~="sp-sortable"] .sp-sortable-item::before {
   content: "⋮⋮";
   position: absolute;
   left: var(--sp-gap-2);
@@ -181,20 +195,16 @@ pre code {
   cursor: grab;
 }
 
-.sp-sortable-item:active {
+[data-controller~="sp-sortable"] .sp-sortable-item:active {
   cursor: grabbing;
 }
 
-.sp-sortable-item:hover {
+[data-controller~="sp-sortable"] .sp-sortable-item:hover {
   background-color: var(--sp-surface-hover);
   /* Subtle lift effect */
   transform: translateY(-1px);
   box-shadow: var(--sp-shadow-subtle);
   z-index: 1;
-}
-
-.sp-sortable-item:last-child {
-  border-bottom: none;
 }
 
 /* Component: Inline Edit - "Seamless" */

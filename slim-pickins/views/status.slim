@@ -1,7 +1,7 @@
 == ui_card "System Status"
 
   h3 Core Routes
-  ul.sp-sortable-list
+  ul.sp-list
     ruby:
       routes = [
         "/",
@@ -18,7 +18,7 @@
       ]
 
     - routes.each do |route|
-      li.sp-sortable-item
+      li.sp-list__item
         == ui_toggle_panel do
           / Starts pending; the script below settles it to ok or danger.
           == ui_summary do
@@ -44,7 +44,7 @@
     });
 
   h3 Helper Functionality Checks
-  ul.sp-sortable-list
+  ul.sp-list
     ruby:
       checks = {
         "ui_button" => -> { ui_button("Test Button", :primary) },
@@ -75,7 +75,7 @@
         variant = status == :passed ? :ok : :danger
         text_status = status == :failed ? "Error: #{error_message}" : "OK"
 
-      li.sp-sortable-item
+      li.sp-list__item
         == ui_toggle_panel do
           == ui_summary do
             == ui_badge icon_char, variant

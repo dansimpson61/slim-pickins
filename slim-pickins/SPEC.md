@@ -69,7 +69,8 @@ Helpers, via `register SlimPickins`:
 
 Layout is expressed in classes rather than helpers, since views write them
 directly: `.sp-stack` and `.sp-cluster` with `--tight` / `--loose` / `--start`
-/ `--between`, plus `.sp-grow`, `.sp-inset`, `.sp-nav`, and `.sp-page`.
+/ `--between`, plus `.sp-grow`, `.sp-inset`, `.sp-nav`, `.sp-page`, and
+`.sp-list` / `.sp-list__item` for a list of rows that does nothing.
 
 Assets, served from the gem by `AssetMiddleware` at `/assets`:
 
@@ -79,13 +80,19 @@ Assets, served from the gem by `AssetMiddleware` at `/assets`:
 ## Rules
 
 1. A controller exists only if a helper emits it. No orphan behaviour.
-2. Helpers return HTML strings. No template files, no engine.
-3. No build step. Ever.
-4. The consumer supplies Stimulus and SortableJS through an import map; the
+2. **An affordance may not outlive its behaviour.** A grab cursor, a grip, a
+   hover lift — anything that invites an interaction — is scoped in CSS to the
+   controller that answers it, e.g. `[data-controller~="sp-sortable"] .sp-sortable-item`.
+   Take the class without the helper and it degrades to the plain look rather
+   than promising something the page cannot do. Styling that lies is worse
+   than styling that is missing.
+3. Helpers return HTML strings. No template files, no engine.
+4. No build step. Ever.
+5. The consumer supplies Stimulus and SortableJS through an import map; the
    library imports them as bare specifiers.
-5. The demo consumes the library through `/assets` exactly as abide does, and
+6. The demo consumes the library through `/assets` exactly as abide does, and
    obeys the same rules. It is the reference consumer, not a special case.
-6. **Content is escaped by default.** Helpers return a `SafeString`, so nesting
+7. **Content is escaped by default.** Helpers return a `SafeString`, so nesting
    one inside another passes through untouched, while a plain String — from a
    user, a database, a template author writing prose — is escaped on the way
    in. Attribute values are always escaped. Block content is markup by
