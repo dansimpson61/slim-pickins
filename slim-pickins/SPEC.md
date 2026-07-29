@@ -7,16 +7,38 @@ the data attributes, and the JavaScript stay out of sight.
 
 Make abide pleasant to build. Nothing else.
 
+This is the **V in MVC**, taken seriously — a presentation layer with its own
+vocabulary, so views stop reaching for HTML and controllers stop formatting.
+
 ## Audience
 
-One person. This is not a public gem and need not behave like one — no
+One person. This is not a public gem and need not behave like one: no
 deprecation cycles, no semver pressure, no users to break. Redesign freely.
 
-## Relationship to abide
+## The contract with abide
 
-abide is the only consumer and the only source of requirements. A pattern
-earns a place here once abide has needed it **twice**. Until then it stays
-application code.
+abide expresses its front end **exclusively** in this vocabulary. That is the
+defining constraint, and it cuts both ways:
+
+- Any presentation concern abide has, this library must be able to say.
+- Anything it cannot say is a gap to close here — never a reason for abide to
+  fall back to raw HTML.
+
+**Promotion is immediate.** If abide needs it in a view now, it becomes
+vocabulary now. Waiting for a second occurrence would force abide to break the
+rule in the meantime.
+
+**Generalisation waits.** A first implementation may be shaped by exactly one
+caller. The second caller is what forces a general API. Never design for
+imagined ones.
+
+## Boundaries
+
+1. Dependencies point one way: views → helpers → domain. Never the reverse.
+   The domain does not know that presentation exists.
+2. Controllers pass data, not markup.
+3. Views carry no inline `style=`, no hand-written `data-*`, and no raw HTML
+   structure. Framework classes such as `.sp-stack` are vocabulary, and fine.
 
 ## Surface
 
@@ -44,8 +66,8 @@ Assets, served from the gem by `AssetMiddleware` at `/assets`:
 3. No build step. Ever.
 4. The consumer supplies Stimulus and SortableJS through an import map; the
    library imports them as bare specifiers.
-5. The demo app consumes the library through `/assets` exactly as abide does,
-   so a packaging gap breaks the demo too instead of hiding there.
+5. The demo consumes the library through `/assets` exactly as abide does, and
+   obeys the same rules. It is the reference consumer, not a special case.
 
 ## Not this
 
@@ -58,8 +80,21 @@ Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consu
 
 ## Known gaps
 
+Measured across both apps' views:
+
+- **No layout vocabulary.** `.sp-stack` and `.sp-cluster` are the only
+  primitives, so views fall back to inline styles — 113 in the demo, 64 in
+  abide. Spacing and surfaces account for 104 of the demo's 113.
+- **No table vocabulary at all**, though both apps render tables.
+- The demo's `status.slim` builds raw HTML in `ruby:` blocks — a view doing a
+  helper's job, in the one file meant to demonstrate the opposite.
 - Helper content is not HTML-escaped; `escape_attr` handles `"` only. Any
   value containing `&`, `<`, or `>` renders wrong.
 - `sp_tag` emits `<div />` for nil content — invalid for non-void elements.
 - The docs playground (`POST /docs/render`) executes arbitrary Ruby. Local
   tool only; never deploy it.
+
+## Done looks like
+
+Zero inline `style=` and zero hand-written `data-controller` in any consuming
+view, checkable mechanically.

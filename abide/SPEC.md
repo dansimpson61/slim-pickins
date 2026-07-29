@@ -11,6 +11,30 @@ where does this go?**
 Second job: be the real workload that shapes slim-pickins. Every awkward
 template here is a bug report against the DSL.
 
+## Layering
+
+Strict MVC, where the dependency direction is the whole point:
+
+- **`lib/` — domain.** `Frequency`, `Flow`, `RecurringFlow`, and `Projection`
+  know nothing of HTTP, Slim, or HTML, and are exercised by plain scripts.
+  `Ledger` knows SQLite and nothing above it.
+- **`app.rb` — routes.** Parse the request, call the domain, choose a view.
+  No domain rules, no markup.
+- **`views/` — slim-pickins vocabulary only.**
+
+The domain does not know that presentation exists. That property, not the
+folder names, is what is worth defending.
+
+## Front end
+
+abide expresses its front end **exclusively** in slim-pickins' lingo: no
+inline styles, no hand-written `data-*`, no raw HTML structure. Where the DSL
+cannot yet say something, the DSL grows — abide does not work around it.
+
+Distance from that rule today, across 278 lines of views: **0** `ui_*` calls,
+**76** hand-written `data-*` attributes, **64** inline styles, and 9 Stimulus
+controllers wired by hand.
+
 ## Model
 
 Everything is a **movement between two accounts**.
@@ -58,10 +82,12 @@ Ruby · Sinatra 4 · Rack 3 · Slim 5 · SQLite · Stimulus 3
 ## Known gaps
 
 - **RecurringFlows are not persisted.** Projections run off
-  `sample_recurring_flows`, hardcoded in `app.rb`. This is the main thing
-  standing between abide and its stated purpose.
+  `sample_recurring_flows`, hardcoded in `app.rb` — domain data living in a
+  route. This is both the main MVC violation and the main thing standing
+  between abide and its stated purpose.
+- `/accounts/:id/valuation` computes the delta and decides when a change is
+  too small to record. Those are domain rules in a route.
 - `db/migrations/*.sql` is a stale parallel schema and omits `movements`.
   Trust `setup_db.rb`.
-- Does not use slim-pickins yet, and duplicates its inline-edit control.
 - Stimulus loads from an unpinned unpkg URL in `views/layout.slim` and in every
   controller import, so all interactivity dies with a CDN outage.
