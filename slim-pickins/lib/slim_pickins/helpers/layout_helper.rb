@@ -51,15 +51,42 @@ module SlimPickins
         sp_tag(:div, options) { block.call }
       end
 
-      # Renders a toggleable panel (native <details>)
-      def ui_toggle_panel(title, position: :left, &block)
+      # Renders a summary line for a toggle panel, for titles too rich to
+      # express as a string. Must be the first thing in the panel's block.
+      #
+      #   == ui_toggle_panel do
+      #     == ui_summary do
+      #       == ui_badge "OK", :ok
+      #       strong ui_card
+      #     p Hidden content.
+      # <summary> must be a direct child of <details>, so this stashes the
+      # markup rather than emitting it where it is written.
+      def ui_summary(options = {}, &block)
+        options[:class] = ["sp-toggle-panel__summary", options[:class]].compact
+        @sp_pending_summary = sp_tag(:summary, options) { block.call }
+        ""
+      end
+
+      # Renders a toggleable panel (native <details>).
+      #
+      # Pass a string title for the simple case. Omit it and open the block
+      # with `ui_summary` when the title needs markup.
+      def ui_toggle_panel(title = nil, position: :left, &block)
         css_class = ["sp-toggle-panel", "sp-toggle-panel--#{position}"].compact.join(" ")
-        
-        sp_tag(:details, class: css_class) do
-          summary = sp_tag(:summary, title, class: "sp-toggle-panel__summary")
-          content = sp_tag(:div, class: "sp-toggle-panel__content") { block.call }
-          summary + content
-        end
+
+        # Saved and restored so nested panels do not steal each other's summary.
+        enclosing = @sp_pending_summary
+        @sp_pending_summary = nil
+
+        content = sp_tag(:div, class: "sp-toggle-panel__content") { block.call }
+        summary = if title
+                    sp_tag(:summary, title, class: "sp-toggle-panel__summary")
+                  else
+                    @sp_pending_summary.to_s
+                  end
+        @sp_pending_summary = enclosing
+
+        sp_tag(:details, summary + content, class: css_class)
       end
     end
   end

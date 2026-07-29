@@ -9,14 +9,15 @@ module SlimPickins
       # @param value [String] The current value
       # @param url [String] The URL to post updates to
       # @param options [Hash] HTML attributes
-      def ui_text_field(name, value, url:, **options)
+      def ui_text_field(name, value, url:, method: "POST", **options)
         options[:class] = ["sp-field", options[:class]].compact
-        
+
         # Data attributes for the Stimulus controller
         data = {
           controller: "sp-inline-edit",
           "sp-inline-edit-url-value": url,
           "sp-inline-edit-name-value": name,
+          "sp-inline-edit-method-value": method,
           action: "click->sp-inline-edit#edit"
         }
         
@@ -40,6 +41,23 @@ module SlimPickins
           
           display + input
         end
+      end
+
+      # Renders a labelled form control. The block supplies the control.
+      #
+      #   == ui_field "Amount" do
+      #     input.sp-input type="number" name="amount"
+      def ui_field(label, **options, &block)
+        options[:class] = ["sp-field-group", options[:class]].compact
+        sp_tag(:div, options) do
+          sp_tag(:label, label, class: "sp-label") + block.call
+        end
+      end
+
+      # Renders a small text pill, for types and short states.
+      def ui_pill(text, **options)
+        options[:class] = ["sp-pill", options[:class]].compact
+        sp_tag(:span, text.to_s, options)
       end
     end
   end

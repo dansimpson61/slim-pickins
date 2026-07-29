@@ -19,9 +19,11 @@
 
     - routes.each do |route|
       li.sp-sortable-item
-        / Starts pending; the script below settles it to ok or danger.
-        - title = ui_badge("?", :pending, class: "sp-status-icon", "data-route": route) + sp_tag(:span, "Route: #{route}")
-        == ui_toggle_panel title do
+        == ui_toggle_panel do
+          / Starts pending; the script below settles it to ok or danger.
+          == ui_summary do
+            == ui_badge "?", :pending, class: "sp-status-icon", "data-route": route
+            span Route: #{route}
           .sp-cluster.sp-inset
             a.sp-btn.sp-btn--primary href=route target="_blank" Open Link
             code.sp-text-muted = route
@@ -73,11 +75,14 @@
         variant = status == :passed ? :ok : :danger
         text_status = status == :failed ? "Error: #{error_message}" : "OK"
 
-        label = sp_tag(:strong, name) + sp_tag(:span, text_status, class: "sp-text-muted")
-        title = ui_badge(icon_char, variant) + sp_tag(:div, label, class: "sp-cluster sp-cluster--tight")
-
       li.sp-sortable-item
-        == ui_toggle_panel title do
+        == ui_toggle_panel do
+          == ui_summary do
+            == ui_badge icon_char, variant
+            .sp-cluster.sp-cluster--tight
+              strong = name
+              span.sp-text-muted = text_status
+
           h4 Live Preview
           == ui_well do
             == rendered_html

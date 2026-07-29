@@ -54,12 +54,17 @@ Helpers, via `register SlimPickins`:
 | `ui_flash` | self-dismissing message | `sp-flash` |
 | `ui_toggle_panel` | native `<details>` | — |
 | `ui_button` | `<button>`, or `<a>` when given `href:` | — |
-| `ui_text_field` | edit-in-place field | `sp-inline-edit` |
+| `ui_text_field` | edit-in-place field; `method:` picks the verb | `sp-inline-edit` |
 | `ui_sortable_list` / `ui_sortable_item` | drag-orderable list | `sp-sortable` |
+| `ui_modal` / `ui_modal_trigger` | dialog and its opener | `sp-modal` |
 | `ui_table` | data table from headers and rows | — |
 | `ui_code` | source shown literally; escaped | — |
+| `ui_icon` | inline SVG from a small built-in set | — |
+| `ui_field` | labelled form control | — |
+| `ui_pill` | small text pill | — |
 | `ui_well` | inset region for previews | — |
 | `ui_badge` | round status indicator | — |
+| `ui_summary` | rich summary line for a toggle panel | — |
 
 Layout is expressed in classes rather than helpers, since views write them
 directly: `.sp-stack` and `.sp-cluster` with `--tight` / `--loose` / `--start`
@@ -91,15 +96,14 @@ Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consu
 
 ## Known gaps
 
-- **No icon vocabulary.** `index.slim` passes a raw inline SVG as button text.
-  Needs a `ui_icon` before abide ports, which uses icons throughout.
-- **`ui_toggle_panel` takes its title as a string**, so a rich title must be
-  composed by concatenating helper calls in the view. It should accept a
-  block. `status.slim` is the evidence.
 - Helper content is not HTML-escaped; `escape_attr` handles `"` only, and only
   `ui_code` escapes its content. Any other value containing `&`, `<`, or `>`
-  renders wrong.
+  renders wrong. abide stores user-entered account names, so this is now a
+  live correctness bug rather than a theoretical one.
 - `sp_tag` emits `<div />` for nil content — invalid for non-void elements.
+- abide still owns seven controllers with no helper behind them. Some are
+  domain behaviour and belong there; `crud-actions` and `auto-submit` look
+  general enough to promote once something needs them twice.
 - The docs playground (`POST /docs/render`) executes arbitrary Ruby. Local
   tool only; never deploy it.
 
@@ -109,5 +113,7 @@ Zero inline `style=` in any consuming view, and no hand-written `data-*` for
 framework behaviour. Checkable mechanically, in the rendered DOM as well as
 the templates.
 
-The demo reached this on 2026-07-29: 113 inline styles to 0, verified as
-0 elements carrying a `style` attribute across every page. abide is next.
+Both consumers reached this on 2026-07-29 — the demo from 113 inline styles,
+abide from 64 — verified as 0 elements carrying a `style` attribute across
+every page of both apps. The sole exception is the canvas Chart.js sizes
+itself, which no template controls.

@@ -1,4 +1,4 @@
-import { Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
     static targets = ["modal", "id", "name", "date", "value", "currentBalance"]
@@ -23,11 +23,11 @@ export default class extends Controller {
         this.currentBalanceTarget.textContent = this.formatCurrency(balance)
         this.valueTarget.value = balance // Default to current value
 
-        this.modalTarget.style.display = "flex"
+        this.modalTarget.classList.add("sp-modal--open")
     }
 
     close() {
-        this.modalTarget.style.display = "none"
+        this.modalTarget.classList.remove("sp-modal--open")
     }
 
     async submit(event) {

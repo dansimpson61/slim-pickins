@@ -517,3 +517,177 @@ pre code {
 .sp-badge--ok { background: var(--sp-primary); color: #fff; }
 .sp-badge--danger { background: var(--sp-danger); color: #fff; }
 .sp-badge--pending { background: var(--sp-border); color: var(--sp-ink-light); }
+
+/* --- Icons ------------------------------------------------------------- */
+
+.sp-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+  vertical-align: middle;
+}
+
+.sp-icon--sm { width: 1rem; height: 1rem; }
+.sp-icon--lg { width: 1.75rem; height: 1.75rem; }
+
+/* --- Grid -------------------------------------------------------------- */
+
+.sp-grid {
+  display: grid;
+  gap: var(--sp-gap-4);
+}
+
+.sp-grid--2 { grid-template-columns: 1fr 1fr; }
+.sp-grid--auto { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.sp-grid--loose { gap: var(--sp-gap-6); }
+
+/* --- Pills ------------------------------------------------------------- */
+
+.sp-pill {
+  display: inline-block;
+  padding: 0.125rem var(--sp-gap-2);
+  border: 1px solid var(--sp-border);
+  border-radius: 999px;
+  background: var(--sp-surface-hover);
+  color: var(--sp-ink-light);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* --- Form controls ----------------------------------------------------- */
+
+.sp-field-group { margin-bottom: var(--sp-gap-4); }
+.sp-field-group--flush { margin-bottom: 0; }
+
+.sp-label {
+  display: block;
+  margin-bottom: var(--sp-gap-1);
+  color: var(--sp-ink-light);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* --- Modal ------------------------------------------------------------- */
+
+.sp-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  padding: var(--sp-gap-4);
+  background: rgb(0 0 0 / 0.45);
+  overflow-y: auto;
+}
+
+.sp-modal--open {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sp-modal__content {
+  width: 100%;
+  max-width: 32rem;
+  margin-top: 4rem;
+  background: var(--sp-surface);
+  border-radius: var(--sp-radius);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.2);
+}
+
+.sp-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-gap-4);
+  padding: var(--sp-gap-4);
+  border-bottom: 1px solid var(--sp-border);
+}
+
+.sp-modal__title { margin: 0; }
+
+.sp-modal__close {
+  border: 0;
+  background: none;
+  color: var(--sp-ink-light);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sp-modal__body { padding: var(--sp-gap-4); }
+
+/* --- Numerics and figures ---------------------------------------------- */
+
+.sp-numeric {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.sp-figure {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.sp-text-sm { font-size: 0.85rem; }
+.sp-text-strong { font-weight: 600; }
+.sp-hidden { display: none; }
+
+/* --- Row actions, revealed on hover ------------------------------------ */
+
+.sp-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-gap-2);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+tr:hover .sp-actions,
+.sp-row:hover .sp-actions,
+.sp-actions:focus-within { opacity: 1; }
+
+/* --- Wide page shell --------------------------------------------------- */
+
+.sp-page--wide { max-width: 1100px; }
+
+/* --- Ghost button ------------------------------------------------------ */
+
+.sp-btn--ghost {
+  background: none;
+  border-color: transparent;
+  color: var(--sp-ink-light);
+}
+
+.sp-btn--ghost:hover { background: var(--sp-surface-hover); }
+
+/* --- Additions driven by abide ----------------------------------------- */
+
+.sp-cluster--end { justify-content: flex-end; }
+.sp-text-center { text-align: center; }
+.sp-input--auto { width: auto; padding: 0.25rem var(--sp-gap-2); font-size: 0.85rem; }
+.sp-figure--sm { font-size: 1.5rem; }
+
+/* A fixed-height region for a canvas-based chart. */
+.sp-chart {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* Simple progress meter. */
+.sp-meter {
+  height: 8px;
+  width: 150px;
+  border-radius: 4px;
+  background: var(--sp-border);
+  overflow: hidden;
+}
+
+.sp-meter__fill {
+  height: 100%;
+  width: 85%;
+  background: var(--sp-success);
+}

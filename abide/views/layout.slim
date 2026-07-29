@@ -4,30 +4,31 @@ html
     title Abide | Retirement Portfolio
     meta charset="utf-8"
     meta name="viewport" content="width=device-width, initial-scale=1"
-    
-    / Fonts: Inter
-    link rel="preconnect" href="https://fonts.googleapis.com"
-    link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""
-    link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"
-    
-    / Styles
+
+    / Styles: slim-pickins first, so abide's own rules win where they differ.
+    link rel="stylesheet" href="/assets/stylesheets/slim-pickins.css"
     link rel="stylesheet" href="/css/style.css"
     link rel="stylesheet" href="/css/nav.css"
     link rel="stylesheet" href="/css/utilities.css"
-    
-    / Stimulus & Chart.js
-    script type="module" src="https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
-    script src="https://cdn.jsdelivr.net/npm/chart.js"
-    
-    / App Logic
+
+    / Vendored locally: a CDN outage must not take the app down.
+    script type="importmap"
+      | {
+      |   "imports": {
+      |     "@hotwired/stimulus": "/js/vendor/stimulus.js",
+      |     "sortablejs": "/js/vendor/sortable.esm.js"
+      |   }
+      | }
+
+    script src="/js/vendor/chart.umd.js"
     script type="module" src="/js/application.js"
-      
+
   body
     nav.main-nav
-      div.container
-        div style="display: flex; justify-content: space-between; align-items: center; height: 60px;"
+      .container
+        .sp-cluster.sp-cluster--between.sp-nav-bar
           a.brand href="/" Abide
-          div.nav-links
+          .nav-links
             a href="/" class=(request.path == '/' ? 'active' : '') Dashboard
             a href="/accounts" class=(request.path == '/accounts' ? 'active' : '') Accounts
             a href="/portfolios/manage" class=(request.path == '/portfolios/manage' ? 'active' : '') Portfolios

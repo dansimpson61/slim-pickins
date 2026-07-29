@@ -28,12 +28,19 @@ folder names, is what is worth defending.
 ## Front end
 
 abide expresses its front end **exclusively** in slim-pickins' lingo: no
-inline styles, no hand-written `data-*`, no raw HTML structure. Where the DSL
-cannot yet say something, the DSL grows — abide does not work around it.
+inline styles, no raw HTML structure, and no hand-written `data-*` for
+anything a helper emits. Where the DSL cannot yet say something, the DSL
+grows — abide does not work around it.
 
-Distance from that rule today, across 278 lines of views: **0** `ui_*` calls,
-**76** hand-written `data-*` attributes, **64** inline styles, and 9 Stimulus
-controllers wired by hand.
+Reached on 2026-07-29: **0** inline styles, down from 64, verified in the
+rendered DOM. Cards, tables, icons, pills, modals, form fields, and
+edit-in-place all come from helpers. Stimulus, SortableJS, and Chart.js are
+vendored into `public/js/vendor`, so no CDN can take the app down.
+
+Seven controllers remain abide's own. `withdrawal-form`, `valuation`,
+`portfolio-manager`, `account-create`, and `river-chart` are domain behaviour
+and belong here. `crud-actions` and `auto-submit` are general enough to
+promote when something else needs them.
 
 ## Model
 
@@ -89,5 +96,7 @@ Ruby · Sinatra 4 · Rack 3 · Slim 5 · SQLite · Stimulus 3
   too small to record. Those are domain rules in a route.
 - `db/migrations/*.sql` is a stale parallel schema and omits `movements`.
   Trust `setup_db.rb`.
-- Stimulus loads from an unpinned unpkg URL in `views/layout.slim` and in every
-  controller import, so all interactivity dies with a CDN outage.
+- `public/css/style.css` still carries rules for the class vocabulary the
+  views no longer use. Dead weight, safe to prune once the look is confirmed.
+- slim-pickins does not escape helper content, and account names are
+  user-entered. A name containing `&` or `<` will render wrong.

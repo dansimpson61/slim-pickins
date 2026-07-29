@@ -1,4 +1,4 @@
-import { Controller } from "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js"
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
     static targets = ["id", "description", "amount", "date", "isTaxable", "taxFields", "fedRate", "stateRate", "fedFeedback", "stateFeedback", "netResult"]
@@ -8,7 +8,7 @@ export default class extends Controller {
     }
 
     close() {
-        document.getElementById("add-withdrawal-modal").classList.remove("active")
+        document.getElementById("add-withdrawal-modal").classList.remove("sp-modal--open")
     }
 
     reset() {
@@ -38,7 +38,7 @@ export default class extends Controller {
         this.calculate()
 
         // Open Modal
-        document.getElementById("add-withdrawal-modal").classList.add("active")
+        document.getElementById("add-withdrawal-modal").classList.add("sp-modal--open")
     }
 
     async delete(event) {

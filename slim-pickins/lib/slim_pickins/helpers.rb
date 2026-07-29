@@ -8,6 +8,8 @@ module SlimPickins
     require_relative "helpers/form_helper"
     require_relative "helpers/list_helper"
     require_relative "helpers/table_helper"
+    require_relative "helpers/icon_helper"
+    require_relative "helpers/modal_helper"
 
     include BaseHelper
     include LayoutHelper
@@ -15,5 +17,7 @@ module SlimPickins
     include FormHelper
     include ListHelper
     include TableHelper
+    include IconHelper
+    include ModalHelper
   end
 end

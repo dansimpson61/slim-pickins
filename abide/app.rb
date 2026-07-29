@@ -3,6 +3,8 @@ require 'sinatra/reloader' if development?
 require 'sinatra/json'
 require 'sqlite3'
 require 'slim'
+require 'sinatra/capture'
+require 'slim_pickins'
 require 'date'
 
 # Require Domain Model
@@ -21,6 +23,11 @@ MARKET_ID = 3
 DEFAULT_PORTFOLIO_ID = 1
 
 set :public_folder, 'public'
+
+# The front end is expressed in slim-pickins vocabulary. Registering it also
+# mounts the asset middleware that serves the stylesheet and controllers.
+helpers Sinatra::Capture
+register SlimPickins
 
 def ledger
   @ledger ||= Ledger.new

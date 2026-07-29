@@ -19,14 +19,16 @@
 import SpFlashController from "./controllers/sp_flash_controller.js"
 import SpInlineEditController from "./controllers/sp_inline_edit_controller.js"
 import SpSortableController from "./controllers/sp_sortable_controller.js"
+import SpModalController from "./controllers/sp_modal_controller.js"
 
-export { SpFlashController, SpInlineEditController, SpSortableController }
+export { SpFlashController, SpInlineEditController, SpSortableController, SpModalController }
 
 // Maps each controller to the identifier its helper emits.
 export const controllers = {
     "sp-flash": SpFlashController,
     "sp-inline-edit": SpInlineEditController,
-    "sp-sortable": SpSortableController
+    "sp-sortable": SpSortableController,
+    "sp-modal": SpModalController
 }
 
 // Registers every Slim-Pickins controller on a Stimulus application.
