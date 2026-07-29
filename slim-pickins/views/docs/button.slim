@@ -11,8 +11,8 @@
   h3 Arguments
   == ui_table ["Name", "Type", "Description"],
     [["text", "String", "The label of the button."],
-     ["variance", "Symbol", "Visual style: <code>:primary</code>, <code>:neutral</code>, <code>:danger</code>. Default: <code>:neutral</code>."],
-     ["options", "Hash", "Standard HTML attributes (e.g., <code>id</code>, <code>data-*</code>, <code>href</code>). Passing <code>href</code> renders an <code>&lt;a&gt;</code> tag."]]
+     ["variance", "Symbol", sp_safe("Visual style: <code>:primary</code>, <code>:neutral</code>, <code>:danger</code>. Default: <code>:neutral</code>.")],
+     ["options", "Hash", sp_safe("Standard HTML attributes (e.g., <code>id</code>, <code>data-*</code>, <code>href</code>). Passing <code>href</code> renders an <code>&lt;a&gt;</code> tag.")]]
 
   h3 Real World Scenarios
 

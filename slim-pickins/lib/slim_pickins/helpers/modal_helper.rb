@@ -23,13 +23,13 @@ module SlimPickins
 
         header = sp_tag(
           :header,
-          sp_tag(:h3, title, class: "sp-modal__title") + close_button,
+          sp_safe(sp_tag(:h3, title, class: "sp-modal__title") + close_button),
           class: "sp-modal__header"
         )
 
         sp_tag(:div, options) do
-          sp_tag(:div, header + sp_tag(:div, class: "sp-modal__body") { block.call },
-                 class: "sp-modal__content")
+          body = sp_tag(:div, class: "sp-modal__body") { block.call }
+          sp_tag(:div, sp_safe(header + body), class: "sp-modal__content")
         end
       end
 
@@ -47,7 +47,7 @@ module SlimPickins
       private
 
       def close_button
-        sp_tag(:button, "&times;",
+        sp_tag(:button, sp_safe("&times;"),
                type: "button",
                class: "sp-modal__close",
                "aria-label": "Close",

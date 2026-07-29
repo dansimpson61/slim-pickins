@@ -36,7 +36,7 @@ module SlimPickins
           "aria-hidden": "true"
         ))
 
-        %(<svg#{attrs}><path stroke-linecap="round" stroke-linejoin="round" d="#{path}"></path></svg>)
+        sp_safe(%(<svg#{attrs}><path stroke-linecap="round" stroke-linejoin="round" d="#{path}"></path></svg>))
       end
     end
   end

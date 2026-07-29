@@ -98,5 +98,3 @@ Ruby · Sinatra 4 · Rack 3 · Slim 5 · SQLite · Stimulus 3
   Trust `setup_db.rb`.
 - `public/css/style.css` still carries rules for the class vocabulary the
   views no longer use. Dead weight, safe to prune once the look is confirmed.
-- slim-pickins does not escape helper content, and account names are
-  user-entered. A name containing `&` or `<` will render wrong.

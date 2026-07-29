@@ -17,17 +17,18 @@ module SlimPickins
       def ui_table(headers, rows, **options)
         options[:class] = ["sp-table", options[:class]].compact
 
+        # join and + drop the safe marking, so each composition is re-marked.
         head = if headers.nil? || headers.empty?
                  ""
                else
-                 sp_tag(:thead, sp_tag(:tr, headers.map { |h| sp_tag(:th, h.to_s) }.join))
+                 sp_tag(:thead, sp_tag(:tr, sp_safe(headers.map { |h| sp_tag(:th, h) }.join)))
                end
 
-        body = rows.map { |row|
-          sp_tag(:tr, row.map { |cell| sp_tag(:td, cell.to_s) }.join)
-        }.join
+        body = sp_safe(rows.map { |row|
+          sp_tag(:tr, sp_safe(row.map { |cell| sp_tag(:td, cell) }.join))
+        }.join)
 
-        sp_tag(:table, head + sp_tag(:tbody, body), options)
+        sp_tag(:table, sp_safe(head + sp_tag(:tbody, body)), options)
       end
     end
   end

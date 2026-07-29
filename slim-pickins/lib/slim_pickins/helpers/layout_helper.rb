@@ -35,7 +35,9 @@ module SlimPickins
       def ui_code(source = nil, **options, &block)
         options[:class] = ["sp-code", options[:class]].compact
         content = block ? capture(&block) : source
-        sp_tag(:pre, sp_tag(:code, escape_html(content)), options)
+        # escape_html ignores safety marking: source must show literally even
+        # when it is markup a helper produced.
+        sp_tag(:pre, sp_tag(:code, sp_safe(escape_html(content))), options)
       end
 
       # Renders a small round status indicator.
@@ -64,7 +66,7 @@ module SlimPickins
       def ui_summary(options = {}, &block)
         options[:class] = ["sp-toggle-panel__summary", options[:class]].compact
         @sp_pending_summary = sp_tag(:summary, options) { block.call }
-        ""
+        sp_safe("")
       end
 
       # Renders a toggleable panel (native <details>).
@@ -82,11 +84,11 @@ module SlimPickins
         summary = if title
                     sp_tag(:summary, title, class: "sp-toggle-panel__summary")
                   else
-                    @sp_pending_summary.to_s
+                    @sp_pending_summary || sp_safe("")
                   end
         @sp_pending_summary = enclosing
 
-        sp_tag(:details, summary + content, class: css_class)
+        sp_tag(:details, sp_safe(summary + content), class: css_class)
       end
     end
   end

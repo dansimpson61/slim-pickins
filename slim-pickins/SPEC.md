@@ -50,6 +50,7 @@ Helpers, via `register SlimPickins`:
 | Helper | Renders | Controller |
 |---|---|---|
 | `sp_tag` | primitive tag builder; everything else uses it | — |
+| `sp_safe` | vouches for a String that really is markup | — |
 | `ui_card` | `<article class="sp-card">`, optional header | — |
 | `ui_flash` | self-dismissing message | `sp-flash` |
 | `ui_toggle_panel` | native `<details>` | — |
@@ -84,6 +85,13 @@ Assets, served from the gem by `AssetMiddleware` at `/assets`:
    library imports them as bare specifiers.
 5. The demo consumes the library through `/assets` exactly as abide does, and
    obeys the same rules. It is the reference consumer, not a special case.
+6. **Content is escaped by default.** Helpers return a `SafeString`, so nesting
+   one inside another passes through untouched, while a plain String — from a
+   user, a database, a template author writing prose — is escaped on the way
+   in. Attribute values are always escaped. Block content is markup by
+   construction and is trusted. Vouch for a literal String with `sp_safe`.
+   Ruby drops the subclass across `+`, `join`, and interpolation, so safety is
+   never inferred: a helper that composes strings re-marks the result itself.
 
 ## Not this
 
@@ -96,10 +104,6 @@ Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consu
 
 ## Known gaps
 
-- Helper content is not HTML-escaped; `escape_attr` handles `"` only, and only
-  `ui_code` escapes its content. Any other value containing `&`, `<`, or `>`
-  renders wrong. abide stores user-entered account names, so this is now a
-  live correctness bug rather than a theoretical one.
 - `sp_tag` emits `<div />` for nil content — invalid for non-void elements.
 - abide still owns seven controllers with no helper behind them. Some are
   domain behaviour and belong there; `crud-actions` and `auto-submit` look
