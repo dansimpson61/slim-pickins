@@ -1,0 +1,39 @@
+/* TogglePanel — appearance only. No behaviour file: <details> is native. */
+
+.sp-toggle-panel {
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius-sm);
+  background: var(--sp-surface);
+  margin-bottom: var(--sp-gap-3);
+}
+
+.sp-toggle-panel__summary {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-gap-3) var(--sp-gap-4);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--sp-radius-sm);
+}
+
+/* The disclosure triangle, drawn rather than inherited, so it can rotate. */
+.sp-toggle-panel__summary::-webkit-details-marker { display: none; }
+
+.sp-toggle-panel__summary::after {
+  content: "▸";
+  margin-left: auto;
+  padding-left: var(--sp-gap-3);
+  color: var(--sp-ink-lighter);
+  transition: transform 0.15s ease;
+}
+
+.sp-toggle-panel[open] > .sp-toggle-panel__summary::after {
+  transform: rotate(90deg);
+}
+
+.sp-toggle-panel__summary:hover { background: var(--sp-surface-hover); }
+
+.sp-toggle-panel__content {
+  padding: 0 var(--sp-gap-4) var(--sp-gap-4);
+  border-top: 1px solid var(--sp-border);
+}

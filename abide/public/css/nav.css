@@ -34,3 +34,5 @@
     color: var(--color-accent-dark);
     border-bottom-color: var(--color-accent-dark);
 }
+/* Height for the nav row, now that layout.slim uses sp-cluster for it. */
+.sp-nav-bar { height: 60px; }

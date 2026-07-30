@@ -1,0 +1,28 @@
+/* table — appearance only. */
+
+/* --- Tables ------------------------------------------------------------ */
+
+.sp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--sp-gap-6);
+}
+
+.sp-table th,
+.sp-table td {
+  padding: var(--sp-gap-2);
+  text-align: left;
+  vertical-align: top;
+}
+
+.sp-table thead {
+  border-bottom: 2px solid var(--sp-border);
+}
+
+.sp-table tbody tr {
+  border-bottom: 1px solid var(--sp-border);
+}
+
+.sp-table tbody tr:last-child {
+  border-bottom: none;
+}

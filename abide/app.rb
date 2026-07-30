@@ -3,6 +3,8 @@ require 'sinatra/reloader' if development?
 require 'sinatra/json'
 require 'sqlite3'
 require 'slim'
+require 'sinatra/capture'
+require 'slim_pickins'
 require 'date'
 
 # Require Domain Model
@@ -21,6 +23,11 @@ MARKET_ID = 3
 DEFAULT_PORTFOLIO_ID = 1
 
 set :public_folder, 'public'
+
+# The front end is expressed in slim-pickins vocabulary. Registering it also
+# mounts the asset middleware that serves the stylesheet and controllers.
+helpers Sinatra::Capture
+register SlimPickins
 
 def ledger
   @ledger ||= Ledger.new
@@ -92,6 +99,9 @@ get '/' do
   # For now, we simplify: if Default, show Account 1. Otherwise show nothing (TODO: Update Ledger#recent)
   # Actually, let's fix this properly.
   account_urls = ledger.get_portfolio_accounts(portfolio_id)
+  # A portfolio with no accounts projects nothing, which would otherwise show
+  # as an unexplained blank chart. The view says so instead.
+  @portfolio_accounts = account_urls
   if account_urls.any?
     # Hack: just check the first account for now since Ledger#recent is single-account
     # This is a known limitation we accepted in this iteration.

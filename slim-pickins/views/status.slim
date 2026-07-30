@@ -1,12 +1,13 @@
-== ui_card "System Status"
-  
+= ui_card "System Status"
+
   h3 Core Routes
-  ul.sp-sortable-list
+  ul.sp-list
     ruby:
       routes = [
-        "/", 
-        "/docs", 
+        "/",
+        "/docs",
         "/docs/playground",
+        "/docs/quickstart",
         "/docs/button",
         "/docs/card",
         "/docs/flash",
@@ -15,48 +16,55 @@
         "/docs/toggle",
         "/status"
       ]
-    
+
     - routes.each do |route|
-      li.sp-sortable-item
-        ruby:
-          # Initial state: Pending
-          title_html = "<span class='sp-status-icon sp-btn sp-btn--sm sp-btn--neutral' data-route='#{route}' style='width: 24px; height: 24px; padding: 0; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%; background: #e2e8f0; color: #64748b; margin-right: 1rem;'><span class='sp-icon'>?</span></span><span>Route: #{route}</span>"
-        
-        == ui_toggle_panel title_html do
-          .sp-cluster style="padding: 1rem 0;"
+      li.sp-list__item
+        = ui_toggle_panel do
+          / Starts pending; the script below settles it to ok or danger.
+          = ui_summary do
+            = ui_badge "?", :pending, class: "sp-status-icon", "data-route": route
+            span Route: #{route}
+          .sp-cluster.sp-inset
             a.sp-btn.sp-btn--primary href=route target="_blank" Open Link
             code.sp-text-muted = route
 
   javascript:
     document.addEventListener("DOMContentLoaded", () => {
-      const routes = document.querySelectorAll(".sp-status-icon");
-      
-      routes.forEach(icon => {
-        const route = icon.dataset.route;
-        const iconSpan = icon.querySelector(".sp-icon");
-        
-        fetch(route)
-          .then(response => {
-             if (response.ok) {
-               icon.style.background = "var(--sp-primary)";
-               icon.style.color = "white";
-               iconSpan.textContent = "✓";
-             } else {
-               icon.style.background = "var(--sp-danger)";
-               icon.style.color = "white";
-               iconSpan.textContent = "✗";
-             }
-          })
-          .catch(err => {
-             icon.style.background = "var(--sp-danger)";
-             icon.style.color = "white";
-             iconSpan.textContent = "!";
-          });
+      document.querySelectorAll(".sp-status-icon").forEach(icon => {
+        const settle = (variant, char) => {
+          icon.classList.remove("sp-badge--pending");
+          icon.classList.add(`sp-badge--${variant}`);
+          icon.textContent = char;
+        };
+
+        fetch(icon.dataset.route)
+          .then(response => settle(response.ok ? "ok" : "danger", response.ok ? "✓" : "✗"))
+          .catch(() => settle("danger", "!"));
       });
     });
 
+  h3 Component Completeness
+  p.sp-text-muted A component declares its own name; this asks whether its appearance and behaviour are actually present. Rendering without raising is not the same as being finished.
+
+  ul.sp-list
+    ruby:
+      audited = SlimPickins::Component.registry.sort_by(&:slug)
+      incomplete = SlimPickins.audit.to_h { |r| [r[:component], r[:missing]] }
+
+    - audited.each do |component|
+      - missing = incomplete[component]
+      li.sp-list__item
+        = ui_badge(missing ? "✗" : "✓", missing ? :danger : :ok)
+        .sp-cluster.sp-cluster--tight
+          strong = component.slug
+          span.sp-text-muted
+            - if missing
+              = "missing #{missing.join(', ')}"
+            - else
+              = "#{component.stylesheet}#{component.behaviour ? " + #{component.behaviour}" : ''}"
+
   h3 Helper Functionality Checks
-  ul.sp-sortable-list
+  ul.sp-list
     ruby:
       checks = {
         "ui_button" => -> { ui_button("Test Button", :primary) },
@@ -64,9 +72,13 @@
         "ui_flash" => -> { ui_flash(:info, "Flash Message") },
         "ui_sortable_list" => -> { ui_sortable_list(url: "#") { ui_sortable_item(1) { "List Item" } } },
         "ui_text_field" => -> { ui_text_field("test_field", "Editable Value", url: "#") },
-        "ui_toggle_panel" => -> { ui_toggle_panel("Test Toggle") { "Hidden Content" } }
+        "ui_toggle_panel" => -> { ui_toggle_panel("Test Toggle") { "Hidden Content" } },
+        "ui_table" => -> { ui_table(["A", "B"], [["1", "2"]]) },
+        "ui_code" => -> { ui_code('= ui_button "Save"') },
+        "ui_well" => -> { ui_well { "Inset content" } },
+        "ui_badge" => -> { ui_badge("✓", :ok) }
       }
-    
+
     - checks.each do |name, check|
       ruby:
         status = :passed
@@ -78,19 +90,22 @@
           status = :failed
           error_message = e.message
         end
-        
+
         icon_char = status == :passed ? "✓" : "✗"
-        color_class = status == :passed ? "sp-btn--primary" : "sp-btn--danger"
+        variant = status == :passed ? :ok : :danger
         text_status = status == :failed ? "Error: #{error_message}" : "OK"
-        
-        title_html = "<span class='sp-btn #{color_class}' style='width: 24px; height: 24px; padding: 0; margin-right: 1rem; display: inline-flex; justify-content: center; align-items: center; border-radius: 50%;'>#{icon_char}</span><div><strong>#{name}</strong><span class='sp-text-muted' style='margin-left: 0.5rem'>#{text_status}</span></div>"
-      
-      li.sp-sortable-item
-        == ui_toggle_panel title_html do
+
+      li.sp-list__item
+        = ui_toggle_panel do
+          = ui_summary do
+            = ui_badge icon_char, variant
+            .sp-cluster.sp-cluster--tight
+              strong = name
+              span.sp-text-muted = text_status
+
           h4 Live Preview
-          div style="padding: 1rem; border: 1px dashed var(--sp-border); margin-bottom: 1rem; border-radius: 6px;"
-            == rendered_html
-            
+          = ui_well do
+            = rendered_html
+
           h4 Source HTML
-          pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; overflow-x: auto;"
-            code = rendered_html
+          = ui_code rendered_html

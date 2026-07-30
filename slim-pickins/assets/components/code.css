@@ -1,0 +1,15 @@
+/* code — appearance only. */
+
+/* --- Code -------------------------------------------------------------- */
+
+.sp-code {
+  background: var(--sp-surface-hover);
+  padding: var(--sp-gap-4);
+  border-radius: var(--sp-radius-sm);
+  margin-top: var(--sp-gap-4);
+  overflow-x: auto;
+}
+
+.sp-code code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}

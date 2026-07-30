@@ -64,9 +64,22 @@ if count == 0
   
   # Living Expenses: Main -> External
   db.execute(
-    "INSERT INTO movements (description, amount, date, source_account_id, destination_account_id, is_taxable) VALUES (?, ?, ?, ?, ?, ?)", 
+    "INSERT INTO movements (description, amount, date, source_account_id, destination_account_id, is_taxable) VALUES (?, ?, ?, ?, ?, ?)",
     ["Living Expenses", 7500.0, "2024-10-15", 1, 2, 0]
   )
+end
+
+# A portfolio holding no accounts projects nothing, so a database without
+# these is one the dashboard cannot draw. Seeding them here is what makes this
+# file authoritative rather than merely the place the tables are declared.
+if db.get_first_value("SELECT COUNT(*) FROM portfolios") == 0
+  puts "Seeding default portfolio..."
+  db.execute("INSERT INTO portfolios (id, name) VALUES (?, ?)", [1, "Main Portfolio"])
+end
+
+if db.get_first_value("SELECT COUNT(*) FROM portfolio_accounts") == 0
+  puts "Linking Main Portfolio to its account..."
+  db.execute("INSERT INTO portfolio_accounts (portfolio_id, account_id) VALUES (?, ?)", [1, 1])
 end
 
 puts "Database ready (Clean Schema)."

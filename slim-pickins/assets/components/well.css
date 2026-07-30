@@ -1,0 +1,15 @@
+/* well — appearance only. */
+
+/* --- Surfaces ---------------------------------------------------------- */
+
+/* An inset region for previews and sample output. */
+.sp-well {
+  padding: var(--sp-gap-4);
+  border: 1px dashed var(--sp-border);
+  border-radius: var(--sp-radius-sm);
+  margin-bottom: var(--sp-gap-4);
+}
+
+.sp-well--tall { min-height: 300px; }
+
+.sp-well--strong { border-width: 2px; }

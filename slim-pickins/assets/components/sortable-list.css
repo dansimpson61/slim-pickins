@@ -1,0 +1,7 @@
+/* sortable-list — appearance only. Behaviour lives in sortable-list.js. */
+
+.sp-sortable-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

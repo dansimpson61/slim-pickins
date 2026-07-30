@@ -1,4 +1,4 @@
-== ui_card "Flash Helper"
+= ui_card "Flash Helper"
   p.sp-text-muted <code>ui_flash(type, message)</code>
 
   h3 Philosophy
@@ -9,39 +9,25 @@
     li Handle accessibility roles (alert).
 
   h3 Arguments
-  table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem;"
-    thead style="border-bottom: 2px solid var(--sp-border);"
-      tr
-        th style="text-align: left; padding: 0.5rem;" Name
-        th style="text-align: left; padding: 0.5rem;" Type
-        th style="text-align: left; padding: 0.5rem;" Description
-    tbody
-      tr style="border-bottom: 1px solid var(--sp-border);"
-        td style="padding: 0.5rem;" type
-        td style="padding: 0.5rem;" Symbol
-        td style="padding: 0.5rem;" The nature of the message: <code>:notice</code> (neutral/success), <code>:alert</code> (danger).
-      tr
-        td style="padding: 0.5rem;" message
-        td style="padding: 0.5rem;" String
-        td style="padding: 0.5rem;" The text content to display.
+  = ui_table ["Name", "Type", "Description"],
+    [["type", "Symbol", sp_safe("The nature of the message: <code>:notice</code> (neutral/success), <code>:alert</code> (danger).")],
+     ["message", "String", "The text content to display."]]
 
   h3 Real World Scenarios
-  
+
   h4 1. Success Message
   p Triggered after a successful action.
   .sp-card
     .sp-card__body
-      == ui_flash :notice, "Changes saved successfully."
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code == ui_flash :notice, "Changes saved successfully."
+      = ui_flash :notice, "Changes saved successfully."
+      = ui_code '= ui_flash :notice, "Changes saved successfully."'
 
   h4 2. Error Alert
   p Use when something goes wrong.
   .sp-card
     .sp-card__body
-      == ui_flash :alert, "Failed to connect to database."
-      pre style="background: #f4f4f4; padding: 1rem; border-radius: 4px; margin-top: 1rem;"
-        code == ui_flash :alert, "Failed to connect to database."
+      = ui_flash :alert, "Failed to connect to database."
+      = ui_code '= ui_flash :alert, "Failed to connect to database."'
 
   h3 Live Demo
   p Click to trigger a toast (simulates a flash message):

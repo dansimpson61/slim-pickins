@@ -24,11 +24,12 @@ class App < Sinatra::Base
     slim :index
   end
 
-  # POST endpoint for inline edits
+  # POST endpoint for inline edits. sp-inline-edit sends JSON keyed by the
+  # field's name, so a route reads the field it asked for.
   post "/todos/:id" do
     content_type :json
-    # In a real app, update DB here
-    { status: "success", value: params[:value] }.to_json
+    data = JSON.parse(request.body.read) rescue {}
+    { status: "success", title: data["title"] }.to_json
   end
 
   # POST endpoint for sorting

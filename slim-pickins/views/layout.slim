@@ -2,31 +2,30 @@ doctype html
 html
   head
     title Slim-Pickins MVP
-    / Use our local CSS + a CDN link for Stimulus/Sortable for the demo
     link rel="stylesheet" href="/assets/stylesheets/slim-pickins.css"
-    style
-      | body { font-family: system-ui, sans-serif; padding: 2rem; max-width: 800px; margin: 0 auto; }
-    
-    / Import map for easy JS module loading
+
+    / Import map for easy JS module loading.
+    / Vendored locally: a CDN outage must not take the whole demo down.
     script type="importmap"
       | {
       |   "imports": {
-      |     "@hotwired/stimulus": "https://unpkg.com/@hotwired/stimulus/dist/stimulus.js",
-      |     "sortablejs": "https://unpkg.com/sortablejs@1.15.0/modular/sortable.esm.js"
+      |     "@hotwired/stimulus": "/js/vendor/stimulus.js",
+      |     "sortablejs": "/js/vendor/sortable.esm.js"
       |   }
       | }
-      
+
     script type="module" src="/js/application.js"
 
-  body data-controller="sp-toast-manager"
-    nav style="display: flex; gap: 1rem; padding-bottom: 2rem; border-bottom: 1px solid var(--sp-border); margin-bottom: 2rem;"
+  / sp-toast-manager is the demo's own controller, not framework behaviour.
+  body.sp-page data-controller="sp-toast-manager"
+    nav.sp-nav
       a.sp-btn.sp-btn--neutral.sp-btn--sm href="/" Demo Home
       a.sp-btn.sp-btn--neutral.sp-btn--sm href="/docs" Docs
       a.sp-btn.sp-btn--neutral.sp-btn--sm href="/status" Status
-      
+
     h1 Slim-Pickins MVP Demo
-    
+
     == yield
-    
+
     / Toast Container
     .sp-toast-container data-sp-toast-manager-target="container"
