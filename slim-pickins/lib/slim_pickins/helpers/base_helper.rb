@@ -40,6 +40,17 @@ module SlimPickins
         end
       end
 
+      # Renders a spoken word. Written by Grammar, never by a template: a view
+      # says `navigation Abide`, and this is what that compiles into.
+      def sp_speak(word, subject, items)
+        spoken = SlimPickins::Word.vocabulary.fetch(word) do
+          raise ArgumentError, "#{word.inspect} is not a word. " \
+                               "Known: #{SlimPickins::Word.vocabulary.keys.sort.join(', ')}"
+        end
+
+        spoken.new(subject, items).render_in(self)
+      end
+
       # Marks a String as markup, exempting it from escaping.
       # Use in a template when a value really is HTML:
       #

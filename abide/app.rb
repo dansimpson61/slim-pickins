@@ -14,6 +14,10 @@ require_relative 'lib/recurring_flow'
 require_relative 'lib/ledger'
 require_relative 'lib/projection'
 
+# Vocabulary abide speaks in its views. Required before any template compiles,
+# since the grammar resolves a word while the template is still being read.
+require_relative 'words/navigation'
+
 # Account IDs
 MAIN_ACCOUNT_ID = 1
 EXTERNAL_ID = 2

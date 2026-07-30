@@ -3,7 +3,10 @@
 require "slim"
 require_relative "slim_pickins/version"
 require_relative "slim_pickins/safe_string"
+require_relative "slim_pickins/rendering"
 require_relative "slim_pickins/component"
+require_relative "slim_pickins/word"
+require_relative "slim_pickins/grammar"
 
 module SlimPickins
   # Every file in components/ enrols itself in Component.registry simply by
@@ -48,5 +51,11 @@ module SlimPickins
     # alone, so `=` is the right call for markup and data alike. `==` remains
     # for the one place a value cannot carry its own safety: `== yield`.
     Slim::Engine.set_options(use_html_safe: true)
+
+    # Spoken vocabulary is resolved against the parse tree, before Slim has
+    # decided that `navigation` is an unknown HTML element.
+    unless Slim::Engine.chain.any? { |step| step[0].to_s == Grammar.name }
+      Slim::Engine.after(Slim::Parser, Grammar)
+    end
   end
 end

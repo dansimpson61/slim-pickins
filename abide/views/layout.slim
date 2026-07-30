@@ -29,13 +29,9 @@ html
     script type="module" src="/js/application.js"
 
   body
-    nav.main-nav
-      .container
-        .sp-cluster.sp-cluster--between.sp-nav-bar
-          a.brand href="/" Abide
-          .nav-links
-            a href="/" class=(request.path == '/' ? 'active' : '') Dashboard
-            a href="/accounts" class=(request.path == '/accounts' ? 'active' : '') Accounts
-            a href="/portfolios/manage" class=(request.path == '/portfolios/manage' ? 'active' : '') Portfolios
+    navigation Abide
+        Dashboard
+        Accounts
+        Portfolios
 
     == yield

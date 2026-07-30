@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "safe_string"
+require_relative "rendering"
 
 module SlimPickins
   # A component is one object that knows its own name.
@@ -25,6 +26,8 @@ module SlimPickins
   #
   #   = ui_flash :notice, "Welcome"
   class Component
+    include Rendering
+
     class << self
       # Every subclass enrols itself, so the library can enumerate what it has
       # and assert that each part is present.
@@ -57,18 +60,7 @@ module SlimPickins
       def needs_controller? = !!@needs_controller
     end
 
-    # Renders in the context of a view, which supplies sp_tag and capture.
-    def render_in(view)
-      @view = view
-      render
-    end
-
     private
-
-    attr_reader :view
-
-    def tag(*args, **opts, &block) = view.sp_tag(*args, **opts, &block)
-    def safe(value) = view.sp_safe(value)
 
     # "sp-flash", plus "sp-flash--notice" for each modifier given.
     def base_class(*modifiers)
