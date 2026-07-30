@@ -1,4 +1,4 @@
-== ui_card "System Status"
+= ui_card "System Status"
 
   h3 Core Routes
   ul.sp-list
@@ -19,10 +19,10 @@
 
     - routes.each do |route|
       li.sp-list__item
-        == ui_toggle_panel do
+        = ui_toggle_panel do
           / Starts pending; the script below settles it to ok or danger.
-          == ui_summary do
-            == ui_badge "?", :pending, class: "sp-status-icon", "data-route": route
+          = ui_summary do
+            = ui_badge "?", :pending, class: "sp-status-icon", "data-route": route
             span Route: #{route}
           .sp-cluster.sp-inset
             a.sp-btn.sp-btn--primary href=route target="_blank" Open Link
@@ -54,7 +54,7 @@
         "ui_text_field" => -> { ui_text_field("test_field", "Editable Value", url: "#") },
         "ui_toggle_panel" => -> { ui_toggle_panel("Test Toggle") { "Hidden Content" } },
         "ui_table" => -> { ui_table(["A", "B"], [["1", "2"]]) },
-        "ui_code" => -> { ui_code('== ui_button "Save"') },
+        "ui_code" => -> { ui_code('= ui_button "Save"') },
         "ui_well" => -> { ui_well { "Inset content" } },
         "ui_badge" => -> { ui_badge("✓", :ok) }
       }
@@ -76,16 +76,16 @@
         text_status = status == :failed ? "Error: #{error_message}" : "OK"
 
       li.sp-list__item
-        == ui_toggle_panel do
-          == ui_summary do
-            == ui_badge icon_char, variant
+        = ui_toggle_panel do
+          = ui_summary do
+            = ui_badge icon_char, variant
             .sp-cluster.sp-cluster--tight
               strong = name
               span.sp-text-muted = text_status
 
           h4 Live Preview
-          == ui_well do
-            == rendered_html
+          = ui_well do
+            = rendered_html
 
           h4 Source HTML
-          == ui_code rendered_html
+          = ui_code rendered_html

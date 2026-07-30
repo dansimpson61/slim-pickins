@@ -1,19 +1,12 @@
 # frozen_string_literal: true
 
+require_relative "../safe_string"
+
 module SlimPickins
   module Helpers
-    # A String already known to be markup. Helpers return these, so nesting a
-    # helper inside another passes through untouched, while a plain String --
-    # anything that came from a user, a database, or a template author writing
-    # text -- is escaped on the way in.
-    #
-    # Ruby drops the subclass across +, join, and interpolation, so safety is
-    # never inferred. Helpers mark their own output with `sp_safe`.
-    class SafeString < String
-      def html_safe?
-        true
-      end
-    end
+    # Defined in slim_pickins/safe_string.rb, alongside the String predicate
+    # that lets Slim's escaping defer to it.
+    SafeString = SlimPickins::SafeString
 
     module BaseHelper
       # Elements that may close themselves. Everything else needs a closing

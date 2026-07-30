@@ -1,19 +1,19 @@
-== ui_card "Quick Start Guide"
+= ui_card "Quick Start Guide"
   p Welcome to Slim-Pickins! This guide will get you up and running with the framework in less than 5 minutes.
 
   h3 1. Installation
   p Add the gem to your <code>Gemfile</code>:
 
-  == ui_code 'gem "slim-pickins"'
+  = ui_code 'gem "slim-pickins"'
 
   p And run:
-  == ui_code "bundle install"
+  = ui_code "bundle install"
 
   h3 2. Asset Setup
   p Slim-Pickins relies on <strong>Stimulus</strong> for interactivity and <strong>SortableJS</strong> for drag-and-drop lists. You supply both; the library imports them as bare specifiers.
 
   p Map them in your import map:
-  == ui_code do
+  = ui_code do
     | {
         "imports": {
           "@hotwired/stimulus": "/js/vendor/stimulus.js",
@@ -22,7 +22,7 @@
       }
 
   p Then register the library's controllers on your Stimulus application:
-  == ui_code do
+  = ui_code do
     | // application.js
       import { Application } from "@hotwired/stimulus"
       import { registerSlimPickins } from "/assets/js/slim_pickins.js"
@@ -33,7 +33,7 @@
   h3 3. Configuration
   p In your main application file (e.g., <code>app.rb</code> for Sinatra), register the extension:
 
-  == ui_code do
+  = ui_code do
     | class App < Sinatra::Base
         register SlimPickins
         # ...
@@ -49,11 +49,11 @@
       h4 Example: User Profile Card
       p Copy and paste this into any view:
 
-      == ui_code do
-        | == ui_card "User Profile" do
+      = ui_code do
+        | = ui_card "User Profile" do
             .sp-cluster
               span Name: Jane Doe
-              == ui_button "Edit", :neutral
+              = ui_button "Edit", :neutral
 
   h3 Next Steps
   p Ready to build? Explore the core components:

@@ -1,4 +1,4 @@
-== ui_card "Button Helper"
+= ui_card "Button Helper"
   p.sp-text-muted <code>ui_button(text, variance = :neutral, **options)</code>
 
   h3 Philosophy
@@ -9,7 +9,7 @@
     li Reducing template clutter by abstracting class names.
 
   h3 Arguments
-  == ui_table ["Name", "Type", "Description"],
+  = ui_table ["Name", "Type", "Description"],
     [["text", "String", "The label of the button."],
      ["variance", "Symbol", sp_safe("Visual style: <code>:primary</code>, <code>:neutral</code>, <code>:danger</code>. Default: <code>:neutral</code>.")],
      ["options", "Hash", sp_safe("Standard HTML attributes (e.g., <code>id</code>, <code>data-*</code>, <code>href</code>). Passing <code>href</code> renders an <code>&lt;a&gt;</code> tag.")]]
@@ -20,22 +20,22 @@
   p Use for the main action on a page (e.g., "Save", "Submit").
   .sp-card
     .sp-card__body
-      == ui_button "Create Project", :primary
-      == ui_code '== ui_button "Create Project", :primary'
+      = ui_button "Create Project", :primary
+      = ui_code '= ui_button "Create Project", :primary'
 
   h4 2. Navigation Link
   p Passing an <code>href</code> automatically renders an anchor tag tailored to look like a button.
   .sp-card
     .sp-card__body
-      == ui_button "Go Home", :neutral, href: "/"
-      == ui_code '== ui_button "Go Home", :neutral, href: "/"'
+      = ui_button "Go Home", :neutral, href: "/"
+      = ui_code '= ui_button "Go Home", :neutral, href: "/"'
 
   h4 3. Destructive Action
   p Use for deletions or dangerous operations.
   .sp-card
     .sp-card__body
-      == ui_button "Delete Account", :danger, onclick: "confirm('Are you sure?')"
-      == ui_code %q{== ui_button "Delete Account", :danger, onclick: "confirm('Are you sure?')"}
+      = ui_button "Delete Account", :danger, onclick: "confirm('Are you sure?')"
+      = ui_code %q{= ui_button "Delete Account", :danger, onclick: "confirm('Are you sure?')"}
 
   h3 Playground
   p Try it out in the <a href="/docs/playground">Playground</a>.

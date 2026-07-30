@@ -23,16 +23,16 @@
         span.sp-text-sm.sp-text-muted On Track
 
   / River of Wealth Chart
-  == ui_card "River of Wealth" do
+  = ui_card "River of Wealth" do
     .sp-chart data-controller="river-chart"
       canvas data-river-chart-target="canvas"
 
   / Recent Movements & Action
   .sp-cluster.sp-cluster--between
     h3 Recent & Upcoming Movements
-    == ui_modal_trigger "+ Add Event", dialog: "add-withdrawal-modal", data: { action: "click->sp-modal#open click->withdrawal-form#reset" }
+    = ui_modal_trigger "+ Add Event", dialog: "add-withdrawal-modal", data: { action: "click->sp-modal#open click->withdrawal-form#reset" }
 
-  == ui_card do
+  = ui_card do
     - if @movements.empty?
       p.sp-text-muted No movements recorded yet.
     - else
@@ -48,42 +48,42 @@
                   = m['amount'].to_f < 0 ? "- $#{m['amount'].to_f.abs}" : "+ $#{m['amount'].to_f}"
               td
                 .sp-actions
-                  == ui_button ui_icon(:pencil), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Edit", data: { action: "click->withdrawal-form#edit", id: m['id'], description: m['description'], amount: m['amount'], date: m['date'], taxable: m['tax_info']['is_taxable'] }
-                  == ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->withdrawal-form#delete", id: m['id'] }
+                  = ui_button ui_icon(:pencil), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Edit", data: { action: "click->withdrawal-form#edit", id: m['id'], description: m['description'], amount: m['amount'], date: m['date'], taxable: m['tax_info']['is_taxable'] }
+                  = ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->withdrawal-form#delete", id: m['id'] }
 
   / Add Withdrawal Modal
-  == ui_modal id: "add-withdrawal-modal", title: "Add Portfolio Event" do
+  = ui_modal id: "add-withdrawal-modal", title: "Add Portfolio Event" do
     form data-action="submit->withdrawal-form#submit"
       input type="hidden" name="id" data-withdrawal-form-target="id"
 
-      == ui_field "Description" do
+      = ui_field "Description" do
         input.sp-input type="text" name="description" placeholder="e.g., Living Expenses" required=""
 
-      == ui_field "Amount (Gross)" do
+      = ui_field "Amount (Gross)" do
         input.sp-input type="number" name="amount" placeholder="0.00" step="0.01" data-withdrawal-form-target="amount" data-action="input->withdrawal-form#calculate" required=""
 
       .sp-grid.sp-grid--2
-        == ui_field "Date" do
+        = ui_field "Date" do
           input.sp-input type="date" name="date" required=""
 
-        == ui_field "Frequency" do
+        = ui_field "Frequency" do
           select.sp-input name="frequency"
             option value="one_time" One-time
             option value="monthly" Monthly
             option value="yearly" Yearly
 
-      == ui_well do
+      = ui_well do
         .sp-cluster.sp-cluster--between
           label.sp-label Taxable Event?
           input type="checkbox" name="is_taxable" data-withdrawal-form-target="isTaxable" data-action="change->withdrawal-form#toggleTax" checked=""
 
         div data-withdrawal-form-target="taxFields"
           .sp-grid.sp-grid--2
-            == ui_field "Federal Tax %" do
+            = ui_field "Federal Tax %" do
               input.sp-input type="number" name="federal_tax_rate" value="20" data-withdrawal-form-target="fedRate" data-action="input->withdrawal-form#calculate"
               .tax-calc-feedback data-withdrawal-form-target="fedFeedback" Est. Fed Tax: $0.00
 
-            == ui_field "State Tax %" do
+            = ui_field "State Tax %" do
               input.sp-input type="number" name="state_tax_rate" value="5" data-withdrawal-form-target="stateRate" data-action="input->withdrawal-form#calculate"
               .tax-calc-feedback data-withdrawal-form-target="stateFeedback" Est. State Tax: $0.00
 
@@ -92,5 +92,5 @@
         .text-gold.sp-figure.sp-figure--sm data-withdrawal-form-target="netResult" $0.00
 
       .sp-cluster.sp-cluster--end
-        == ui_button "Cancel", :neutral, type: "button", class: "sp-btn--ghost", data: { action: "click->sp-modal#close" }
-        == ui_button "Save Event", :primary, type: "submit"
+        = ui_button "Cancel", :neutral, type: "button", class: "sp-btn--ghost", data: { action: "click->sp-modal#close" }
+        = ui_button "Save Event", :primary, type: "submit"

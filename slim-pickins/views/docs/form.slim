@@ -1,4 +1,4 @@
-== ui_card "Form Helpers"
+= ui_card "Form Helpers"
   p.sp-text-muted <code>ui_text_field(name, value, url:, **options)</code>
 
   h3 Philosophy
@@ -9,7 +9,7 @@
     li <strong>AJAX-Ready:</strong> Built-in Stimulus controllers handle the save-on-blur lifecycle.
 
   h3 Arguments
-  == ui_table ["Name", "Type", "Description"],
+  = ui_table ["Name", "Type", "Description"],
     [["name", "String", "The form field name (used in the POST request)."],
      ["value", "String", "The current value to display."],
      ["url", "String", "The endpoint to POST changes to."],
@@ -22,6 +22,6 @@
 
   .sp-card
     .sp-card__body
-      == ui_text_field "project_name", "My Awesome Project", url: "#"
+      = ui_text_field "project_name", "My Awesome Project", url: "#"
 
-      == ui_code '== ui_text_field "project_name", "My Awesome Project", url: "/projects/1"'
+      = ui_code '= ui_text_field "project_name", "My Awesome Project", url: "/projects/1"'

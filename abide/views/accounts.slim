@@ -8,20 +8,20 @@
         | Show Archived Accounts
 
   / Create Account
-  == ui_card "Create New Account" do
+  = ui_card "Create New Account" do
     form.sp-cluster.sp-cluster--end data-controller="account-create" data-action="submit->account-create#submit"
-      == ui_field "Name", class: "sp-field-group--flush sp-grow" do
+      = ui_field "Name", class: "sp-field-group--flush sp-grow" do
         input.sp-input type="text" placeholder="e.g. Robinhood, Wells Fargo" data-account-create-target="name" required=""
-      == ui_field "Type", class: "sp-field-group--flush" do
+      = ui_field "Type", class: "sp-field-group--flush" do
         select.sp-input data-account-create-target="type"
           option value="asset" Asset
           option value="liability" Liability
           option value="income" Income
           option value="expense" Expense
           option value="external" External
-      == ui_button "Create", :primary, type: "submit"
+      = ui_button "Create", :primary, type: "submit"
 
-  == ui_card do
+  = ui_card do
     table.sp-table
       thead
         tr
@@ -34,10 +34,10 @@
           - balance = @ledger.balance(account['id'])
           tr data-controller="crud-actions" data-crud-actions-url-value="/accounts/#{account['id']}"
             td
-              == ui_text_field "name", account['name'], url: "/accounts/#{account['id']}", method: "PUT"
+              = ui_text_field "name", account['name'], url: "/accounts/#{account['id']}", method: "PUT"
 
             td
-              == ui_pill account['type']
+              = ui_pill account['type']
 
             td.sp-numeric
               | $
@@ -47,14 +47,14 @@
               .sp-actions
                 - if account['is_active'] == 1
                   - if account['type'] != 'market'
-                    == ui_button "Update Value", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->valuation#open", id: account['id'], name: account['name'], balance: balance }
-                    == ui_button ui_icon(:archive), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Archive", data: { action: "click->crud-actions#archive" }
-                    == ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->crud-actions#delete" }
+                    = ui_button "Update Value", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->valuation#open", id: account['id'], name: account['name'], balance: balance }
+                    = ui_button ui_icon(:archive), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Archive", data: { action: "click->crud-actions#archive" }
+                    = ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->crud-actions#delete" }
                 - else
-                  == ui_button "Restore", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->crud-actions#restore" }
+                  = ui_button "Restore", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->crud-actions#restore" }
 
   / Valuation Modal
-  == ui_modal title: "Update Market Value", data: { valuation_target: "modal" } do
+  = ui_modal title: "Update Market Value", data: { valuation_target: "modal" } do
     form data-action="submit->valuation#submit"
       input type="hidden" data-valuation-target="id"
 
@@ -65,13 +65,13 @@
           | Current Balance:
           span data-valuation-target="currentBalance" $0.00
 
-      == ui_field "Date of Valuation" do
+      = ui_field "Date of Valuation" do
         input.sp-input type="date" data-valuation-target="date" required=""
 
-      == ui_field "New Market Value" do
+      = ui_field "New Market Value" do
         input.sp-input type="number" step="0.01" data-valuation-target="value" required=""
         p.sp-text-sm.sp-text-muted The system will automatically generate an adjustment flow.
 
       .sp-cluster.sp-cluster--end
-        == ui_button "Cancel", :neutral, type: "button", class: "sp-btn--ghost", data: { action: "click->valuation#close" }
-        == ui_button "Update Value", :primary, type: "submit"
+        = ui_button "Cancel", :neutral, type: "button", class: "sp-btn--ghost", data: { action: "click->valuation#close" }
+        = ui_button "Update Value", :primary, type: "submit"

@@ -1,4 +1,4 @@
-== ui_card "Card Helper"
+= ui_card "Card Helper"
   p.sp-text-muted <code>ui_card(title = nil, **options, &block)</code>
 
   h3 Philosophy
@@ -9,7 +9,7 @@
     li <strong>Modularity:</strong> Easily nestable and composable.
 
   h3 Arguments
-  == ui_table ["Name", "Type", "Description"],
+  = ui_table ["Name", "Type", "Description"],
     [["title", "String (Optional)", "If provided, renders a header section with this title."],
      ["options", "Hash", sp_safe("Standard HTML attributes (e.g., <code>class</code>, <code>id</code>).")],
      ["block", "Block", "The content to render inside the card body."]]
@@ -21,12 +21,12 @@
 
   .sp-card
     .sp-card__body
-      == ui_card "Project Alpha" do
+      = ui_card "Project Alpha" do
         p Status: Active
         p Due: Tomorrow
 
-      == ui_code do
-        | == ui_card "Project Alpha" do
+      = ui_code do
+        | = ui_card "Project Alpha" do
             p Status: Active
             p Due: Tomorrow
 
@@ -35,9 +35,9 @@
 
   .sp-card
     .sp-card__body
-      == ui_card do
+      = ui_card do
         p Just some grouped text without a header.
 
-      == ui_code do
-        | == ui_card do
+      = ui_code do
+        | = ui_card do
             p Just some grouped text without a header.

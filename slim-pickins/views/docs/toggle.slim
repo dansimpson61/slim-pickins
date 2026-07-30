@@ -1,4 +1,4 @@
-== ui_card "Toggle Panel Helper"
+= ui_card "Toggle Panel Helper"
   p.sp-text-muted <code>ui_toggle_panel(title, position: :left, &block)</code>
 
   h3 Philosophy
@@ -8,7 +8,7 @@
     li <strong>Clean:</strong> Removes the need for complex JavaScript accordions.
 
   h3 Arguments
-  == ui_table ["Name", "Type", "Description"],
+  = ui_table ["Name", "Type", "Description"],
     [["title", "String/HTML", "The text or HTML to display in the summary line."],
      ["block", "Block", "The hidden content."]]
 
@@ -19,10 +19,10 @@
 
   .sp-card
     .sp-card__body
-      == ui_toggle_panel "Advanced Settings" do
+      = ui_toggle_panel "Advanced Settings" do
         p API Key: *****
         p Region: US-East-1
 
-      == ui_code do
-        | == ui_toggle_panel "Advanced Settings" do
+      = ui_code do
+        | = ui_toggle_panel "Advanced Settings" do
             ...content...

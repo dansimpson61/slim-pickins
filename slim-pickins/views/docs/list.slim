@@ -1,4 +1,4 @@
-== ui_card "Sortable List Helper"
+= ui_card "Sortable List Helper"
   p.sp-text-muted <code>ui_sortable_list(url:, **options, &block)</code>
   p.sp-text-muted <code>ui_sortable_item(id, **options, &block)</code>
 
@@ -10,7 +10,7 @@
     li <strong>Clean DOM:</strong> Generates semantic <code>ul/li</code> structures.
 
   h3 Arguments (List)
-  == ui_table ["Name", "Type", "Description"],
+  = ui_table ["Name", "Type", "Description"],
     [["url", "String", "The endpoint that receives the reordered IDs."],
      ["block", "Block", sp_safe("Content containing <code>ui_sortable_item</code> calls.")]]
 
@@ -21,14 +21,14 @@
 
   .sp-card
     .sp-card__body
-      == ui_sortable_list url: "#"
-        == ui_sortable_item 1
+      = ui_sortable_list url: "#"
+        = ui_sortable_item 1
           span Buy Milk
-        == ui_sortable_item 2
+        = ui_sortable_item 2
           span Walk Dog
 
-      == ui_code do
-        | == ui_sortable_list url: "/todos/sort" do
+      = ui_code do
+        | = ui_sortable_list url: "/todos/sort" do
             - todos.each do |todo|
-              == ui_sortable_item todo.id do
+              = ui_sortable_item todo.id do
                 span = todo.title
