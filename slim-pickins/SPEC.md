@@ -126,7 +126,6 @@ Ruby ≥ 2.7.8 · Sinatra 4 · Rack 3 · Slim 5 · Stimulus 3 (supplied by consu
 
 ## Known gaps
 
-- `sp_tag` emits `<div />` for nil content — invalid for non-void elements.
 - abide still owns seven controllers with no helper behind them. Some are
   domain behaviour and belong there; `crud-actions` and `auto-submit` look
   general enough to promote once something needs them twice.
