@@ -19,6 +19,7 @@ require_relative 'lib/projection'
 require_relative 'words/navigation'
 require_relative 'words/accounts'
 require_relative 'words/portfolios'
+require_relative 'words/movements'
 
 # Account IDs
 MAIN_ACCOUNT_ID = 1

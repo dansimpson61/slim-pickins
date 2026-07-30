@@ -15,13 +15,10 @@ require "slim_pickins"
 # what a row's buttons do and when they appear -- is settled here, once,
 # instead of across thirty lines of template.
 class Accounts < SlimPickins::Collection
-  # Aspect => what renders that cell of a row.
-  CELLS = {
-    "Name"    => :editable_name,
-    "Type"    => :kind,
-    "Balance" => :balance,
-    "Actions" => :actions
-  }.freeze
+  renders "Name"    => :editable_name,
+          "Type"    => :kind,
+          "Balance" => :balance,
+          "Actions" => :actions
 
   # Aspects whose heading is right-aligned. `Actions` carrying sp-numeric
   # looks like a leftover -- it right-aligns a heading over left-aligned
@@ -53,11 +50,7 @@ class Accounts < SlimPickins::Collection
   end
 
   def cell(aspect, account)
-    renderer = CELLS.fetch(aspect) do
-      raise ArgumentError, "an account has no #{aspect.inspect}; try #{CELLS.keys.join(', ')}"
-    end
-
-    tag(:td, send(renderer, account), class: ("sp-numeric" if aspect == "Balance"))
+    tag(:td, part(aspect, account), class: ("sp-numeric" if aspect == "Balance"))
   end
 
   # --- the aspects -------------------------------------------------------

@@ -19,7 +19,33 @@ module SlimPickins
   # renders an aspect as a column and a grid of cards renders it as a region;
   # which of those happens is the word's business, and the view does not say.
   class Collection < Word
+    class << self
+      # Which method draws which aspect, declared once:
+      #
+      #   renders "Name"    => :editable_name,
+      #           "Balance" => :balance
+      #
+      # The view chooses which of them appear, and in what order. An aspect is
+      # not a key into the data -- `Balance` may well be a question for a
+      # ledger -- so the word says what it means by each.
+      def renders(map) = parts.merge!(map.transform_keys(&:to_s))
+
+      def parts = @parts ||= {}
+    end
+
     private
+
+    # One aspect of one member. Asking for an aspect the word does not have
+    # names the ones it does, since the view was written by hand.
+    def part(aspect, member)
+      renderer = self.class.parts.fetch(aspect) do
+        raise ArgumentError,
+              "#{self.class.spoken} has no #{aspect.inspect}; " \
+              "try #{self.class.parts.keys.join(', ')}"
+      end
+
+      send(renderer, member)
+    end
 
     # What the route prepared, found by the name the view spoke. This is the
     # convention doing its job: `accounts` means @accounts, and a word that

@@ -15,13 +15,10 @@ require "slim_pickins"
 # columns: the view says what each card shows, and this decides that a card is
 # the shape and where on it each aspect sits.
 class Portfolios < SlimPickins::Collection
-  # Aspect => what renders it for one portfolio.
-  PARTS = {
-    "Name"     => :editable_name,
-    "Id"       => :identifier,
-    "Actions"  => :actions,
-    "Accounts" => :membership
-  }.freeze
+  renders "Name"     => :editable_name,
+          "Id"       => :identifier,
+          "Actions"  => :actions,
+          "Accounts" => :membership
 
   # Aspects belonging on the card's top line. The first is the card's title
   # and the rest gather to its right; every other aspect is body.
@@ -60,14 +57,6 @@ class Portfolios < SlimPickins::Collection
   def body(portfolio)
     safe(aspects.reject { |aspect| HEADING.include?(aspect) }
                 .map { |aspect| part(aspect, portfolio) }.join)
-  end
-
-  def part(aspect, portfolio)
-    renderer = PARTS.fetch(aspect) do
-      raise ArgumentError, "a portfolio has no #{aspect.inspect}; try #{PARTS.keys.join(', ')}"
-    end
-
-    send(renderer, portfolio)
   end
 
   # --- the aspects -------------------------------------------------------
