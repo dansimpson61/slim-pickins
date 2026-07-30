@@ -1,5 +1,8 @@
 # Slim-Pickins — Spec
 
+Governed by [the Ode to Joy](../ODE_TO_JOY.md). Where this spec and the Ode
+disagree, the Ode wins and this spec is wrong.
+
 A front-end DSL for Sinatra + Slim. Templates say what they mean; the HTML,
 the data attributes, and the JavaScript stay out of sight.
 

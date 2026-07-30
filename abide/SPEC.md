@@ -1,5 +1,8 @@
 # Abide — Spec
 
+Governed by [the Ode to Joy](../ODE_TO_JOY.md). Where this spec and the Ode
+disagree, the Ode wins and this spec is wrong.
+
 A long-term aid for thinking about personal finances over time. Built to be
 lived with, not shipped.
 
