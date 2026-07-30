@@ -52,7 +52,7 @@ class Movements < SlimPickins::Collection
   def amount(movement)
     value = movement["amount"].to_f
 
-    tag(:div, signed(value),
+    tag(:div, view.ui_money(value, sign: true),
         class: ["sp-text-strong", ("text-accent-dark" unless value.negative?)].compact)
   end
 
@@ -80,11 +80,4 @@ class Movements < SlimPickins::Collection
                    class: "sp-btn--sm sp-btn--icon sp-btn--ghost",
                    title: title, data: data)
   end
-
-  # --- values ------------------------------------------------------------
-
-  # This list spells the sign out and leaves the figure raw, where the
-  # accounts table separates thousands and never writes a plus. Two formats
-  # for the same idea; both are left exactly as they were.
-  def signed(value) = value.negative? ? "- $#{value.abs}" : "+ $#{value}"
 end

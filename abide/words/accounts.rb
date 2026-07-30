@@ -61,7 +61,7 @@ class Accounts < SlimPickins::Collection
 
   def kind(account) = view.ui_pill(account["type"])
 
-  def balance(account) = "$#{separated(balance_of(account))}"
+  def balance(account) = view.ui_money(balance_of(account))
 
   def actions(account)
     tag(:div, class: "sp-actions") { safe(buttons(account).join) }
@@ -102,10 +102,4 @@ class Accounts < SlimPickins::Collection
   def balance_of(account) = ledger.balance(account["id"])
 
   def ledger = view.instance_variable_get("@ledger")
-
-  # The thousands separator this table has always used. It renders 2000000.0
-  # as "2,000,000.0" and -6400.0 as "-6,400.0" -- trailing zero and misplaced
-  # sign included, so the page is unchanged by the move. Now that it lives in
-  # one place rather than two, correcting it is a single edit.
-  def separated(amount) = amount.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\1,').reverse
 end

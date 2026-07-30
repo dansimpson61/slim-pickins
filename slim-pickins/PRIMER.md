@@ -197,6 +197,7 @@ markup.
 | `ui_well do` | an inset region |
 | `ui_code source` | source shown literally |
 | `ui_summary do` | a rich summary line for a toggle panel |
+| `ui_money amount` | an amount as money; `sign: true` spells out `+` or `-` |
 
 ## Layout, in classes rather than helpers
 
