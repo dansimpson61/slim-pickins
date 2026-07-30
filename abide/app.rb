@@ -17,6 +17,7 @@ require_relative 'lib/projection'
 # Vocabulary abide speaks in its views. Required before any template compiles,
 # since the grammar resolves a word while the template is still being read.
 require_relative 'words/navigation'
+require_relative 'words/accounts'
 
 # Account IDs
 MAIN_ACCOUNT_ID = 1

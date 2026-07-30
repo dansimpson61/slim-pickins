@@ -6,6 +6,7 @@ require_relative "slim_pickins/safe_string"
 require_relative "slim_pickins/rendering"
 require_relative "slim_pickins/component"
 require_relative "slim_pickins/word"
+require_relative "slim_pickins/collection"
 require_relative "slim_pickins/grammar"
 
 module SlimPickins

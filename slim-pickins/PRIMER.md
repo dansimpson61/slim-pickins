@@ -131,6 +131,50 @@ PATHS = {
 }.freeze
 ```
 
+## Lists, and the plural
+
+A word named after a model, in the plural, names the whole list:
+
+```slim
+accounts
+    Name
+    Type
+    Balance
+    Actions
+```
+
+That is the accounts table — thirty lines of template before this. The plural
+is doing real work. From the single word `accounts`, the word knows:
+
+| It knows | Because |
+|---|---|
+| the collection is `@accounts` | the route prepared it under that name |
+| each row lives at `/accounts/:id` | the model's path is its name |
+| the row wiring is `crud-actions` | it follows from that path |
+
+Nothing is passed in. A convention you have to restate is not one.
+
+The lines beneath name the **aspects** of one account that this list shows,
+and their order is the order they appear in. An aspect is not a column — a
+table draws it as a column, but a grid of cards would draw it as a region, and
+the view does not say which. That is the word's business.
+
+An aspect label is also not a key into the data. `Balance` is not
+`account['balance']`; it is a question for the ledger, formatted as money and
+right-aligned. The word keeps that table:
+
+```ruby
+CELLS = {
+  "Name"    => :editable_name,
+  "Type"    => :kind,
+  "Balance" => :balance,
+  "Actions" => :actions
+}.freeze
+```
+
+Ask for an aspect the word does not have and it says so, naming the ones it
+does.
+
 ## The vocabulary you call
 
 Helpers, for the things that need Ruby. All of them return escaped, safe
@@ -201,8 +245,37 @@ You get two things:
 - `subject` — the text after the word (`"Abide"`)
 - `items` — the indented lines beneath it (`["Dashboard", "Accounts"]`)
 
+A list of things is a `Collection` instead, named for its model in the plural.
+It adds `members`, `path`, `path_for`, and `empty?`, all worked out from the
+name:
+
+```ruby
+class Accounts < SlimPickins::Collection
+  def render = tag(:table, class: "sp-table") { safe(head + body) }
+end
+```
+
 The spoken name comes from the class name, so `Navigation` is spoken as
-`navigation`. Nothing needs registering; the grammar finds it.
+`navigation` and `Accounts` as `accounts`. Nothing needs registering; the
+grammar finds it.
+
+## Two ways to write the lines beneath
+
+Whether you give a word a subject changes how Slim reads its block, so pick
+the one that reads better and know what you get:
+
+```slim
+navigation Abide          with a subject: the lines are free text,
+    Dashboard             so an item can be any phrase.
+
+accounts                  without one: the lines are parsed,
+    Name                  so an item is a single name.
+    Balance
+```
+
+Both arrive as `subject` and `items`. The second form can also carry a word
+after the name — `Balance numeric` reads as one item, `"Balance numeric"` —
+though nothing uses that yet.
 
 Words an application owns live with that application — `abide/words/` — and
 must be required before any template renders.
@@ -211,14 +284,17 @@ must be required before any template renders.
 
 Worth knowing before you fight it.
 
-**A word takes a subject or has structured children, never both.** Supplying
-the subject is exactly what makes Slim stop parsing the lines beneath it, which
-is also what lets a word define what its own children mean. You cannot have
-both from one line.
+**A word takes a subject or parsed children, never both.** Supplying the
+subject is exactly what makes Slim stop parsing the lines beneath it. You get
+items either way, but not a subject *and* multi-word items from one line.
+
+**An item may not have children of its own.** Nesting under an item raises
+while the template compiles, saying which item did it. Better a loud error
+than a line that quietly renders nothing.
 
 **Items are text, not objects.** A word cannot be handed a row from the
-database. `#{...}` still interpolates, so an id can be carried into a line, but
-anything driven by a collection is still a helper's job today.
+database. A `Collection` sidesteps this by finding its own data from its name,
+and `#{...}` still interpolates, but there is no way to pass an object in.
 
 **A word cannot take options.** No `navigation Abide, wide: true`. If two
 variants are needed, that is two words, or a component with a helper.
