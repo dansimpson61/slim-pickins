@@ -18,6 +18,7 @@ require_relative 'lib/projection'
 # since the grammar resolves a word while the template is still being read.
 require_relative 'words/navigation'
 require_relative 'words/accounts'
+require_relative 'words/portfolios'
 
 # Account IDs
 MAIN_ACCOUNT_ID = 1

@@ -11,25 +11,8 @@
 
   / List Portfolios
   h3 Your Portfolios
-  .sp-grid.sp-grid--auto.sp-grid--loose
-    - @portfolios.each do |p|
-      = ui_card class: "sp-row", data: { controller: "crud-actions", "crud-actions-url-value": "/portfolios/#{p['id']}" } do
-        .sp-cluster.sp-cluster--between
-          = ui_text_field "name", p['name'], url: "/portfolios/#{p['id']}", method: "PUT"
-
-          .sp-cluster
-            = ui_pill "ID: #{p['id']}"
-            - if p['id'] != 1
-              .sp-actions
-                = ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->crud-actions#delete" }
-
-        = ui_well do
-          strong Associated Accounts:
-          .sp-stack.sp-stack--tight
-            - current_account_ids = @ledger.get_portfolio_accounts(p['id']).map { |a| a['id'] }
-            - @accounts.each do |acc|
-              label.sp-cluster.sp-text-sm
-                input type="checkbox" value="#{acc['id']}" checked=current_account_ids.include?(acc['id']) data-action="change->portfolio-manager#addAccount" data-portfolio-id="#{p['id']}"
-                = acc['name']
-                span.sp-text-sm.sp-text-muted
-                  | (#{acc['type']})
+  portfolios
+    Name
+    Id
+    Actions
+    Accounts
