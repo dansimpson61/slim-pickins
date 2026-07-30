@@ -43,6 +43,26 @@
       });
     });
 
+  h3 Component Completeness
+  p.sp-text-muted A component declares its own name; this asks whether its appearance and behaviour are actually present. Rendering without raising is not the same as being finished.
+
+  ul.sp-list
+    ruby:
+      audited = SlimPickins::Component.registry.sort_by(&:slug)
+      incomplete = SlimPickins.audit.to_h { |r| [r[:component], r[:missing]] }
+
+    - audited.each do |component|
+      - missing = incomplete[component]
+      li.sp-list__item
+        = ui_badge(missing ? "✗" : "✓", missing ? :danger : :ok)
+        .sp-cluster.sp-cluster--tight
+          strong = component.slug
+          span.sp-text-muted
+            - if missing
+              = "missing #{missing.join(', ')}"
+            - else
+              = "#{component.stylesheet}#{component.behaviour ? " + #{component.behaviour}" : ''}"
+
   h3 Helper Functionality Checks
   ul.sp-list
     ruby:

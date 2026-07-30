@@ -46,6 +46,30 @@ imagined ones.
    emitting helper's job. An app wiring a controller of its own is legitimate;
    the demo does so for `sp-toast-manager`, `sp-remove`, and `sp-playground`.
 
+## What a component is
+
+One object that knows its own name. The class declares the name once; the CSS
+class, the Stimulus identifier, and the two asset files are **derived** from
+it, so there is no second list to keep in agreement.
+
+```
+lib/slim_pickins/components/flash.rb   # renders it; declares needs_controller
+assets/components/flash.css            # appearance only
+assets/components/flash.js             # behaviour only
+```
+
+`Component.registry` is populated by walking `components/`, and it drives the
+stylesheet, the controller registration, and the completeness audit. Adding a
+component is one file, not an entry in three places.
+
+Templates never see the object. A helper is the façade, and the DSL is
+unchanged: `= ui_flash :notice, "Welcome"`.
+
+**Migrated:** `flash`, `toggle-panel`. The rest still live as helpers with
+their CSS in the base stylesheet and their controllers in
+`assets/js/controllers/`; `AssetMiddleware::LEGACY_CONTROLLERS` lists what
+remains, and only shrinks.
+
 ## Surface
 
 Helpers, via `register SlimPickins`:

@@ -1,0 +1,19 @@
+/* Flash — appearance only. Behaviour lives in flash.js. */
+
+.sp-flash {
+  padding: var(--sp-gap-3) var(--sp-gap-4);
+  margin-bottom: var(--sp-gap-4);
+  border: 1px solid var(--sp-border);
+  border-left-width: 4px;
+  border-radius: var(--sp-radius-sm);
+  background: var(--sp-surface);
+  color: var(--sp-ink);
+}
+
+.sp-flash--notice { border-left-color: var(--sp-success); }
+.sp-flash--info   { border-left-color: var(--sp-primary); }
+.sp-flash--alert  { border-left-color: var(--sp-danger); }
+
+/* The fade is the controller's business, but the transition it animates
+   belongs with the appearance. */
+.sp-flash { transition: opacity 0.5s ease; }
