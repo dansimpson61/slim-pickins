@@ -99,6 +99,9 @@ get '/' do
   # For now, we simplify: if Default, show Account 1. Otherwise show nothing (TODO: Update Ledger#recent)
   # Actually, let's fix this properly.
   account_urls = ledger.get_portfolio_accounts(portfolio_id)
+  # A portfolio with no accounts projects nothing, which would otherwise show
+  # as an unexplained blank chart. The view says so instead.
+  @portfolio_accounts = account_urls
   if account_urls.any?
     # Hack: just check the first account for now since Ledger#recent is single-account
     # This is a known limitation we accepted in this iteration.

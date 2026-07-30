@@ -24,8 +24,13 @@
 
   / River of Wealth Chart
   = ui_card "River of Wealth" do
-    .sp-chart data-controller="river-chart"
-      canvas data-river-chart-target="canvas"
+    - if @portfolio_accounts.empty?
+      p.sp-text-muted
+        | This portfolio has no accounts, so there is nothing to project.
+        a href="/portfolios/manage"  Add some on the Portfolios page.
+    - else
+      .sp-chart data-controller="river-chart"
+        canvas data-river-chart-target="canvas"
 
   / Recent Movements & Action
   .sp-cluster.sp-cluster--between
