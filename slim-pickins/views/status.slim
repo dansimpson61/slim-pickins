@@ -76,7 +76,8 @@
         "ui_table" => -> { ui_table(["A", "B"], [["1", "2"]]) },
         "ui_code" => -> { ui_code('= ui_button "Save"') },
         "ui_well" => -> { ui_well { "Inset content" } },
-        "ui_badge" => -> { ui_badge("✓", :ok) }
+        "ui_badge" => -> { ui_badge("✓", :ok) },
+        "ui_money" => -> { ui_money(-6_400) }
       }
 
     - checks.each do |name, check|

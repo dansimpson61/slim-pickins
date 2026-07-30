@@ -22,36 +22,11 @@
       = ui_button "Create", :primary, type: "submit"
 
   = ui_card do
-    table.sp-table
-      thead
-        tr
-          th Name
-          th Type
-          th.sp-numeric Balance
-          th.sp-numeric Actions
-      tbody
-        - @accounts.each do |account|
-          - balance = @ledger.balance(account['id'])
-          tr data-controller="crud-actions" data-crud-actions-url-value="/accounts/#{account['id']}"
-            td
-              = ui_text_field "name", account['name'], url: "/accounts/#{account['id']}", method: "PUT"
-
-            td
-              = ui_pill account['type']
-
-            td.sp-numeric
-              | $
-              = balance.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
-
-            td
-              .sp-actions
-                - if account['is_active'] == 1
-                  - if account['type'] != 'market'
-                    = ui_button "Update Value", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->valuation#open", id: account['id'], name: account['name'], balance: balance }
-                    = ui_button ui_icon(:archive), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Archive", data: { action: "click->crud-actions#archive" }
-                    = ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->crud-actions#delete" }
-                - else
-                  = ui_button "Restore", :neutral, class: "sp-btn--sm sp-btn--ghost", data: { action: "click->crud-actions#restore" }
+    accounts
+      Name
+      Type
+      Balance
+      Actions
 
   / Valuation Modal
   = ui_modal title: "Update Market Value", data: { valuation_target: "modal" } do

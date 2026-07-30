@@ -10,8 +10,7 @@
               option value="#{p['id']}" selected=(p['id'] == @portfolio['id']) = p['name']
 
       .portfolio-value.sp-figure
-        | $
-        = @portfolio['balance'].to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+        = ui_money @portfolio['balance']
 
     / Sustainability Monitor (Visual Placeholder)
     .sp-stack.sp-stack--tight
@@ -38,23 +37,10 @@
     = ui_modal_trigger "+ Add Event", dialog: "add-withdrawal-modal", data: { action: "click->sp-modal#open click->withdrawal-form#reset" }
 
   = ui_card do
-    - if @movements.empty?
-      p.sp-text-muted No movements recorded yet.
-    - else
-      table.sp-table
-        tbody
-          - @movements.each do |m|
-            tr
-              td
-                .sp-text-strong = m['description']
-                .sp-text-sm.sp-text-muted = m['date']
-              td.sp-numeric
-                div class=(m['amount'].to_f < 0 ? 'sp-text-strong' : 'sp-text-strong text-accent-dark')
-                  = m['amount'].to_f < 0 ? "- $#{m['amount'].to_f.abs}" : "+ $#{m['amount'].to_f}"
-              td
-                .sp-actions
-                  = ui_button ui_icon(:pencil), :neutral, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Edit", data: { action: "click->withdrawal-form#edit", id: m['id'], description: m['description'], amount: m['amount'], date: m['date'], taxable: m['tax_info']['is_taxable'] }
-                  = ui_button ui_icon(:trash), :danger, class: "sp-btn--sm sp-btn--icon sp-btn--ghost", title: "Delete", data: { action: "click->withdrawal-form#delete", id: m['id'] }
+    movements
+      Description
+      Amount
+      Actions
 
   / Add Withdrawal Modal
   = ui_modal id: "add-withdrawal-modal", title: "Add Portfolio Event" do

@@ -104,6 +104,7 @@ Helpers, via `register SlimPickins`:
 | `ui_well` | inset region for previews | — |
 | `ui_badge` | round status indicator | — |
 | `ui_summary` | rich summary line for a toggle panel | — |
+| `ui_money` | an amount: `$2,000,000.00`, or `+ $1,300.00` with `sign:` | — |
 
 Layout is expressed in classes rather than helpers, since views write them
 directly: `.sp-stack` and `.sp-cluster` with `--tight` / `--loose` / `--start`

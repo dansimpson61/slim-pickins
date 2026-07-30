@@ -5,7 +5,10 @@ module SlimPickins
     # Façades. Each one names a component and gets out of the way; the DSL a
     # template writes has not changed.
     module LayoutHelper
-      def ui_card(title = nil, options = {}, &block)
+      # Options are keywords, as the docs have always said. Taking them
+      # positionally meant `ui_card class: "sp-row"` bound the whole hash to
+      # the title, printing it as a heading and dropping the attributes.
+      def ui_card(title = nil, **options, &block)
         Components::Card.new(title, options, &block).render_in(self)
       end
 
