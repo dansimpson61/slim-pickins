@@ -1,0 +1,24 @@
+/* badge — appearance only. */
+
+/* --- Status badge ------------------------------------------------------ */
+
+.sp-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: var(--sp-gap-4);
+  border-radius: 50%;
+  font-size: 0.8rem;
+  line-height: 1;
+  background: var(--sp-border);
+  color: var(--sp-ink-light);
+}
+
+.sp-badge--ok { background: var(--sp-primary); color: #fff; }
+
+.sp-badge--danger { background: var(--sp-danger); color: #fff; }
+
+.sp-badge--pending { background: var(--sp-border); color: var(--sp-ink-light); }

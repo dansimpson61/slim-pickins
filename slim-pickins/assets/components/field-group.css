@@ -1,0 +1,7 @@
+/* field-group — appearance only. */
+
+/* --- Form controls ----------------------------------------------------- */
+
+.sp-field-group { margin-bottom: var(--sp-gap-4); }
+
+.sp-field-group--flush { margin-bottom: 0; }

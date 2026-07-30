@@ -1,0 +1,56 @@
+/* sortable-item — appearance only.
+   The row look matches .sp-list__item; the drag affordances below are scoped
+   to the list's controller, so an item with no behaviour behind it looks
+   inert, because it is. */
+
+.sp-sortable-item {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-gap-3) 0;
+  border-bottom: 1px solid var(--sp-border);
+  position: relative;
+}
+
+.sp-sortable-item:last-child {
+  border-bottom: none;
+}
+
+[data-controller~="sp-sortable-list"] .sp-sortable-item {
+  padding-left: 3rem; /* room for the grip */
+  cursor: grab;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* Grip Handle Texture */
+[data-controller~="sp-sortable-list"] .sp-sortable-item::before {
+  content: "⋮⋮";
+  position: absolute;
+  left: var(--sp-gap-2);
+  color: var(--sp-ink-lighter);
+  font-weight: bold;
+  font-size: 0.875rem;
+  letter-spacing: -2px;
+  cursor: grab;
+}
+
+[data-controller~="sp-sortable-list"] .sp-sortable-item:active {
+  cursor: grabbing;
+}
+
+[data-controller~="sp-sortable-list"] .sp-sortable-item:hover {
+  background-color: var(--sp-surface-hover);
+  /* Subtle lift effect */
+  transform: translateY(-1px);
+  box-shadow: var(--sp-shadow-subtle);
+  z-index: 1;
+}
+
+/* Interaction: Hover Actions */
+.sp-sortable-item .sp-actions {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sp-sortable-item:hover .sp-actions {
+  opacity: 1;
+}

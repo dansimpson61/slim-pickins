@@ -1,0 +1,32 @@
+/* card — appearance only. */
+
+/* Component: Card - High-End Minimalist */
+.sp-card {
+  background: var(--sp-surface);
+  border: 1px solid var(--sp-border);
+  border-radius: var(--sp-radius);
+  box-shadow: var(--sp-shadow-card);
+  margin-bottom: var(--sp-gap-6);
+  overflow: hidden;
+}
+
+.sp-card__header {
+  padding: var(--sp-gap-4) var(--sp-gap-6);
+  border-bottom: 1px solid var(--sp-border);
+  background: var(--sp-surface);
+  /* Clean white header */
+}
+
+.sp-card__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--sp-ink);
+  letter-spacing: -0.01em;
+}
+
+.sp-card__body {
+  padding: var(--sp-gap-6);
+}
+
+.sp-card--accent { border-left: 4px solid var(--sp-primary); }

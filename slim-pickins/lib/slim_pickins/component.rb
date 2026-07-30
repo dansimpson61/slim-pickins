@@ -35,7 +35,12 @@ module SlimPickins
         Component.registry << subclass
       end
 
-      def slug
+      # Derived from the class name by default. Declare it explicitly only to
+      # keep an established name -- `slug "btn"` rather than renaming .sp-btn
+      # across every view. Either way it is written once, in this file, and
+      # everything else follows from it.
+      def slug(explicit = nil)
+        @slug = explicit if explicit
         @slug ||= name.split("::").last
                       .gsub(/([a-z\d])([A-Z])/, '\1-\2')
                       .downcase

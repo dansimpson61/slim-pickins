@@ -12,14 +12,6 @@ module SlimPickins
     STYLESHEET = "/stylesheets/slim-pickins.css"
     BEHAVIOUR  = "/js/slim_pickins.js"
 
-    # Controllers not yet migrated to components. This list only shrinks; when
-    # it is empty the restructuring is finished.
-    LEGACY_CONTROLLERS = {
-      "sp-inline-edit" => "js/controllers/sp_inline_edit_controller.js",
-      "sp-sortable"    => "js/controllers/sp_sortable_controller.js",
-      "sp-modal"       => "js/controllers/sp_modal_controller.js"
-    }.freeze
-
     def initialize(app, path: "/assets")
       @app = app
       @prefix = path
@@ -62,20 +54,16 @@ module SlimPickins
 
     # An ES module that registers every controller the library owns.
     def behaviour
-      components = Component.registry.select(&:needs_controller?)
+      components = Component.registry.select(&:needs_controller?).sort_by(&:slug)
 
       imports = components.each_with_index.map { |c, i|
         %(import C#{i} from "#{@prefix}/#{c.behaviour}")
       }
-      legacy = LEGACY_CONTROLLERS.keys.each_with_index.map { |_, i|
-        %(import L#{i} from "#{@prefix}/#{LEGACY_CONTROLLERS.values[i]}")
-      }
-      entries = components.each_with_index.map { |c, i| %(  "#{c.controller}": C#{i}) } +
-                LEGACY_CONTROLLERS.keys.each_with_index.map { |id, i| %(  "#{id}": L#{i}) }
+      entries = components.each_with_index.map { |c, i| %(  "#{c.controller}": C#{i}) }
 
       <<~JS
         // Generated from Component.registry. Do not edit.
-        #{(imports + legacy).join("\n")}
+        #{imports.join("\n")}
 
         export const controllers = {
         #{entries.join(",\n")}

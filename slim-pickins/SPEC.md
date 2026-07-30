@@ -65,10 +65,21 @@ component is one file, not an entry in three places.
 Templates never see the object. A helper is the façade, and the DSL is
 unchanged: `= ui_flash :notice, "Welcome"`.
 
-**Migrated:** `flash`, `toggle-panel`. The rest still live as helpers with
-their CSS in the base stylesheet and their controllers in
-`assets/js/controllers/`; `AssetMiddleware::LEGACY_CONTROLLERS` lists what
-remains, and only shrinks.
+All fifteen are components: `badge`, `btn`, `card`, `code`, `field`,
+`field-group`, `flash`, `icon`, `modal`, `pill`, `sortable-item`,
+`sortable-list`, `table`, `toggle-panel`, `well`.
+
+The slug is derived from the class name; declare it explicitly (`slug "btn"`)
+only to keep an established name. Either way it is written once.
+
+**The controller identifier is the CSS class.** There is no second string to
+keep in agreement, which is why `sp-inline-edit` became `sp-field` and
+`sp-sortable` became `sp-sortable-list` — those were names that agreed with
+nothing.
+
+What stays in the base stylesheet is *vocabulary*, not components: tokens,
+typography, `.sp-stack`, `.sp-cluster`, `.sp-grid`, `.sp-list`, `.sp-input`,
+`.sp-nav`, `.sp-page`, and the text and layout utilities.
 
 ## Surface
 

@@ -1,0 +1,44 @@
+/* field — appearance only. */
+
+/* Component: Inline Edit - "Seamless" */
+.sp-field {
+  flex-grow: 1;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.sp-field__display {
+  display: inline-block;
+  padding: var(--sp-gap-1) 0;
+  cursor: text;
+  border-bottom: 1px dashed var(--sp-border);
+  /* Dashed border for "fill in the blank" feel */
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.sp-field__display:hover {
+  border-bottom-color: var(--sp-primary);
+  /* Use primary color for clear intent */
+  background-color: var(--sp-surface-hover);
+  /* Subtle background highlight */
+  border-radius: var(--sp-radius-sm);
+  padding-left: var(--sp-gap-2);
+  /* Indent slightly to show "container" feel */
+}
+
+.sp-field__input {
+  display: none;
+  width: 100%;
+  padding: var(--sp-gap-1) 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--sp-primary);
+  /* Focus state */
+  outline: none;
+  margin: 0;
+}

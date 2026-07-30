@@ -1,0 +1,50 @@
+/* modal — appearance only. */
+
+/* --- Modal ------------------------------------------------------------- */
+
+.sp-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  padding: var(--sp-gap-4);
+  background: rgb(0 0 0 / 0.45);
+  overflow-y: auto;
+}
+
+.sp-modal--open {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.sp-modal__content {
+  width: 100%;
+  max-width: 32rem;
+  margin-top: 4rem;
+  background: var(--sp-surface);
+  border-radius: var(--sp-radius);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.2);
+}
+
+.sp-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-gap-4);
+  padding: var(--sp-gap-4);
+  border-bottom: 1px solid var(--sp-border);
+}
+
+.sp-modal__title { margin: 0; }
+
+.sp-modal__close {
+  border: 0;
+  background: none;
+  color: var(--sp-ink-light);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sp-modal__body { padding: var(--sp-gap-4); }

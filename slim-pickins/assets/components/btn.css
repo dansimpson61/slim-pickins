@@ -1,0 +1,85 @@
+/* btn — appearance only. */
+
+/* Component: Buttons - Refined */
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-gap-2) var(--sp-gap-4);
+  border-radius: 2rem;
+  /* Elegant Pill Shape */
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+  text-decoration: none;
+  gap: var(--sp-gap-2);
+  box-shadow: var(--sp-shadow-subtle);
+}
+
+.sp-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sp-shadow-card);
+}
+
+.sp-btn:active {
+  transform: translateY(0);
+}
+
+.sp-btn--sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.sp-btn--primary {
+  background-color: var(--sp-primary);
+  color: white;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+}
+
+.sp-btn--primary:hover {
+  filter: brightness(95%);
+}
+
+.sp-btn--danger {
+  background-color: #fef2f2;
+  color: var(--sp-danger);
+  border-color: #fecaca;
+}
+
+.sp-btn--danger:hover {
+  background-color: #fee2e2;
+}
+
+.sp-btn--neutral {
+  background-color: white;
+  border-color: var(--sp-border);
+  color: var(--sp-ink);
+}
+
+.sp-btn--neutral:hover {
+  border-color: var(--sp-ink-lighter);
+  background-color: var(--sp-canvas);
+}
+
+.sp-btn--icon {
+  padding: var(--sp-gap-2);
+  color: var(--sp-ink-light);
+  background: transparent;
+}
+
+.sp-btn--icon:hover {
+  color: var(--sp-ink);
+  background: var(--sp-surface-hover);
+}
+
+/* --- Ghost button ------------------------------------------------------ */
+
+.sp-btn--ghost {
+  background: none;
+  border-color: transparent;
+  color: var(--sp-ink-light);
+}
+
+.sp-btn--ghost:hover { background: var(--sp-surface-hover); }

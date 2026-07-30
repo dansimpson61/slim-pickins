@@ -1,0 +1,15 @@
+/* pill — appearance only. */
+
+/* --- Pills ------------------------------------------------------------- */
+
+.sp-pill {
+  display: inline-block;
+  padding: 0.125rem var(--sp-gap-2);
+  border: 1px solid var(--sp-border);
+  border-radius: 999px;
+  background: var(--sp-surface-hover);
+  color: var(--sp-ink-light);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
