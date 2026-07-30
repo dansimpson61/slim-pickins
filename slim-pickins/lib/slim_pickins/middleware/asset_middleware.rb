@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "digest"
+
 module SlimPickins
   # Serves Slim-Pickins assets straight from the gem, so a consuming app copies
   # nothing and cannot drift.
@@ -25,9 +27,9 @@ module SlimPickins
 
       req_path = path.delete_prefix(@prefix)
 
-      return respond("text/css", stylesheet)        if req_path == STYLESHEET
-      return respond("text/javascript", behaviour)  if req_path == BEHAVIOUR
-      return forbidden                              if req_path.include?("..")
+      return respond("text/css", stylesheet, env)       if req_path == STYLESHEET
+      return respond("text/javascript", behaviour, env) if req_path == BEHAVIOUR
+      return forbidden                                  if req_path.include?("..")
 
       env["PATH_INFO"] = req_path
       @file_server.call(env)
@@ -35,8 +37,22 @@ module SlimPickins
 
     private
 
-    def respond(type, body)
-      [200, { "content-type" => type, "content-length" => body.bytesize.to_s }, [body]]
+    # Assembled assets still need cache validation. Without it the browser
+    # re-downloads the stylesheet on every navigation, which shows up as a
+    # flash of unstyled content between pages -- and, worse, gives it licence
+    # to serve a stale copy of a module whose imports no longer exist.
+    #
+    # The ETag is a digest of the assembled body, so it changes exactly when a
+    # component does. no-cache means "store it, but revalidate" -- every
+    # navigation asks, and gets an instant 304 until something really changed.
+    def respond(type, body, env)
+      etag = %("#{Digest::SHA256.hexdigest(body)[0, 16]}")
+      headers = { "etag" => etag, "cache-control" => "no-cache" }
+
+      return [304, headers, []] if env["HTTP_IF_NONE_MATCH"] == etag
+
+      [200, headers.merge("content-type" => type,
+                          "content-length" => body.bytesize.to_s), [body]]
     end
 
     def forbidden

@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-    static targets = ["id", "description", "amount", "date", "isTaxable", "taxFields", "fedRate", "stateRate", "fedFeedback", "stateFeedback", "netResult"]
+    static targets = ["form", "id", "description", "amount", "date", "isTaxable", "taxFields", "fedRate", "stateRate", "fedFeedback", "stateFeedback", "netResult"]
 
     connect() {
         this.calculate()
@@ -13,7 +13,7 @@ export default class extends Controller {
 
     reset() {
         this.idTarget.value = ""
-        this.element.querySelector("form").reset()
+        this.formTarget.reset()
         this.isTaxableTarget.checked = false
         this.toggleTax()
         this.calculate()
@@ -22,16 +22,12 @@ export default class extends Controller {
     edit(event) {
         const data = event.currentTarget.dataset
 
+        // Targets, not querySelector("form"): this controller's scope is the
+        // whole page, whose first form is the portfolio selector, not this one.
         this.idTarget.value = data.id
-        // We need to access fields slightly differently or add targets to inputs.
-        // Let's add targets to inputs strictly, or use querySelector for standard names.
-        // Since we are inside the controller, using targets is cleaner, but I didn't add targets for desc/date in slim.
-        // Let's rely on form elements by name for simplicity if targets aren't exhaustive.
-        const form = this.element.querySelector("form")
-
-        form.querySelector('[name="description"]').value = data.description
+        this.descriptionTarget.value = data.description
         this.amountTarget.value = data.amount
-        form.querySelector('[name="date"]').value = data.date
+        this.dateTarget.value = data.date
         this.isTaxableTarget.checked = (data.taxable === 'true')
 
         this.toggleTax()

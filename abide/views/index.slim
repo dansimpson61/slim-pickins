@@ -53,18 +53,18 @@
 
   / Add Withdrawal Modal
   = ui_modal id: "add-withdrawal-modal", title: "Add Portfolio Event" do
-    form data-action="submit->withdrawal-form#submit"
+    form data-withdrawal-form-target="form" data-action="submit->withdrawal-form#submit"
       input type="hidden" name="id" data-withdrawal-form-target="id"
 
       = ui_field "Description" do
-        input.sp-input type="text" name="description" placeholder="e.g., Living Expenses" required=""
+        input.sp-input type="text" name="description" placeholder="e.g., Living Expenses" data-withdrawal-form-target="description" required=""
 
       = ui_field "Amount (Gross)" do
         input.sp-input type="number" name="amount" placeholder="0.00" step="0.01" data-withdrawal-form-target="amount" data-action="input->withdrawal-form#calculate" required=""
 
       .sp-grid.sp-grid--2
         = ui_field "Date" do
-          input.sp-input type="date" name="date" required=""
+          input.sp-input type="date" name="date" data-withdrawal-form-target="date" required=""
 
         = ui_field "Frequency" do
           select.sp-input name="frequency"
