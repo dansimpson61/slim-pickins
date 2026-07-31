@@ -25,6 +25,15 @@ module SlimPickins
         if block_given?
           options = content_or_options || {}
           content = sp_safe(block.call)
+        elsif content_or_options.is_a?(Hash) && options.empty?
+          # `sp_tag(:div, class: "sp-meter__fill")` means an empty div with a
+          # class, which is what anyone would read it as. Taken literally it
+          # used to mean a div containing that hash, and rendered
+          # {:class=>"sp-meter__fill"} on the page -- the same trap that once
+          # printed a card's options where its title belonged. Nobody has ever
+          # wanted a Hash as text.
+          options = content_or_options
+          content = nil
         else
           content = content_or_options
         end

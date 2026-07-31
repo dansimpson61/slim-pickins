@@ -27,9 +27,9 @@ class Navigation < SlimPickins::Word
   }.freeze
 
   def render
-    tag(:nav, class: "main-nav") do
-      tag(:div, class: "container") do
-        tag(:div, class: "sp-cluster sp-cluster--between sp-nav-bar") do
+    tag(:nav, class: "sp-navigation") do
+      tag(:div, class: "sp-page sp-page--wide") do
+        tag(:div, class: "sp-cluster sp-cluster--between sp-navigation__bar") do
           safe(brand + destinations)
         end
       end
@@ -38,15 +38,19 @@ class Navigation < SlimPickins::Word
 
   private
 
-  def brand = tag(:a, subject, class: "brand", href: HOME)
+  def brand = tag(:a, subject, class: "sp-navigation__brand", href: HOME)
 
   def destinations
-    tag(:div, class: "nav-links") { safe(items.map { |label| destination(label) }.join) }
+    tag(:div, class: "sp-navigation__links") do
+      safe(items.map { |label| destination(label) }.join)
+    end
   end
 
   def destination(label)
     path = path_for(label)
-    tag(:a, label, class: ("active" if here?(path)), href: path)
+    here = "sp-navigation__link--here" if here?(path)
+
+    tag(:a, label, class: ["sp-navigation__link", here].compact, href: path)
   end
 
   def path_for(label) = PATHS.fetch(label) { "/#{label.downcase}" }

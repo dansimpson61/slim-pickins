@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require "set"
 require "temple"
+require_relative "elements"
 require_relative "word"
 
 module SlimPickins
@@ -36,7 +38,8 @@ module SlimPickins
   # still interpolates in the view's scope.
   class Grammar < ::Temple::Filter
     def on_html_tag(name, attrs, content = nil)
-      return passthrough(name, attrs, content) unless Word.vocabulary.key?(name.to_s)
+      return passthrough(name, attrs, content) if ELEMENTS.include?(name.to_s)
+      return unknown(name) unless Word.vocabulary.key?(name.to_s)
 
       subject, items = spoken(content)
       [:dynamic, %{sp_speak(#{quote(name)}, #{quote(subject)}, [#{items.map { |i| quote(i) }.join(", ")}])}]
@@ -49,6 +52,15 @@ module SlimPickins
     def on_slim_control(code, content) = [:slim, :control, code, compile(content)]
 
     private
+
+    # A word the vocabulary has never heard of. Slim would happily render
+    # <navigatoin>, an element no browser knows, which shows nothing at all --
+    # so a typo used to cost an hour. It costs a stack trace now.
+    def unknown(name)
+      raise ArgumentError,
+            "#{name.to_s.inspect} is neither an HTML element nor a word. " \
+            "Words: #{Word.vocabulary.keys.sort.join(', ')}"
+    end
 
     # Parsed children mean the word was given no subject; text means it was.
     def spoken(content)

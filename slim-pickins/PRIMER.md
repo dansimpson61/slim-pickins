@@ -210,12 +210,18 @@ helper:
 | `.sp-cluster` | children in a row |
 | `.sp-grid` | children in a grid |
 | `.sp-list` | rows that do nothing |
-| `.sp-page` | the page frame |
-| `.sp-nav` | a nav bar |
+| `.sp-page` | the page frame; `--wide` for a full-width one |
+| `.sp-masthead` | a page's top line: what it is, and what sits opposite |
+| `.sp-nav` | a row of links |
+| `.sp-navigation` | a site's top bar, with `__brand`, `__links`, `__link` |
 | `.sp-input` | a form control |
+| `.sp-figure` | a number worth reading; `--sm` and `--lg` |
+| `.sp-overline` | a small caps label above the thing it names |
+| `.sp-note` | a quiet italic remark beneath a field |
 
 Add `--tight`, `--loose`, `--start`, `--between` to a stack or cluster to change
-its spacing or alignment.
+its spacing or alignment. Colour text with `.sp-text-muted`, `.sp-text-strong`,
+`.sp-text-accent`, or `.sp-text-positive`.
 
 ## Escaping, in one paragraph
 
@@ -251,10 +257,31 @@ It adds `members`, `path`, `path_for`, and `empty?`, all worked out from the
 name:
 
 ```ruby
-class Accounts < SlimPickins::Collection
-  def render = tag(:table, class: "sp-table") { safe(head + body) }
+class Portfolios < SlimPickins::Collection
+  renders "Name" => :editable_name, "Accounts" => :membership
+
+  def render = tag(:div, class: "sp-grid") { safe(members.map { card(_1) }.join) }
 end
 ```
+
+A collection whose members line up is a `Tabular`, which writes the table for
+you. Say only what differs from the ordinary one: `headings?`, `numeric`,
+`row_attributes`, `when_empty`.
+
+```ruby
+class Movements < SlimPickins::Tabular
+  renders "Description" => :occasion, "Amount" => :amount
+
+  private
+
+  def headings? = false
+  def numeric = %w[Amount]
+  def when_empty = tag(:p, "Nothing yet.", class: "sp-text-muted")
+end
+```
+
+A class others are built on rather than spoken declares itself `abstract`, so
+it stays out of the vocabulary.
 
 The spoken name comes from the class name, so `Navigation` is spoken as
 `navigation` and `Accounts` as `accounts`. Nothing needs registering; the
@@ -300,10 +327,11 @@ and `#{...}` still interpolates, but there is no way to pass an object in.
 **A word cannot take options.** No `navigation Abide, wide: true`. If two
 variants are needed, that is two words, or a component with a helper.
 
-**A misspelled word fails quietly.** `navigatoin Abide` is not vocabulary, so
-the grammar leaves it alone and Slim renders `<navigatoin>` — an unknown
-element, invisible on the page. If a word seems to do nothing, check its
-spelling first.
+**A tag must be an element or a word.** `navigatoin Abide` is neither, so the
+template refuses to compile and tells you which words there are. This is the
+exclusivity contract enforced rather than reviewed: a view cannot reach for a
+tag the language has not agreed to. If you genuinely need an element the list
+in `elements.rb` lacks, add it there.
 
 The rule when you hit one of these: grow the language. Never work around it in
 the view.

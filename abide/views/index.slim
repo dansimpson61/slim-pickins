@@ -1,25 +1,10 @@
-.container.sp-page--wide data-controller="withdrawal-form"
-  / Header Section
-  .dashboard-header
+.sp-page.sp-page--wide data-controller="withdrawal-form"
+  .sp-masthead
     div
-      .sp-cluster
-        span.label Today's Portfolio Value
-        form action="/" method="get" data-controller="auto-submit"
-          select.sp-input.sp-input--auto name="portfolio_id" data-action="change->auto-submit#submit"
-            - @portfolios.each do |p|
-              option value="#{p['id']}" selected=(p['id'] == @portfolio['id']) = p['name']
+      portfolio-value Today's Portfolio Value
 
-      .portfolio-value.sp-figure
-        = ui_money @portfolio['balance']
-
-    / Sustainability Monitor (Visual Placeholder)
-    .sp-stack.sp-stack--tight
-      span.label Sustainability Outlook
-      .sp-cluster
-        / Placeholder: the fill width is fixed in CSS until this is real data.
-        .sp-meter
-          .sp-meter__fill
-        span.sp-text-sm.sp-text-muted On Track
+    outlook Sustainability Outlook
+        On Track
 
   / River of Wealth Chart
   = ui_card "River of Wealth" do
@@ -72,15 +57,15 @@
           .sp-grid.sp-grid--2
             = ui_field "Federal Tax %" do
               input.sp-input type="number" name="federal_tax_rate" value="20" data-withdrawal-form-target="fedRate" data-action="input->withdrawal-form#calculate"
-              .tax-calc-feedback data-withdrawal-form-target="fedFeedback" Est. Fed Tax: $0.00
+              .sp-note data-withdrawal-form-target="fedFeedback" Est. Fed Tax: $0.00
 
             = ui_field "State Tax %" do
               input.sp-input type="number" name="state_tax_rate" value="5" data-withdrawal-form-target="stateRate" data-action="input->withdrawal-form#calculate"
-              .tax-calc-feedback data-withdrawal-form-target="stateFeedback" Est. State Tax: $0.00
+              .sp-note data-withdrawal-form-target="stateFeedback" Est. State Tax: $0.00
 
       .sp-stack.sp-stack--tight.sp-text-center
         .sp-text-sm.sp-text-muted Estimated Net Withdrawal
-        .text-gold.sp-figure.sp-figure--sm data-withdrawal-form-target="netResult" $0.00
+        .sp-text-accent.sp-figure.sp-figure--sm data-withdrawal-form-target="netResult" $0.00
 
       .sp-cluster.sp-cluster--end
         = ui_button "Cancel", :neutral, type: "button", class: "sp-btn--ghost", data: { action: "click->sp-modal#close" }
