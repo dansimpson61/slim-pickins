@@ -12,33 +12,20 @@ require "slim_pickins"
 # A feed rather than a data table, so it has no headings -- an aspect here is
 # a cell with nothing above it. Naming aspects rather than columns is what
 # lets the same three lines mean that.
-class Movements < SlimPickins::Collection
+class Movements < SlimPickins::Tabular
   renders "Description" => :occasion,
           "Amount"      => :amount,
           "Actions"     => :actions
 
-  # Having nothing to show is a thing to say, not an empty card.
-  NOTHING_YET = "No movements recorded yet."
-
-  def render
-    return tag(:p, NOTHING_YET, class: "sp-text-muted") if empty?
-
-    tag(:table, class: "sp-table") { body }
-  end
-
   private
 
-  def body
-    tag(:tbody) { safe(members.map { |movement| row(movement) }.join) }
-  end
+  # A feed, not a data table: the cells need no columns named above them.
+  def headings? = false
 
-  def row(movement)
-    tag(:tr) { safe(aspects.map { |aspect| cell(aspect, movement) }.join) }
-  end
+  def numeric = %w[Amount]
 
-  def cell(aspect, movement)
-    tag(:td, part(aspect, movement), class: ("sp-numeric" if aspect == "Amount"))
-  end
+  # Having nothing to show is a thing to say, not an empty card.
+  def when_empty = tag(:p, "No movements recorded yet.", class: "sp-text-muted")
 
   # --- the aspects -------------------------------------------------------
 

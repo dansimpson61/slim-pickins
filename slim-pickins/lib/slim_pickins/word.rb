@@ -45,6 +45,11 @@ module SlimPickins
         Word.vocabulary[subclass.spoken] = subclass
       end
 
+      # Declares this class a base for other words rather than a word anyone
+      # speaks. Enrolment happens on inheritance, before a class body has run,
+      # so a base takes its own name back out.
+      def abstract = Word.vocabulary.delete(spoken)
+
       # Derived from the class name. Declare it explicitly only to speak a
       # name the class cannot spell -- `spoken "nav"` for class Navigation.
       def spoken(explicit = nil)

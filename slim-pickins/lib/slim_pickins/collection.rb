@@ -19,6 +19,8 @@ module SlimPickins
   # renders an aspect as a column and a grid of cards renders it as a region;
   # which of those happens is the word's business, and the view does not say.
   class Collection < Word
+    abstract
+
     class << self
       # Which method draws which aspect, declared once:
       #
