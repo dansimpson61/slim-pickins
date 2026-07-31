@@ -43,6 +43,7 @@
 
 body {
   color: var(--sp-ink);
+  font-family: system-ui, sans-serif;
   line-height: 1.6;
   background-color: var(--sp-canvas);
 }
@@ -234,8 +235,9 @@ pre code {
 
 /* --- Page shell -------------------------------------------------------- */
 
+/* The typeface belongs to the document, not to a layout class -- otherwise a
+   page shell silently overrules whatever font the application chose. */
 .sp-page {
-  font-family: system-ui, sans-serif;
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
@@ -298,7 +300,10 @@ tr:hover .sp-actions,
 
 /* --- Wide page shell --------------------------------------------------- */
 
-.sp-page--wide { max-width: 1100px; }
+.sp-page--wide {
+  max-width: 1200px;
+  padding: 2.5rem 1.25rem;
+}
 
 /* --- Additions driven by abide ----------------------------------------- */
 
@@ -309,6 +314,86 @@ tr:hover .sp-actions,
 .sp-input--auto { width: auto; padding: 0.25rem var(--sp-gap-2); font-size: 0.85rem; }
 
 .sp-figure--sm { font-size: 1.5rem; }
+
+/* A figure with the whole page's attention. */
+.sp-figure--lg {
+  font-size: 3.5rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* A page's top line: what this page is, and whatever sits opposite it. */
+.sp-masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+/* A small caps label above the thing it names. */
+.sp-overline {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--sp-ink-light);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* An aside beneath a field: quieter than the field, and clearly a remark. */
+.sp-note {
+  margin-top: 0.25rem;
+  color: var(--sp-ink-light);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+/* Text that should catch the eye, and money that came in rather than out. */
+.sp-text-accent { color: var(--sp-primary); }
+.sp-text-positive { color: var(--sp-success); }
+
+/* --- A navigation bar --------------------------------------------------- */
+/* The shape of a site's top bar: a brand, and the places it leads. What is
+   in it belongs to the application's own `navigation` word; how it looks
+   belongs here, so a view never spells either. */
+
+.sp-navigation {
+  background: var(--sp-surface);
+  border-bottom: 1px solid var(--sp-border);
+  margin-bottom: 2rem;
+}
+
+.sp-navigation__bar { height: 60px; }
+
+.sp-navigation__brand {
+  color: var(--sp-ink);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sp-navigation__links {
+  display: flex;
+  gap: 2rem;
+}
+
+.sp-navigation__link {
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+  color: var(--sp-ink-light);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.sp-navigation__link:hover { color: var(--sp-ink); }
+
+/* The page you are already on. */
+.sp-navigation__link--here {
+  color: var(--sp-ink);
+  border-bottom-color: currentColor;
+}
 
 /* A fixed-height region for a canvas-based chart. */
 .sp-chart {

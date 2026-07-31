@@ -33,10 +33,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* The framework's vocabulary, in abide's palette. The shapes live in the gem;
+   only the colours are ours, so a view never has to name one. */
+.sp-overline,
+.sp-note {
+  color: var(--color-text-light);
+}
+
+.sp-text-accent {
+  color: var(--color-primary);
+}
+
+.sp-text-positive {
+  color: var(--color-accent-dark);
 }
 
 /* Typography */
@@ -46,10 +55,6 @@ h3,
 h4 {
   font-weight: 600;
   margin-top: 0;
-}
-
-.text-gold {
-  color: var(--color-primary);
 }
 
 .text-slate {
@@ -74,30 +79,6 @@ h4 {
   border: 1px solid rgba(0, 0, 0, 0.02);
 }
 
-/* Dashboard Header */
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 32px;
-}
-
-.portfolio-value {
-  font-size: 3.5rem;
-  font-weight: 500;
-  color: var(--color-text);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.label {
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-  color: var(--color-text-light);
-  margin-bottom: 8px;
-  display: block;
-}
 
 /* Buttons */
 .btn {
@@ -201,12 +182,6 @@ h4 {
   box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
 }
 
-.tax-calc-feedback {
-  font-size: 0.8rem;
-  color: var(--color-text-light);
-  font-style: italic;
-  margin-top: 4px;
-}
 
 /* Utility Classes for Hover Icons */
 .group {

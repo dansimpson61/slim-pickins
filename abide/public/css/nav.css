@@ -1,38 +1,22 @@
-/* Navigation */
-.main-nav {
-    background: white;
-    border-bottom: 1px solid #e2e8f0;
-    margin-bottom: 2rem;
+/* The navigation bar's shape lives in the framework. Only its colours are
+   abide's -- sage green for the brand, for a hover, and for the page you are
+   already on.
+
+   Order matters here: a plain link and the current one are both a single
+   class, so the current one has to come second to win. */
+
+.sp-navigation {
+  /* abide's own hairline, a shade cooler than the framework's --sp-border.
+     Delete this to let the nav match every other border in the app. */
+  border-bottom-color: #e2e8f0;
 }
 
-.main-nav .brand {
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: var(--color-accent-dark);
-    text-decoration: none;
+.sp-navigation__link {
+  color: var(--color-text-light);
 }
 
-.main-nav .nav-links {
-    display: flex;
-    gap: 2rem;
+.sp-navigation__brand,
+.sp-navigation__link:hover,
+.sp-navigation__link--here {
+  color: var(--color-accent-dark);
 }
-
-.main-nav .nav-links a {
-    text-decoration: none;
-    color: var(--color-text-light);
-    font-weight: 500;
-    padding: 0.5rem 0;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-}
-
-.main-nav .nav-links a:hover {
-    color: var(--color-accent-dark);
-}
-
-.main-nav .nav-links a.active {
-    color: var(--color-accent-dark);
-    border-bottom-color: var(--color-accent-dark);
-}
-/* Height for the nav row, now that layout.slim uses sp-cluster for it. */
-.sp-nav-bar { height: 60px; }

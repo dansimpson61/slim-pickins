@@ -40,7 +40,7 @@ class Movements < SlimPickins::Tabular
     value = movement["amount"].to_f
 
     tag(:div, view.ui_money(value, sign: true),
-        class: ["sp-text-strong", ("text-accent-dark" unless value.negative?)].compact)
+        class: ["sp-text-strong", ("sp-text-positive" unless value.negative?)].compact)
   end
 
   def actions(movement)
