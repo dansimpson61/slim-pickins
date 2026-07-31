@@ -20,6 +20,8 @@ require_relative 'words/navigation'
 require_relative 'words/accounts'
 require_relative 'words/portfolios'
 require_relative 'words/movements'
+require_relative 'words/portfolio_value'
+require_relative 'words/outlook'
 
 # Account IDs
 MAIN_ACCOUNT_ID = 1

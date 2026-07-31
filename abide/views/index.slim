@@ -1,25 +1,10 @@
 .sp-page.sp-page--wide data-controller="withdrawal-form"
-  / Header Section
   .sp-masthead
     div
-      .sp-cluster
-        span.sp-overline Today's Portfolio Value
-        form action="/" method="get" data-controller="auto-submit"
-          select.sp-input.sp-input--auto name="portfolio_id" data-action="change->auto-submit#submit"
-            - @portfolios.each do |p|
-              option value="#{p['id']}" selected=(p['id'] == @portfolio['id']) = p['name']
+      portfolio-value Today's Portfolio Value
 
-      .sp-figure.sp-figure--lg
-        = ui_money @portfolio['balance']
-
-    / Sustainability Monitor (Visual Placeholder)
-    .sp-stack.sp-stack--tight
-      span.sp-overline Sustainability Outlook
-      .sp-cluster
-        / Placeholder: the fill width is fixed in CSS until this is real data.
-        .sp-meter
-          .sp-meter__fill
-        span.sp-text-sm.sp-text-muted On Track
+    outlook Sustainability Outlook
+        On Track
 
   / River of Wealth Chart
   = ui_card "River of Wealth" do
