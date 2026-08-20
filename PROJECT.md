@@ -1,15 +1,16 @@
 ---
 id: slim-pickins
-purpose: Front-end DSL gem (Slim-based) that abide is built in
+purpose: General-purpose front-end DSL (Slim-based) for Sinatra
 status: active
 last_touched: 2026-07-30
-next_step: "Resolve the duplicate abide copies so the DSL has one canonical consumer."
+next_step: "Migrate the dashboard onto slim-pickins as its second consumer."
 run: "cd slim-pickins/slim-pickins && bin/puma -p 9292"
 docs: ODE_TO_JOY.md
-related: [abide]
+related: [abide, dashboard]
 ---
 
 # slim-pickins
 
-A front-end DSL gem, consumed by path. Demo app on port 9292 (`/docs`,
+A general-purpose front-end DSL for Sinatra + Slim. abide was the first
+consumer; the dashboard is the second. Demo app on port 9292 (`/docs`,
 `/status`, `/docs/playground`).

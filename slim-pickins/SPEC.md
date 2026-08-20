@@ -8,7 +8,8 @@ the data attributes, and the JavaScript stay out of sight.
 
 ## Mission
 
-Make abide pleasant to build. Nothing else.
+Make joyful Ruby front-ends pleasant to build. A general-purpose front-end DSL —
+abide was the first consumer, not the only one.
 
 This is the **V in MVC**, taken seriously — a presentation layer with its own
 vocabulary, so views stop reaching for HTML and controllers stop formatting.
