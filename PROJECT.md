@@ -2,11 +2,13 @@
 id: slim-pickins
 purpose: General-purpose front-end DSL (Slim-based) for Sinatra
 status: active
-last_touched: 2026-07-30
-next_step: "Migrate the dashboard onto slim-pickins as its second consumer."
-run: "cd slim-pickins/slim-pickins && bin/puma -p 9292"
+last_touched: 2026-08-22
+next_step: Second consumer (dashboard) in place — grow the DSL as abide/dashboard need vocabulary
+run: cd slim-pickins/slim-pickins && bin/puma -p 9292
 docs: ODE_TO_JOY.md
-related: [abide, dashboard]
+related:
+- abide
+- dashboard
 ---
 
 # slim-pickins
