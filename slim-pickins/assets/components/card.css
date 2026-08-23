@@ -1,32 +1,34 @@
 /* card — appearance only. */
 
-/* Component: Card - High-End Minimalist */
+/* A contained surface: one quiet rule, no shadow. A card groups a multi-part
+   panel; a single-line value belongs in a section, not a box. */
+
 .sp-card {
   background: var(--sp-surface);
   border: 1px solid var(--sp-border);
-  border-radius: var(--sp-radius);
-  box-shadow: var(--sp-shadow-card);
-  margin-bottom: var(--sp-gap-6);
+  border-radius: var(--sp-radius-sm);
+  margin-bottom: var(--sp-gap-4);
   overflow: hidden;
 }
 
 .sp-card__header {
-  padding: var(--sp-gap-4) var(--sp-gap-6);
+  padding: var(--sp-gap-2) var(--sp-gap-4);
   border-bottom: 1px solid var(--sp-border);
-  background: var(--sp-surface);
-  /* Clean white header */
 }
 
 .sp-card__title {
   margin: 0;
-  font-size: 1.125rem;
+  padding: 0;
+  border: 0; /* the documentation h3 underline stops at the card boundary */
+  display: block;
+  font-size: 0.95rem;
   font-weight: 600;
+  letter-spacing: 0;
   color: var(--sp-ink);
-  letter-spacing: -0.01em;
 }
 
 .sp-card__body {
-  padding: var(--sp-gap-6);
+  padding: var(--sp-gap-4);
 }
 
-.sp-card--accent { border-left: 4px solid var(--sp-primary); }
+.sp-card--accent { border-left: 3px solid var(--sp-ink); }

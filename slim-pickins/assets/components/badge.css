@@ -1,24 +1,29 @@
 /* badge — appearance only. */
 
-/* --- Status badge ------------------------------------------------------ */
+/* A small, quiet label sized to its content: a pill the word fits, never a
+   fixed circle the word must overflow. */
 
 .sp-badge {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   flex: none;
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-right: var(--sp-gap-4);
-  border-radius: 50%;
-  font-size: 0.8rem;
-  line-height: 1;
-  background: var(--sp-border);
+  padding: 0.05rem 0.5rem;
+  margin-right: var(--sp-gap-2);
+  border-radius: 999px;
+  border: 1px solid var(--sp-border);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  font-weight: 500;
+  background: var(--sp-surface-hover);
   color: var(--sp-ink-light);
 }
 
-.sp-badge--ok { background: var(--sp-primary); color: #fff; }
+.sp-badge--ok { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
 
-.sp-badge--danger { background: var(--sp-danger); color: #fff; }
+.sp-badge--danger { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
 
-.sp-badge--pending { background: var(--sp-border); color: var(--sp-ink-light); }
+.sp-badge--pending { background: var(--sp-surface-hover); color: var(--sp-ink-light); border-color: var(--sp-border); }
+
+.sp-badge--neutral { background: var(--sp-surface-hover); color: var(--sp-ink-light); border-color: var(--sp-border); }
+
+.sp-badge--primary { background: var(--sp-canvas); color: var(--sp-ink); border-color: var(--sp-ink-lighter); font-weight: 600; }

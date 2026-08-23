@@ -26,3 +26,9 @@
 .sp-table tbody tr:last-child {
   border-bottom: none;
 }
+
+/* Paths and identifiers inside a table keep their shape instead of
+   breaking mid-token ("CLAUDE .md"). */
+.sp-table code {
+  white-space: nowrap;
+}
