@@ -2,15 +2,23 @@
 
 ## Read first
 
-[`ODE_TO_JOY.md`](ODE_TO_JOY.md) governs both projects and outranks both specs.
-Read it. Then read the `SPEC.md` of whichever project you are about to change —
-[`abide/SPEC.md`](abide/SPEC.md) or [`slim-pickins/SPEC.md`](slim-pickins/SPEC.md).
-Where a spec and the Ode disagree, the spec is wrong.
+The Ode to Joy tunes the hand for both projects. Its canonical text is
+`~/dev/ode-to-joy/ODE_TO_JOY.md`; [`ODE_TO_JOY.md`](ODE_TO_JOY.md) here is an
+older long-form copy kept so this repo reads standalone — where the two
+differ, the canonical one wins.
 
-This is craft work for an audience of one. There are no users to break, no
-semver, no deprecation cycle. Redesign freely, and prefer the change that makes
-the code read better over the change that is merely smaller. Ugliness is a
-defect even when it works.
+Then read the `SPEC.md` of whichever project you are about to change —
+[`abide/SPEC.md`](abide/SPEC.md) or [`slim-pickins/SPEC.md`](slim-pickins/SPEC.md).
+
+**Precedence** follows the Ode's Part II: correctness, then the house, then
+clarity. This file and the specs are the house — they override the Ode where
+they conflict. But say so when they do: name the divergence rather than
+absorbing it, and let dan decide whether to align the project instead.
+
+The rest is craft work for an audience of one: no users to break, no semver,
+no deprecation cycle. Redesign freely, and prefer the change that makes the
+code read better over the change that is merely smaller. Ugliness is a defect
+even when it works.
 
 ## The two projects
 
@@ -44,8 +52,11 @@ Both directories must be present. Edits to the DSL reach abide on restart.
 
 ## Verifying
 
-There is no test suite, and adding one is not the default answer. Faults here
-are found by *using* the apps:
+Verification here is by use, not by suite — these are apps with a human in the
+loop, so a `/status` page catches what a test restating the implementation
+would not. (The workspace rule this follows from is "Verification is
+proportionate, not automatic"; tools others build on, like the dashboard, do
+earn real tests.) Faults here are found by *using* the apps:
 
 ```
 cd slim-pickins && bundle install && bin/puma -p 9292   # demo, /docs, /status
