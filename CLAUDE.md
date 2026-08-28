@@ -2,10 +2,10 @@
 
 ## Read first
 
-The Ode to Joy tunes the hand for both projects. Its canonical text is
-`~/dev/ode-to-joy/ODE_TO_JOY.md`; [`ODE_TO_JOY.md`](ODE_TO_JOY.md) here is an
-older long-form copy kept so this repo reads standalone — where the two
-differ, the canonical one wins.
+The Ode to Joy tunes the hand for both projects. It lives in exactly one
+place: `~/dev/ode-to-joy/ODE_TO_JOY.md`. ([`ODE_TO_JOY.md`](ODE_TO_JOY.md)
+here is a pointer to it — the local copy was one of nine that had begun to
+drift apart, and was retired on 2026-08-28.)
 
 Then read the `SPEC.md` of whichever project you are about to change —
 [`abide/SPEC.md`](abide/SPEC.md) or [`slim-pickins/SPEC.md`](slim-pickins/SPEC.md).
